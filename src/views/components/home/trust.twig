@@ -1,0 +1,31 @@
+{#
+| component.items[]     | title, text |
+| component.logos_label | ?string     |
+| component.logos[]     | image, name |
+#}
+{% set c = component %}
+{# editor-added sections come with one blank item: keep only items that carry content #}
+{% set items = [] %}{% for it in c.items|default([]) %}{% if it.title or it.text %}{% set items = items|merge([it]) %}{% endif %}{% endfor %}
+{% set logos = [] %}{% for it in c.logos|default([]) %}{% if it.image %}{% set logos = logos|merge([it]) %}{% endif %}{% endfor %}
+<section class="st-section st-bg-ivory" aria-labelledby="st-trust-{{ position }}">
+    <div class="st-container">
+        <h2 id="st-trust-{{ position }}" class="st-sr">{{ trans('blocks.trust.title') }}</h2>
+        <div class="st-facts">
+            {% if items|length %}
+                {% for it in items %}
+                    <div class="st-fact" data-reveal style="--i:{{ loop.index0 }}"><span class="st-fact__n" aria-hidden="true">{{ '0' ~ loop.index }}</span><h3 class="st-fact__t">{{ it.title }}</h3>{% if it.text %}<p class="st-fact__d">{{ it.text }}</p>{% endif %}</div>
+                {% endfor %}
+            {% else %}
+                {% for i in 1..4 %}
+                    <div class="st-fact" data-reveal style="--i:{{ loop.index0 }}"><span class="st-fact__n" aria-hidden="true">{{ '0' ~ i }}</span><h3 class="st-fact__t">{{ trans('blocks.trust.t' ~ i) }}</h3><p class="st-fact__d">{{ trans('blocks.trust.d' ~ i) }}</p></div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        {% if logos|length %}
+            <div class="st-logos">
+                <span class="st-label">{{ c.logos_label|default('WORKS WITH') }}</span>
+                {% for l in logos %}{% if l.image %}<img src="{{ l.image }}" alt="{{ l.name|default('') }}" loading="lazy" height="32">{% endif %}{% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>

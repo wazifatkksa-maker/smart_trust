@@ -1,0 +1,22 @@
+{#  About page layout — cover from theme setting page_about_image, body from the page content  #}
+{% set img = theme.settings.get('page_about_image', '')|default('images/scenes/sh01-villa.webp'|asset) %}
+<section class="st-page-hero">
+    <img src="{{ img }}" alt="" width="1920" height="1080" fetchpriority="high">
+    <div class="st-container"><div class="st-page-hero__inner">
+        <salla-breadcrumb></salla-breadcrumb>
+        <span class="st-label"><span class="st-dot" aria-hidden="true"></span>{{ store.name }}</span>
+        <h1 class="st-display">{{ page.title }}</h1>
+        <p class="st-lead">{{ trans('blocks.statement.about_text') }}</p>
+    </div></div>
+</section>
+<div class="st-container st-page-body">
+    <div class="st-page-body__aside" data-reveal><span class="st-label">About</span><h2 class="st-h2">{{ trans('blocks.about.title') }}</h2></div>
+    <div class="st-page-body__content" data-reveal style="--i:1"><div class="st-prose">{{ page.content|raw }}</div></div>
+</div>
+<section class="st-section st-dark st-cursor-light">
+    <div class="st-container">
+        <div class="st-facts">
+            {% for i in 1..4 %}<div class="st-fact" data-reveal style="--i:{{ loop.index0 }}"><span class="st-fact__n" aria-hidden="true">{{ '0' ~ i }}</span><h3 class="st-fact__t">{{ trans('blocks.statement.p' ~ i ~ '_t') }}</h3><p class="st-fact__d">{{ trans('blocks.statement.p' ~ i ~ '_d') }}</p></div>{% endfor %}
+        </div>
+    </div>
+</section>

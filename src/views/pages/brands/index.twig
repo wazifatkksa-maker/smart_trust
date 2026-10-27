@@ -1,0 +1,29 @@
+{#  brands — grouped by first character: {a: [Brand…], b: […]}  #}
+{% extends "layouts.master" %}
+{% block content %}
+    <section class="st-page-hero st-page-hero--plain">
+        <div class="st-container st-page-hero__inner">
+            <salla-breadcrumb></salla-breadcrumb>
+            <h1 class="st-display">{{ page.title }}</h1>
+        </div>
+    </section>
+    <div class="st-container" style="padding-bottom:var(--st-section)">
+        {% hook 'brands:index.items.start' %}
+        <nav class="st-alpha" aria-label="{{ trans('blocks.brands.index') }}">
+            {% for ch, list in brands %}<a href="#brands-{{ loop.index }}">{{ ch|upper }}</a>{% endfor %}
+        </nav>
+        {% for ch, list in brands %}
+            <section id="brands-{{ loop.index }}" style="margin-bottom:56px">
+                <h2 class="st-label" style="margin-bottom:20px">{{ ch|upper }}</h2>
+                <div class="st-brands">
+                    {% for b in list %}
+                        <a class="st-brand" href="{{ b.url }}" aria-label="{{ b.name }}">
+                            {% if b.logo %}<img src="{{ b.logo }}" alt="{{ b.name }}" loading="lazy">{% else %}<span class="st-mono">{{ b.name }}</span>{% endif %}
+                        </a>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endfor %}
+        {% hook 'brands:index.items.end' %}
+    </div>
+{% endblock %}

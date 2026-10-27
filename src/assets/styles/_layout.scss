@@ -1,0 +1,117 @@
+/*------------------------------------------------------------------------
+ *  LAYOUT — container, 12-col grid, sections, surfaces
+ *------------------------------------------------------------------------*/
+.st-container {
+  width: 100%; max-width: calc(var(--st-container) + var(--st-margin) * 2);
+  margin-inline: auto; padding-inline: var(--st-margin); box-sizing: border-box;
+}
+.st-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--st-gutter); row-gap: 48px; }
+@media (max-width: 767px) { .st-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 32px; } }
+@for $i from 1 through 12 {
+  .st-col-#{$i} { grid-column: span #{$i}; }
+}
+@media (max-width: 1023px) { .st-col-md-full { grid-column: 1 / -1; } }
+@media (max-width: 767px) { [class*='st-col-'] { grid-column: 1 / -1; } }
+
+.st-section { position: relative; padding-block: var(--st-section); }
+.st-section--flush-top { padding-top: 0; }
+.st-section--tight { padding-block: calc(var(--st-section) * .6); }
+
+.st-bg-ivory { background: var(--st-ivory); }
+.st-bg-paper { background: var(--st-paper); }
+.st-bg-sand { background: var(--st-sand); }
+.st-dark, .st-bg-night { background: var(--st-night); color: var(--st-on-dark); }
+.st-dark .st-lead { color: var(--st-on-dark-2); }
+.st-dark .st-label { color: #B8B2A8; }
+
+.st-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; margin-bottom: 56px; }
+.st-head__text { display: flex; flex-direction: column; gap: 16px; max-width: 760px; }
+.st-head__more { flex: none; font-size: 15px; display: inline-flex; gap: 8px; align-items: center; border-bottom: 1px solid currentColor; padding-bottom: 4px; }
+@media (max-width: 767px) {
+  .st-head { flex-direction: column; align-items: flex-start; margin-bottom: 32px; gap: 20px; }
+}
+
+.st-cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.st-media { position: relative; overflow: hidden; background: var(--st-sand); }
+.st-dark .st-media { background: var(--st-graphite); }
+.st-ratio-16x9 { aspect-ratio: 16 / 9; }
+.st-ratio-4x5 { aspect-ratio: 4 / 5; }
+.st-ratio-1x1 { aspect-ratio: 1 / 1; }
+.st-ratio-3x2 { aspect-ratio: 3 / 2; }
+
+.st-glass {
+  background: rgba(18, 19, 21, .4);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, .12);
+}
+.st-hairline { height: 1px; background: var(--st-line); border: 0; margin: 0; }
+.st-dark .st-hairline { background: var(--st-line-dark); }
+
+.st-plate {
+  position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  background: var(--st-plate);
+  img { width: 56%; height: auto; object-fit: contain; filter: drop-shadow(0 22px 22px rgba(40, 32, 22, .2)) drop-shadow(0 3px 4px rgba(40, 32, 22, .16)); }
+}
+.st-plate--dark { background: var(--st-plate-dark); }
+.st-plate--none { background: var(--st-paper); }
+.st-plate--none img, .st-plate img.is-photo { width: 100%; height: 100%; object-fit: cover; filter: none; }
+
+.st-breadcrumb { font-size: 13px; color: var(--st-text-3); }
+.st-dark .st-breadcrumb { color: #A8A29A; }
+
+.st-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--st-gutter); }
+.st-fact { display: flex; flex-direction: column; gap: 12px; border-top: 1px solid currentColor; padding-top: 22px; }
+.st-fact__n { font-family: var(--st-mono); font-size: 12px; opacity: .6; letter-spacing: .1em; }
+.st-fact__t { font-size: 22px; font-weight: 500; line-height: 1.4; }
+.st-fact__d { font-size: 15px; line-height: 1.8; color: var(--st-text-2); }
+.st-dark .st-fact__d { color: var(--st-on-dark-2); }
+@media (max-width: 1023px) { .st-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; } }
+@media (max-width: 480px) { .st-facts { grid-template-columns: 1fr; } }
+
+.st-ref {
+  position: absolute; z-index: 3; padding: 5px 9px; font-family: var(--st-mono); font-size: 9.5px; letter-spacing: .1em;
+  color: rgba(241, 237, 230, .85); background: rgba(10, 10, 10, .45);
+}
+
+/* architectural roof signature */
+.st-roof { display: block; width: 100%; height: auto; color: var(--st-line-dark); }
+/* numeric counters stay LTR inside RTL text (01 / 05) */
+.st-num { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+.st-summary__secure svg { width: 16px; height: 16px; }
+.st-col-from-7 { grid-column: 7 / span 6; }
+@media (max-width: 1023px) { .st-col-from-7 { grid-column: 1 / -1; } }
+html, body.st-body { overflow-x: clip; }
+
+/* ---------- floating actions (WhatsApp + KNX request) ---------- */
+.st-fab {
+  --st-fab-gap: 20px;
+  position: fixed; z-index: 40; bottom: calc(var(--st-fab-gap) + var(--st-fab-offset, 0px) + env(safe-area-inset-bottom));
+  display: flex; align-items: center; gap: 10px; flex-direction: row;
+  transition: opacity var(--st-dur-base) var(--st-ease), transform var(--st-dur-base) var(--st-ease);
+}
+.st-fab--left { left: var(--st-fab-gap); }
+.st-fab--right { right: var(--st-fab-gap); flex-direction: row-reverse; }
+.st-fab__btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 52px;
+  box-shadow: 0 10px 30px rgba(11, 12, 13, .22); transition: transform var(--st-dur-fast) var(--st-ease), box-shadow var(--st-dur-fast) var(--st-ease), background var(--st-dur-fast) var(--st-ease);
+}
+.st-fab__btn:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(11, 12, 13, .28); }
+.st-fab__btn:focus-visible { outline: 2px solid var(--st-focus); outline-offset: 3px; }
+.st-fab__btn--wa { width: 52px; border-radius: 50%; background: #1F9D55; color: #fff; }
+.st-fab__btn--wa svg { width: 24px; height: 24px; }
+.st-fab__btn--knx { padding: 0 20px; border-radius: 26px; background: var(--st-ink); color: var(--st-on-dark); font-size: 14px; font-weight: 500; white-space: nowrap; }
+.st-fab__btn--knx .st-dot { background: var(--st-signal); }
+/* never compete with the open menu, and step aside while the KNX form itself is on screen */
+body.st-lock .st-fab { opacity: 0; pointer-events: none; }
+.st-fab.is-knx-visible .st-fab__btn--knx { opacity: 0; pointer-events: none; transform: translateY(8px); }
+@media (max-width: 767px) {
+  .st-fab { --st-fab-gap: 14px; }
+  .st-fab__btn { height: 48px; }
+  .st-fab__btn--wa { width: 48px; }
+  .st-fab__btn--knx { padding: 0 16px; font-size: 13px; }
+}
+/* product page (mobile/tablet): sit above Salla's add-to-cart sticky bar */
+@media (max-width: 1023px) { body.st-has-sticky-buy .st-fab { bottom: calc(88px + var(--st-fab-offset, 0px) + env(safe-area-inset-bottom)); } }
+@media (prefers-reduced-motion: reduce) { .st-fab, .st-fab__btn { transition: none; } }
+@media print { .st-fab { display: none; } }
+

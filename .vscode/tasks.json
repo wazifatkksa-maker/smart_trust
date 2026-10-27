@@ -1,0 +1,8 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "SMARTTRUST: معاينة محلية (dev)", "type": "npm", "script": "dev", "isBackground": true, "problemMatcher": [], "group": { "kind": "build", "isDefault": true } },
+    { "label": "SMARTTRUST: تصدير صفحات HTML (site/)", "type": "npm", "script": "export", "problemMatcher": [] },
+    { "label": "SMARTTRUST: بناء الثيم للإنتاج", "type": "npm", "script": "production", "problemMatcher": [] }
+  ]
+}

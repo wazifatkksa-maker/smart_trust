@@ -1,0 +1,21 @@
+{#
+| component.title / text / cta_text / cta2_text | ?string |
+| component.image                               | ?string |
+| component.cta_url / cta2_url                  | variable-list |
+#}
+{% set c = component %}
+{% set u1 = c.cta_url is iterable ? (c.cta_url.url ?? '') : c.cta_url %}
+{% set u2 = c.cta2_url is iterable ? (c.cta2_url.url ?? '') : c.cta2_url %}
+{% set u1 = u1 ?: theme.settings.get('st_knx_url', store.url) %}
+<section class="st-fcta st-dark st-cursor-light" aria-labelledby="st-cta-{{ position }}">
+    <img class="st-fcta__img" src="{{ c.image|default('images/scenes/sh02-villa-on.webp'|asset) }}" alt="" loading="lazy" decoding="async" width="1600" height="900">
+    <div class="st-container st-fcta__inner">
+        <span class="st-label" data-reveal><span class="st-dot" aria-hidden="true"></span>{{ store.name }}</span>
+        <h2 id="st-cta-{{ position }}" class="st-fcta__title" data-reveal style="--i:1">{{ c.title|default(trans('blocks.cta.title')) }}</h2>
+        <p class="st-fcta__text" data-reveal style="--i:2">{{ c.text|default(trans('blocks.cta.text')) }}</p>
+        <div class="st-fcta__actions" data-reveal style="--i:3">
+            <a href="{{ u1 }}" class="st-btn st-btn--light"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ c.cta_text|default(trans('blocks.header.knx_cta')) }} <span class="st-arrow" aria-hidden="true">←</span></a>
+            {% if u2 and c.cta2_text %}<a href="{{ u2 }}" class="st-btn st-btn--glass">{{ c.cta2_text }}</a>{% endif %}
+        </div>
+    </div>
+</section>

@@ -1,0 +1,17 @@
+{#  landing — Salla landing (offer) page. Uses landing.is_expired and Salla product components.  #}
+{% extends "layouts.master" %}
+{% block content %}
+    <section class="st-page-hero st-page-hero--plain">
+        <div class="st-container st-page-hero__inner">
+            <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ store.name }}</span>
+            <h1 class="st-display">{{ page.title }}</h1>
+        </div>
+    </section>
+    <div class="st-container" style="padding-bottom:var(--st-section)">
+        {% if landing is defined and landing.is_expired %}
+            <div class="st-empty"><p class="st-lead">{{ trans('blocks.landing.expired') }}</p><a class="st-btn" href="{{ link('/') }}">{{ trans('blocks.cart.continue') }}</a></div>
+        {% else %}
+            <div class="st-products"><salla-products-list source="landing-page" source-value="{{ page.id }}"></salla-products-list></div>
+        {% endif %}
+    </div>
+{% endblock %}

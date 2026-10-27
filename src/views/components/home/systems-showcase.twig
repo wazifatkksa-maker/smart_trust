@@ -1,0 +1,39 @@
+{#
+| component.label / title / text | ?string |
+| component.systems[]            | name, tagline, meta, image, cta, url |
+#}
+{% set c = component %}
+{% set defaults = [
+    {name: 'KNX', tagline: trans('blocks.systems.knx_tagline'), meta: trans('blocks.systems.knx_meta'), image: 'images/scenes/cu-corridor.webp'|asset, cta: trans('blocks.systems.knx_cta'), url: theme.settings.get('st_knx_url', '')},
+    {name: 'Control4', tagline: trans('blocks.systems.c4_tagline'), meta: trans('blocks.systems.c4_meta'), image: 'images/scenes/cu-ir.webp'|asset, cta: trans('blocks.systems.more'), url: ''},
+    {name: 'Zigbee', tagline: trans('blocks.systems.zigbee_tagline'), meta: trans('blocks.systems.zigbee_meta'), image: 'images/scenes/cu-curtain.webp'|asset, cta: trans('blocks.systems.more'), url: ''}
+] %}
+{# editor-added sections come with one blank item: keep only items that carry content #}
+{% set st_items = [] %}{% for it in c.systems|default([]) %}{% if it.name or it.tagline or it.image %}{% set st_items = st_items|merge([it]) %}{% endif %}{% endfor %}
+{% set items = st_items|length ? st_items : defaults %}
+
+<section id="st-systems" class="st-section st-dark st-cursor-light" aria-labelledby="st-systems-{{ position }}">
+    <div class="st-container">
+        <div class="st-head">
+            <div class="st-head__text" data-reveal>
+                <span class="st-label"><span class="st-dot" aria-hidden="true"></span>{{ c.label|default(trans('blocks.systems.label')) }}</span>
+                <h2 id="st-systems-{{ position }}" class="st-h2" style="white-space:pre-line">{{ c.title|default(trans('blocks.systems.title')) }}</h2>
+            </div>
+            <p class="st-lead" style="max-width:420px;--i:1" data-reveal>{{ c.text|default(trans('blocks.systems.text')) }}</p>
+        </div>
+        <div class="st-systems__grid">
+            {% for s in items %}
+                {% set u = s.url is iterable ? (s.url.url ?? '') : s.url %}
+                <article class="st-system" data-reveal style="--i:{{ loop.index0 }}">
+                    <div class="st-system__media">
+                        {% if s.image %}<img class="st-cover" src="{{ s.image }}" alt="" loading="lazy" decoding="async" width="800" height="1000">{% endif %}
+                        <span class="st-ghost st-system__ghost" aria-hidden="true">{{ s.name }}</span>
+                    </div>
+                    <h3 class="st-system__t"><span class="st-sr">{{ s.name }} — </span>{{ s.tagline }}</h3>
+                    {% if s.meta %}<p class="st-system__m">{{ s.meta }}</p>{% endif %}
+                    {% if u %}<a class="st-link" href="{{ u }}">{{ s.cta|default(trans('blocks.systems.more')) }} <span class="st-arrow" aria-hidden="true">←</span></a>{% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>

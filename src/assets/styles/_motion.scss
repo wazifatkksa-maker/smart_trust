@@ -1,0 +1,11 @@
+/*------------------------------------------------------------------------
+ *  MOTION — reveal on scroll · one ease for everything
+ *------------------------------------------------------------------------*/
+.st-motion [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity var(--st-dur-slow) var(--st-ease), transform var(--st-dur-slow) var(--st-ease); transition-delay: calc(var(--i, 0) * 90ms); }
+.st-motion [data-reveal].is-in { opacity: 1; transform: none; }
+.st-motion [data-reveal='fade'] { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .st-motion [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .st-hero__scroll i { animation: none; }
+  .st-skel { animation: none; }
+}

@@ -1,0 +1,30 @@
+{#
+    KNX request — short WhatsApp box (default) or the full 3-step form (theme setting knx_box_mode = form).
+    {% include 'components.partials.knx-box' with {uid: 'home', title: '…', text: '…'} %}
+#}
+{% set mode = theme.settings.get('knx_box_mode', 'whatsapp')|default('whatsapp') %}
+{% set mode = mode is iterable ? (mode.value ?? ((mode|first).value ?? 'whatsapp')) : mode %}
+{% set wa = theme.settings.get('st_whatsapp', '') %}
+{% set wa_name = theme.settings.get('whatsapp_name', '')|default('') %}
+{% if mode == 'form' %}
+    {% include 'components.partials.knx-form' with {uid: uid|default('knx')} %}
+{% else %}
+    <div class="st-kbox st-cursor-light">
+        <svg class="st-kbox__roof" viewBox="0 0 400 120" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" focusable="false">
+            <path d="M8 112L200 14l192 98"/><path d="M60 112V86M86 112V72M112 112V58" /><path d="M262 44V22h14v29"/><path d="M0 119.5H400" stroke-dasharray="2 6"/>
+        </svg>
+        <span class="st-label"><span class="st-dot" aria-hidden="true"></span>KNX · PLAN FIRST</span>
+        <p class="st-kbox__t">{{ title|default(trans('blocks.knx.box_title')) }}</p>
+        <p class="st-kbox__d">{{ text|default(trans('blocks.knx.box_text')) }}</p>
+        {% if wa %}
+            <a class="st-kbox__wa" href="https://wa.me/{{ wa }}?text={{ trans('blocks.knx.wa_intro')|url_encode }}" target="_blank" rel="noopener" data-st-wa>
+                <span class="st-kbox__ico">{% include 'components.partials.icon' with {name: 'whatsapp'} %}</span>
+                <span class="st-kbox__wa-txt">
+                    <b>{{ trans('blocks.knx.box_cta') }}</b>
+                    <small>{% if wa_name %}{{ trans('blocks.knx.box_with') }} {{ wa_name }} · {% endif %}<span dir="ltr">+{{ wa }}</span></small>
+                </span>
+                <span class="st-arrow" aria-hidden="true">←</span>
+            </a>
+        {% endif %}
+    </div>
+{% endif %}

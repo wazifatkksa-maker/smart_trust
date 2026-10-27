@@ -1,0 +1,49 @@
+{#
+| component.label / title / text          | ?string | «إلهامنا»                              |
+| component.image                          | ?string | wide image (optional)                  |
+| component.about_label / about_text       | ?string | «من نحن» intro                         |
+| component.about_url                      | variable-list                                    |
+| component.pillars[]                      | title, text — the four services                 |
+#}
+{% set c = component %}
+{# editor-added sections come with one blank item: keep only items that carry content #}
+{% set pillars = [] %}{% for it in c.pillars|default([]) %}{% if it.title or it.text %}{% set pillars = pillars|merge([it]) %}{% endif %}{% endfor %}
+{% set about_url = c.about_url is iterable ? (c.about_url.url ?? '') : c.about_url %}
+<section class="st-section st-statement st-bg-ivory" aria-labelledby="st-statement-{{ position }}">
+    <div class="st-container">
+        <div class="st-grid">
+            <div class="st-statement__title" data-reveal>
+                <span class="st-label" style="margin-bottom:24px"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ c.label|default(trans('blocks.statement.label')) }}</span>
+                <h2 id="st-statement-{{ position }}" class="st-h1 st-statement__h" style="white-space:pre-line">{{ c.title|default(trans('blocks.statement.title')) }}</h2>
+            </div>
+            <div class="st-statement__text" data-reveal style="--i:1">
+                <span class="st-statement__mark" aria-hidden="true">“</span>
+                <p class="st-lead">{{ c.text|default(trans('blocks.statement.text')) }}</p>
+            </div>
+            {% if c.image %}
+                <div class="st-statement__media st-media" data-reveal="fade">
+                    <img class="st-cover" src="{{ c.image }}" alt="" loading="lazy" decoding="async" width="1600" height="686">
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="st-about" id="st-about">
+            <div class="st-about__intro" data-reveal>
+                <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ c.about_label|default(trans('blocks.statement.about_label')) }}</span>
+                <p class="st-about__text">{{ c.about_text|default(trans('blocks.statement.about_text')) }}</p>
+                {% if about_url %}<a class="st-link" href="{{ about_url }}">{{ trans('blocks.statement.about_more') }} <span class="st-arrow" aria-hidden="true">←</span></a>{% endif %}
+            </div>
+            <ol class="st-services">
+                {% if pillars|length %}
+                    {% for p in pillars %}
+                        <li class="st-service" data-reveal style="--i:{{ loop.index0 }}"><span class="st-service__n" aria-hidden="true">{{ '0' ~ loop.index }}</span><h3 class="st-service__t">{{ p.title }}</h3>{% if p.text %}<p class="st-service__d">{{ p.text }}</p>{% endif %}</li>
+                    {% endfor %}
+                {% else %}
+                    {% for i in 1..4 %}
+                        <li class="st-service" data-reveal style="--i:{{ loop.index0 }}"><span class="st-service__n" aria-hidden="true">{{ '0' ~ i }}</span><h3 class="st-service__t">{{ trans('blocks.statement.p' ~ i ~ '_t') }}</h3><p class="st-service__d">{{ trans('blocks.statement.p' ~ i ~ '_d') }}</p></li>
+                    {% endfor %}
+                {% endif %}
+            </ol>
+        </div>
+    </div>
+</section>

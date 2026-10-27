@@ -1,0 +1,53 @@
+{#
+| page.title / page.content / page.url / page.slug / page.type / page.id |
+| Theme settings page_knx / page_zigbee / page_control4 / page_about / page_contact hold page IDs
+| that switch this template into the SMARTTRUST system/about/contact layouts.
+#}
+{% extends "layouts.master" %}
+{% block body_attrs %}
+{% set pid = page.id ~ '' %}
+{% set layout = 'default' %}
+{% if pid and pid == theme.settings.get('page_knx', '') ~ '' %}{% set layout = 'knx' %}
+{% elseif pid and pid == theme.settings.get('page_zigbee', '') ~ '' %}{% set layout = 'zigbee' %}
+{% elseif pid and pid == theme.settings.get('page_control4', '') ~ '' %}{% set layout = 'control4' %}
+{% elseif pid and pid == theme.settings.get('page_about', '') ~ '' %}{% set layout = 'about' %}
+{% elseif pid and pid == theme.settings.get('page_contact', '') ~ '' %}{% set layout = 'contact' %}
+{% endif %}
+{% if layout in ['knx', 'zigbee', 'control4'] %}data-st-system="{{ layout }}"{% endif %}{% endblock %}
+
+{% block content %}
+{% set pid = page.id ~ '' %}
+{% set layout = 'default' %}
+{% if pid and pid == theme.settings.get('page_knx', '') ~ '' %}{% set layout = 'knx' %}
+{% elseif pid and pid == theme.settings.get('page_zigbee', '') ~ '' %}{% set layout = 'zigbee' %}
+{% elseif pid and pid == theme.settings.get('page_control4', '') ~ '' %}{% set layout = 'control4' %}
+{% elseif pid and pid == theme.settings.get('page_about', '') ~ '' %}{% set layout = 'about' %}
+{% elseif pid and pid == theme.settings.get('page_contact', '') ~ '' %}{% set layout = 'contact' %}
+{% endif %}
+    {% if page.type == 'customised' %}
+        <div class="s-blocks-wrapper s-information-page">{% hook 'information_page.information_page' %}</div>
+    {% elseif layout in ['knx', 'zigbee', 'control4'] %}
+        {% include 'pages.partials.system-page' with {system: layout} %}
+    {% elseif layout == 'about' %}
+        {% include 'pages.partials.about-page' %}
+    {% elseif layout == 'contact' %}
+        {% include 'pages.partials.contact-page' %}
+    {% else %}
+        <section class="st-page-hero st-page-hero--plain">
+            <div class="st-container st-page-hero__inner">
+                <salla-breadcrumb></salla-breadcrumb>
+                <h1 class="st-h1">{{ page.title }}</h1>
+            </div>
+        </section>
+        <div class="st-container st-page-body" style="border-top:1px solid var(--st-line)">
+            <div class="st-page-body__aside"><span class="st-label">{{ store.name }}</span></div>
+            <div class="st-page-body__content">
+                <div class="st-prose">{{ page.content|raw }}</div>
+                <div style="margin-top:64px"><salla-comments item-id="{{ page.id }}" type="page"></salla-comments></div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+    <script defer src="{{ 'pages.js'|asset }}"></script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{#  user · custom_fields — the profile form is Salla's own component  #}
+{% extends "layouts.customer" %}
+{% block inner_title %}{{ trans('blocks.account.profile') }}{% endblock %}
+{% block inner_content %}
+    <div class="st-panel">
+        {% hook 'customer:profile.form.start' %}
+        <salla-user-profile></salla-user-profile>
+        {% hook 'customer:profile.form.end' %}
+    </div>
+    <div class="st-panel">
+        <salla-user-settings></salla-user-settings>
+    </div>
+{% endblock %}

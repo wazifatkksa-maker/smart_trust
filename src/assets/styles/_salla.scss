@@ -1,0 +1,29 @@
+/*------------------------------------------------------------------------
+ *  SALLA WEB COMPONENTS — skin only, never structure
+ *------------------------------------------------------------------------*/
+.st-body .s-button-primary, .st-body .s-button-solid.s-button-primary { background-color: var(--st-text); color: var(--st-ivory); border-radius: var(--st-radius-1); }
+.st-body .s-button-primary:hover { background-color: #000; }
+.st-body .s-button-btn { border-radius: var(--st-radius-1); font-family: var(--st-font); }
+.st-body .s-button-outline.s-button-primary { background: transparent; color: var(--st-text); border-color: var(--st-text); }
+
+.st-body .s-modal-body, .st-body .s-modal-wrapper .s-modal-body { border-radius: 0; background: var(--st-ivory); }
+.st-body .s-modal-title { font-family: var(--st-font); font-weight: 500; }
+.st-body .s-login-modal-main-btn, .st-body salla-login-modal .s-button-btn { background: var(--st-text); border-radius: var(--st-radius-1); }
+.st-body .form-input, .st-body .s-form-control, .st-body salla-login-modal input { border-radius: var(--st-radius-1); border-color: var(--st-line-2); }
+.st-body .form-input:focus, .st-body .s-form-control:focus { border-color: var(--st-text); box-shadow: 0 0 0 1px var(--st-text); }
+
+.st-body .s-search-modal .s-modal-body, .st-body salla-search .s-modal-body { background: var(--st-ivory); }
+.st-body .s-search-input { font-family: var(--st-font); font-size: 18px; }
+
+/* min-height reserves the line the breadcrumb renders into after hydration (avoids a ~25px layout shift) */
+.st-body salla-breadcrumb { display: block; min-height: 25px; font-size: 13px; color: var(--st-text-3); }
+.st-body salla-breadcrumb a:hover { color: var(--st-text); }
+.st-dark salla-breadcrumb, .st-page-hero salla-breadcrumb { color: #A8A29A; }
+
+.st-body .s-comments-item, .st-body .s-reviews-item { border-radius: 0; }
+.st-body .s-rating-stars-selected, .st-body .s-rating-stars-btn-star.s-rating-stars-selected { color: var(--st-text); }
+
+.st-body salla-add-product-toast, .st-body .s-add-product-toast { font-family: var(--st-font); }
+.st-body .swal2-popup { border-radius: 0; font-family: var(--st-font); }
+
+.st-body .s-user-menu-dropdown { border-radius: 0; background: var(--st-ivory); color: var(--st-text); border: 1px solid var(--st-line); box-shadow: none; }

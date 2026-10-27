@@ -1,0 +1,111 @@
+{#
+| Variable | Type   | Description                                         |
+|----------|--------|-----------------------------------------------------|
+| store    | Store  | name, logo, url, contacts, social                   |
+| theme    | Theme  | footer_* settings                                   |
+| Salla    | —      | salla-menu(footer) · salla-contacts · salla-social  |
+|          |        | salla-payments · salla-trust-badges · hook copyright|
+#}
+{% set minimal = (theme.settings.get('footer_variant', 'full')|default('full')) == 'minimal' %}
+{% set knx_url = theme.settings.get('st_knx_url', store.url) %}
+{% set wa = theme.settings.get('st_whatsapp', '') %}
+{% set cta_title = theme.settings.get('footer_cta_title', '')|default(trans('blocks.footer.cta_title')) %}
+{% set cta_text = theme.settings.get('footer_cta_text', '')|default(trans('blocks.footer.cta_text')) %}
+{% set cta_img = theme.settings.get('footer_cta_image', '')|default('images/scenes/sc-evening.webp'|asset) %}
+{% set tagline = theme.settings.get('footer_tagline', '')|default(trans('blocks.footer.tagline')) %}
+{% set cr = theme.settings.get('footer_cr', '') %}
+{% set vat = theme.settings.get('footer_vat', '') %}
+
+<footer class="st-footer {{ minimal ? 'st-footer--minimal' : '' }}" aria-labelledby="st-footer-title">
+    <h2 id="st-footer-title" class="st-sr">{{ store.name }}</h2>
+
+    {% if theme.settings.get('footer_cta', true) and not minimal %}
+        <section class="st-fcta st-cursor-light" aria-label="{{ trans('blocks.footer.cta_label') }}">
+            <img class="st-fcta__img" src="{{ cta_img }}" alt="" loading="lazy" decoding="async" width="1600" height="900">
+            <div class="st-container st-fcta__inner">
+                <span class="st-label" data-reveal><span class="st-dot" aria-hidden="true"></span>{{ store.name }}</span>
+                <p class="st-fcta__title" data-reveal style="--i:1">{{ cta_title }}</p>
+                <p class="st-fcta__text" data-reveal style="--i:2">{{ cta_text }}</p>
+                <div class="st-fcta__actions" data-reveal style="--i:3">
+                    <a href="{{ knx_url }}" class="st-btn st-btn--light"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ trans('blocks.header.knx_cta') }} <span class="st-arrow" aria-hidden="true">←</span></a>
+                    {% if wa %}
+                        <a href="https://wa.me/{{ wa }}" class="st-btn st-btn--glass" target="_blank" rel="noopener" data-st-wa>{% include 'components.partials.icon' with {name: 'whatsapp'} %}{{ trans('blocks.footer.talk_expert') }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    <div class="st-container st-footer__main st-cursor-light">
+        <div class="st-footer__grid-lines" aria-hidden="true">{% for i in 1..12 %}<span></span>{% endfor %}</div>
+
+        <div class="st-footer__top">
+            <div class="st-footer__brand">
+                <a href="{{ store.url }}" class="st-footer__logo" aria-label="{{ store.name }}">
+                    <img src="{{ theme.settings.get('logo_light', '')|default('images/brand/logo-light.svg'|asset) }}" alt="{{ store.name }}" width="260" height="74" loading="lazy">
+                </a>
+                <p class="st-footer__tagline">{{ tagline }}</p>
+                {% if not minimal %}<salla-social></salla-social>{% endif %}
+            </div>
+
+            <div class="st-footer__col st-footer__col--links">
+                <details data-st-collapse open>
+                    <summary class="st-footer__h">{{ trans('blocks.footer.links') }}<span class="st-plus" aria-hidden="true">+</span></summary>
+                    <salla-menu source="footer"></salla-menu>
+                </details>
+            </div>
+
+            <div class="st-footer__col st-footer__col--wide">
+                <details data-st-collapse open>
+                    <summary class="st-footer__h">{{ trans('blocks.footer.contact') }}<span class="st-plus" aria-hidden="true">+</span></summary>
+                    {% set mt = theme.settings.get('maintenance_number', '')|default('')|replace({'+': '', ' ': ''}) %}
+                    <div class="st-footer__reach">
+                        {% if wa %}<a class="st-reach" href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" data-st-wa>{% include 'components.partials.icon' with {name: 'whatsapp'} %}<span><small>{{ trans('blocks.menu.sales') }}{{ theme.settings.get('whatsapp_name', '') ? ' · ' ~ theme.settings.get('whatsapp_name', '') : '' }}</small><b dir="ltr">+{{ wa }}</b></span></a>{% endif %}
+                        {% if mt %}<a class="st-reach" href="https://wa.me/{{ mt }}" target="_blank" rel="noopener">{% include 'components.partials.icon' with {name: 'tool'} %}<span><small>{{ trans('blocks.menu.maintenance') }}{{ theme.settings.get('maintenance_name', '') ? ' · ' ~ theme.settings.get('maintenance_name', '') : '' }}</small><b dir="ltr">+{{ mt }}</b></span></a>{% endif %}
+                    </div>
+                    <salla-contacts hide-title></salla-contacts>
+                </details>
+                {% if theme.settings.get('footer_knx_card', true) and not minimal %}
+                    <div class="st-knx-card">
+                        <span class="st-footer__h"><span class="st-dot" aria-hidden="true"></span>KNX</span>
+                        <p class="st-knx-card__t">{{ trans('blocks.footer.knx_title') }}</p>
+                        <p class="st-knx-card__d">{{ trans('blocks.footer.knx_text') }}</p>
+                        <a href="{{ knx_url }}" class="st-link">{{ trans('blocks.footer.knx_cta') }} <span class="st-arrow" aria-hidden="true">←</span></a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="st-footer__biz">
+            <div>
+                <span class="st-footer__h">{{ trans('blocks.footer.payments') }}</span>
+                <salla-payments></salla-payments>
+            </div>
+            <div>
+                <span class="st-footer__h">{{ trans('blocks.footer.business') }}</span>
+                {% if cr or vat %}
+                    <p class="st-small">
+                        {% if cr %}{{ trans('blocks.footer.cr') }}: <span class="st-mono">{{ cr }}</span>{% endif %}
+                        {% if cr and vat %} · {% endif %}
+                        {% if vat %}{{ trans('blocks.footer.vat') }}: <span class="st-mono">{{ vat }}</span>{% endif %}
+                    </p>
+                {% endif %}
+                <salla-trust-badges></salla-trust-badges>
+            </div>
+            <div>
+                <salla-apps-icons></salla-apps-icons>
+            </div>
+        </div>
+
+        <div class="st-footer__legal">
+            <div class="st-footer__copyright">{% hook copyright %}</div>
+            {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+                <salla-localization-modal show-trigger></salla-localization-modal>
+            {% endif %}
+        </div>
+
+        {% if theme.settings.get('footer_roof', true) %}
+            <div class="st-footer__roof">{% include 'components.partials.roof' %}</div>
+        {% endif %}
+    </div>
+</footer>

@@ -1,0 +1,55 @@
+{#
+| component.label        | ?string |
+| component.background   | ?string |
+| component.steps[]      | tag, title, text, image, cta, url |
+#}
+{% set c = component %}
+{% set bg = c.background|default('images/scenes/float-bg.webp'|asset) %}
+{% set defaults = [
+    {tag: '3-GANG · KNX · ZIGBEE', title: trans('blocks.float.s1_title'), text: trans('blocks.float.s1_text'), image: 'images/products/sw-black-3.webp'|asset},
+    {tag: 'ROTARY DIMMER · KNX', title: trans('blocks.float.s2_title'), text: trans('blocks.float.s2_text'), image: 'images/products/dimmer.webp'|asset},
+    {tag: 'CURTAIN · ZIGBEE', title: trans('blocks.float.s3_title'), text: trans('blocks.float.s3_text'), image: 'images/products/sw-black-curtain.webp'|asset},
+    {tag: 'SMART PANEL · SCENES', title: trans('blocks.float.s4_title'), text: trans('blocks.float.s4_text'), image: 'images/products/panel-screen.webp'|asset},
+    {tag: 'SMART POWER · 13A', title: trans('blocks.float.s5_title'), text: trans('blocks.float.s5_text'), image: 'images/products/socket.webp'|asset}
+] %}
+{# editor-added sections come with one blank item: keep only items that carry content #}
+{% set st_steps = [] %}{% for it in c.steps|default([]) %}{% if it.title or it.text or it.image %}{% set st_steps = st_steps|merge([it]) %}{% endif %}{% endfor %}
+{% set steps = st_steps|length ? st_steps : defaults %}
+{% set n = steps|length %}
+
+<section class="st-float st-float--static" aria-labelledby="st-float-{{ position }}">
+    <h2 id="st-float-{{ position }}" class="st-sr">{{ c.label|default('CONTROL EVERY DETAIL') }}</h2>
+    <div class="st-float__track">
+        <div class="st-float__stage">
+            <img class="st-float__bg" src="{{ bg }}" alt="" loading="lazy" decoding="async" width="1600" height="900">
+            <div class="st-float__glow" aria-hidden="true"></div>
+            <span class="st-label st-float__label" aria-hidden="true">{{ c.label|default('CONTROL EVERY DETAIL') }}</span>
+            <div class="st-float__rail" aria-hidden="true">
+                {% for s in steps %}<span class="{{ loop.first ? 'is-active' : '' }}">{{ '0' ~ loop.index }}</span>{% endfor %}
+            </div>
+
+            <div class="st-float__product" aria-hidden="true">
+                <span class="st-float__shadow"></span>
+                {% for s in steps %}
+                    {% if s.image %}<img src="{{ s.image }}" alt="" loading="lazy" decoding="async" width="700" height="700" class="{{ loop.first ? 'is-active' : '' }}">{% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="st-float__copy">
+                {% for s in steps %}
+                    {% set u = s.url is iterable ? (s.url.url ?? '') : s.url %}
+                    <article class="st-float__step {{ loop.first ? 'is-active' : '' }}">
+                        {% if s.image %}<img class="st-float__step-img" src="{{ s.image }}" alt="" loading="lazy" decoding="async" width="700" height="700">{% endif %}
+                        {% if s.tag %}<span class="st-float__tag">{{ s.tag }}</span>{% endif %}
+                        <h3 class="st-h2" style="white-space:pre-line">{{ s.title }}</h3>
+                        {% if s.text %}<p>{{ s.text }}</p>{% endif %}
+                        {% if u %}<a class="st-link" href="{{ u }}">{{ s.cta|default(trans('blocks.float.cta')) }} <span class="st-arrow" aria-hidden="true">←</span></a>{% endif %}
+                    </article>
+                {% endfor %}
+            </div>
+
+            <span class="st-float__count" aria-hidden="true"><span class="st-num" data-st-count>01 / {{ n < 10 ? '0' ~ n : n }}</span></span>
+            <div class="st-float__progress" aria-hidden="true"><i></i></div>
+        </div>
+    </div>
+</section>

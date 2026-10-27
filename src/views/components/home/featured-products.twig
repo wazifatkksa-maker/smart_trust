@@ -1,0 +1,43 @@
+{#
+| component.label / title        | ?string |
+| component.source               | dropdown: latest | categories | selected | offers |
+| component.category             | Category (source=categories) |
+| component.products             | Product[] (source=selected)  |
+| component.limit                | ?int    |
+| component.layout               | dropdown: grid | slider |
+| component.more_text / more_url | ?string / variable-list |
+#}
+{% set c = component %}
+{% set src = c.source is iterable ? (c.source.value ?? ((c.source|first).value ?? 'latest')) : (c.source|default('latest')) %}
+{% set layout = c.layout is iterable ? (c.layout.value ?? ((c.layout|first).value ?? 'grid')) : (c.layout|default('grid')) %}
+{% set limit = c.limit|default(8) %}
+{% set source_value = '' %}
+{% if src == 'categories' and c.category %}
+    {% set cat = c.category is iterable and c.category.id is not defined ? c.category|first : c.category %}
+    {% set source_value = '[' ~ (cat.id ?? cat.value ?? cat) ~ ']' %}
+{% elseif src == 'selected' %}
+    {% set ids = [] %}
+    {% for p in c.products|default([]) %}{% set ids = ids|merge([p.id ?? p.value ?? p]) %}{% endfor %}
+    {% set source_value = ids|json_encode %}
+    {% if not ids|length %}{% set src = 'latest' %}{% endif %}
+{% elseif src == 'categories' %}
+    {% set src = 'latest' %}
+{% endif %}
+{% set more_url = c.more_url is iterable ? (c.more_url.url ?? '') : c.more_url %}
+
+<section class="st-section st-featured st-bg-ivory" aria-labelledby="st-featured-{{ position }}">
+    <div class="st-container">
+        <div class="st-head">
+            <div class="st-head__text" data-reveal>
+                <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ c.label|default(trans('blocks.featured.label')) }}</span>
+                <h2 id="st-featured-{{ position }}" class="st-h2">{{ c.title|default(trans('blocks.featured.title')) }}</h2>
+            </div>
+            {% if more_url %}
+                <a href="{{ more_url }}" class="st-head__more">{{ c.more_text|default(trans('blocks.featured.more')) }} <span class="st-arrow" aria-hidden="true">←</span></a>
+            {% endif %}
+        </div>
+        <div class="st-products {{ layout == 'slider' ? 'st-products--rail' : '' }}">
+            <salla-products-list source="{{ src }}" {% if source_value %}source-value="{{ source_value }}"{% endif %} limit="{{ limit }}"></salla-products-list>
+        </div>
+    </div>
+</section>

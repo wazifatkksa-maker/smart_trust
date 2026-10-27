@@ -1,0 +1,7 @@
+{% extends "layouts.master" %}
+{% block content %}
+    {% component home %}
+{% endblock %}
+{% block scripts %}
+    <script defer src="{{ 'home.js'|asset }}"></script>
+{% endblock %}

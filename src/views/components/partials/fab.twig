@@ -1,0 +1,26 @@
+{#
+    Floating actions: WhatsApp + "Request a KNX system" (links to the existing #knx-request form).
+    Settings: floating_actions · floating_actions_side (left|right) · floating_actions_offset (px).
+    Hidden on cart / thank-you (checkout focus) and while the menu drawer is open; lifted above the
+    product sticky-buy bar on mobile so nothing overlaps Salla's own buttons.
+#}
+{% set wa = theme.settings.get('st_whatsapp', '') %}
+{% set knx_url = theme.settings.get('st_knx_url', store.url) %}
+{% set side = theme.settings.get('floating_actions_side', 'left') %}
+{% set side = side is iterable ? (side.value ?? ((side|first).value ?? 'left')) : side %}
+{% set side = side == 'right' ? 'right' : 'left' %}
+{% set offset = theme.settings.get('floating_actions_offset', 0)|default(0) %}
+{% if theme.settings.get('floating_actions', true) and not is_page('cart') and not is_page('thank-you') and (wa or knx_url) %}
+    <div class="st-fab st-fab--{{ side }}" style="--st-fab-offset: {{ offset }}px" data-st-fab>
+        {% if knx_url %}
+            <a href="{{ knx_url }}" class="st-fab__btn st-fab__btn--knx" data-st-fab-knx>
+                <span class="st-dot" aria-hidden="true"></span><span class="st-fab__label">{{ trans('blocks.header.knx_cta') }}</span>
+            </a>
+        {% endif %}
+        {% if wa %}
+            <a href="https://wa.me/{{ wa }}" class="st-fab__btn st-fab__btn--wa" target="_blank" rel="noopener" data-st-wa aria-label="{{ trans('blocks.common.whatsapp') }}" title="{{ trans('blocks.common.whatsapp') }}">
+                {% include 'components.partials.icon' with {name: 'whatsapp'} %}
+            </a>
+        {% endif %}
+    </div>
+{% endif %}

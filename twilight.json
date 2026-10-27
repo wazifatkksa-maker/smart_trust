@@ -1,0 +1,2922 @@
+{
+  "name": {
+    "ar": "سمارت ترست",
+    "en": "SMARTTRUST"
+  },
+  "description": {
+    "ar": "ثيم معماري فاخر لمتاجر أنظمة المنازل الذكية: KNX وZigbee وControl4.",
+    "en": "An architectural, premium theme for smart-home system stores: KNX, Zigbee and Control4."
+  },
+  "repository": "https://github.com/sorouhshamico-pixel/smarttrust",
+  "author_email": "zalfuwayris@smartrust.com.sa",
+  "support_url": "https://smartrust.com.sa",
+  "features": [
+    "fonts",
+    "color",
+    "breadcrumb",
+    "filters",
+    "unite-cards-height"
+  ],
+  "settings": [
+    {
+      "type": "static",
+      "format": "title",
+      "id": "st_t_identity",
+      "value": "الهوية والخط",
+      "variable": null
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "brand_font",
+      "label": "استخدام خط الهوية (IBM Plex Sans Arabic)",
+      "icon": "sicon-toggle-off",
+      "value": true,
+      "selected": true,
+      "required": false,
+      "description": "عند الإيقاف يُستخدم الخط المختار من إعدادات المتجر."
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "animations",
+      "label": "تفعيل الحركة عند التمرير",
+      "icon": "sicon-toggle-off",
+      "value": true,
+      "selected": true,
+      "required": false
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "cursor_light",
+      "label": "ضوء المؤشر في الأقسام الداكنة (ديسكتوب)",
+      "icon": "sicon-toggle-off",
+      "value": true,
+      "selected": true,
+      "required": false
+    },
+    {
+      "type": "string",
+      "format": "image",
+      "id": "logo_light",
+      "label": "الشعار المفرّغ للخلفيات الداكنة (SVG أو PNG شفاف)",
+      "icon": "sicon-image",
+      "value": null,
+      "required": false,
+      "settings": {
+        "width": 600,
+        "height": 170
+      }
+    },
+    {
+      "type": "string",
+      "format": "image",
+      "id": "logo_dark",
+      "label": "الشعار المفرّغ للخلفيات الفاتحة (SVG أو PNG شفاف)",
+      "icon": "sicon-image",
+      "value": null,
+      "required": false,
+      "settings": {
+        "width": 600,
+        "height": 170
+      }
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "st_l1",
+      "value": null
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "st_t_header",
+      "value": "الهيدر",
+      "variable": null
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "header_transparent_home",
+      "label": "هيدر شفاف فوق الفيديو في الرئيسية",
+      "icon": "sicon-toggle-off",
+      "value": true,
+      "selected": true,
+      "required": false
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "header_sticky",
+      "label": "تثبيت الهيدر عند التمرير",
+      "icon": "sicon-toggle-off",
+      "value": true,
+      "selected": true,
+      "required": false
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "header_cta",
+      "label": "إظهار زر «اطلب نظام KNX» في الهيدر",
+      "icon": "sicon-toggle-off",
+      "value": false,
+      "selected": false,
+      "required": false
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "header_cta_text",
+      "label": "نص زر الهيدر",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 40,
+      "placeholder": "اطلب نظام KNX"
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "st_l2a",
+      "value": null
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "st_t_menu",
+      "value": "قائمة الأنظمة (داخل الثلاث شرطات)",
+      "variable": null
+    },
+    {
+      "type": "static",
+      "format": "description",
+      "id": "st_d_menu",
+      "value": "روابط فرعية لكل نظام. اتركها فارغة لاستخدام البحث عن اسم النظام تلقائيًا."
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "menu_zigbee_products",
+      "label": "Zigbee — رابط المنتجات",
+      "icon": "sicon-link",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 500,
+      "placeholder": "https://"
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "menu_knx_about",
+      "label": "KNX — رابط صفحة التعريف",
+      "icon": "sicon-link",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 500,
+      "placeholder": "https://"
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "menu_knx_wiring",
+      "label": "KNX — رابط التمديدات",
+      "icon": "sicon-link",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 500,
+      "placeholder": "https://"
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "menu_knx_products",
+      "label": "KNX — رابط المنتجات",
+      "icon": "sicon-link",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 500,
+      "placeholder": "https://"
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "menu_c4_products",
+      "label": "Control4 — رابط المنتجات",
+      "icon": "sicon-link",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 500,
+      "placeholder": "https://"
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "menu_contact",
+      "label": "رابط «تواصل معنا»",
+      "icon": "sicon-link",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 500,
+      "placeholder": "https://"
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "st_l2",
+      "value": null
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "st_t_requests",
+      "value": "طلبات المشاريع والتواصل",
+      "variable": null
+    },
+    {
+      "type": "static",
+      "format": "description",
+      "id": "st_d_requests",
+      "value": "نموذج طلب KNX يُرسل إلى الرابط أدناه إن وُجد (POST multipart). وإن لم يُحدد يُفتح واتساب برسالة جاهزة تتضمن بيانات النموذج."
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "whatsapp_number",
+      "label": "رقم واتساب المبيعات والتواصل (دولي)",
+      "icon": "sicon-whatsapp",
+      "multilanguage": false,
+      "value": "966541725801",
+      "required": false,
+      "minLength": 0,
+      "maxLength": 20,
+      "placeholder": "9665XXXXXXXX"
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "whatsapp_name",
+      "label": "اسم مسؤول التواصل",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 40,
+      "placeholder": "أ. منال"
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "maintenance_number",
+      "label": "رقم واتساب الصيانة (دولي)",
+      "icon": "sicon-whatsapp",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 20,
+      "placeholder": "9665XXXXXXXX"
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "maintenance_name",
+      "label": "اسم مسؤول الصيانة",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 40,
+      "placeholder": "م. ريان"
+    },
+    {
+      "type": "items",
+      "format": "dropdown-list",
+      "id": "knx_box_mode",
+      "label": "قسم «طلب نظام KNX»",
+      "icon": "sicon-keyboard_arrow_down",
+      "selected": [
+        {
+          "label": "مربع واتساب مختصر",
+          "value": "whatsapp",
+          "key": "8d033c8b-fec0-59ca-a2a9-3c6d7d4cec79"
+        }
+      ],
+      "options": [
+        {
+          "label": "مربع واتساب مختصر",
+          "value": "whatsapp",
+          "key": "8d033c8b-fec0-59ca-a2a9-3c6d7d4cec79"
+        },
+        {
+          "label": "نموذج كامل بثلاث خطوات",
+          "value": "form",
+          "key": "a60114cf-e4fa-539a-8ee8-cea869215f89"
+        }
+      ],
+      "source": "Manual",
+      "multichoice": false,
+      "searchable": false,
+      "required": false
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "knx_form_endpoint",
+      "label": "رابط استقبال نموذج KNX (اختياري)",
+      "icon": "sicon-link",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 500,
+      "placeholder": "https://"
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "knx_page_url",
+      "label": "رابط صفحة طلب KNX",
+      "icon": "sicon-link",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 500,
+      "placeholder": "https://",
+      "description": "تستخدمه أزرار «اطلب نظام KNX» في الهيدر والفوتر والبطاقات."
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "floating_actions",
+      "label": "أزرار عائمة: واتساب وطلب نظام KNX",
+      "icon": "sicon-toggle-off",
+      "value": true,
+      "selected": true,
+      "required": false,
+      "description": "تظهر في كل الصفحات عدا السلة وصفحة الشكر، وتختفي عند فتح القائمة."
+    },
+    {
+      "type": "items",
+      "format": "dropdown-list",
+      "id": "floating_actions_side",
+      "label": "مكان الأزرار العائمة",
+      "icon": "sicon-keyboard_arrow_down",
+      "selected": [
+        {
+          "label": "يسار الشاشة",
+          "value": "left",
+          "key": "5d0c2b1e-6f3a-5c4e-9a1b-2f7d8e9c0a11"
+        }
+      ],
+      "options": [
+        {
+          "label": "يسار الشاشة",
+          "value": "left",
+          "key": "5d0c2b1e-6f3a-5c4e-9a1b-2f7d8e9c0a11"
+        },
+        {
+          "label": "يمين الشاشة",
+          "value": "right",
+          "key": "8b4e1f2a-3c5d-5e6f-8a9b-0c1d2e3f4a22"
+        }
+      ],
+      "source": "Manual",
+      "multichoice": false,
+      "searchable": false,
+      "required": false,
+      "description": "اختر الجهة المعاكسة لأي تطبيق محادثة مثبّت في المتجر."
+    },
+    {
+      "type": "number",
+      "format": "integer",
+      "id": "floating_actions_offset",
+      "label": "رفع الأزرار العائمة عن أسفل الشاشة (px)",
+      "icon": "sicon-hashtag",
+      "value": 0,
+      "required": false,
+      "minimum": 0,
+      "maximum": 200
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "quote_keyword",
+      "label": "كلمة وسم «عرض سعر»",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 40,
+      "placeholder": "عرض سعر",
+      "description": "المنتج الذي يحمل هذا النص في اسمه أو عنوانه الترويجي أو وسومه يعرض «اطلب عرض سعر» بدل زر السلة."
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "quote_zero_price",
+      "label": "اعتبار المنتجات ذات السعر صفر منتجات «عرض سعر»",
+      "icon": "sicon-toggle-off",
+      "value": false,
+      "selected": false,
+      "required": false,
+      "description": "اتركه متوقفًا ما لم تكن تسعّر منتجات عرض السعر بصفر عمدًا؛ المنتج ذو السعر صفر بالخطأ سيختفي زر شرائه."
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "st_l3",
+      "value": null
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "st_t_pages",
+      "value": "الصفحات التعريفية",
+      "variable": null
+    },
+    {
+      "type": "static",
+      "format": "description",
+      "id": "st_d_pages",
+      "value": "ضع رقم الصفحة (من رابطها في لوحة سلة) ليظهر بتصميم SMARTTRUST الخاص."
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "page_knx",
+      "label": "رقم صفحة KNX",
+      "icon": "sicon-hashtag",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 20
+    },
+    {
+      "type": "string",
+      "format": "image",
+      "id": "page_knx_image",
+      "label": "صورة غلاف صفحة KNX",
+      "icon": "sicon-image",
+      "value": null,
+      "required": false,
+      "settings": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "page_zigbee",
+      "label": "رقم صفحة Zigbee",
+      "icon": "sicon-hashtag",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 20
+    },
+    {
+      "type": "string",
+      "format": "image",
+      "id": "page_zigbee_image",
+      "label": "صورة غلاف صفحة Zigbee",
+      "icon": "sicon-image",
+      "value": null,
+      "required": false,
+      "settings": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "page_control4",
+      "label": "رقم صفحة Control4",
+      "icon": "sicon-hashtag",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 20
+    },
+    {
+      "type": "string",
+      "format": "image",
+      "id": "page_control4_image",
+      "label": "صورة غلاف صفحة Control4",
+      "icon": "sicon-image",
+      "value": null,
+      "required": false,
+      "settings": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "page_about",
+      "label": "رقم صفحة «من نحن»",
+      "icon": "sicon-hashtag",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 20
+    },
+    {
+      "type": "string",
+      "format": "image",
+      "id": "page_about_image",
+      "label": "صورة غلاف «من نحن»",
+      "icon": "sicon-image",
+      "value": null,
+      "required": false,
+      "settings": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "page_contact",
+      "label": "رقم صفحة «تواصل معنا»",
+      "icon": "sicon-hashtag",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 20
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "st_l4",
+      "value": null
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "st_t_products",
+      "value": "المنتجات",
+      "variable": null
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "card_add_button",
+      "label": "إظهار زر الإضافة للسلة على بطاقة المنتج",
+      "icon": "sicon-toggle-off",
+      "value": true,
+      "selected": true,
+      "required": false
+    },
+    {
+      "type": "items",
+      "format": "dropdown-list",
+      "id": "card_plate",
+      "label": "خلفية صورة المنتج في البطاقة",
+      "icon": "sicon-keyboard_arrow_down",
+      "selected": [
+        {
+          "label": "حجري فاتح",
+          "value": "stone",
+          "key": "731609b1-60bc-541b-9847-b68efb01e62b"
+        }
+      ],
+      "options": [
+        {
+          "label": "حجري فاتح",
+          "value": "stone",
+          "key": "731609b1-60bc-541b-9847-b68efb01e62b"
+        },
+        {
+          "label": "داكن",
+          "value": "dark",
+          "key": "50c6b0c6-2a86-51d7-9ed4-08b576f03c28"
+        },
+        {
+          "label": "بدون",
+          "value": "none",
+          "key": "1a5f7b89-f1d1-5871-ad73-42aefa2a2402"
+        }
+      ],
+      "source": "Manual",
+      "multichoice": false,
+      "searchable": false,
+      "required": false
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "product_trust",
+      "label": "إظهار سطر التوصيل والتركيب والضمان في صفحة المنتج",
+      "icon": "sicon-toggle-off",
+      "value": true,
+      "selected": true,
+      "required": false
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "product_trust_delivery",
+      "label": "نص التوصيل",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 60,
+      "placeholder": "توصيل خلال 3–5 أيام"
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "product_trust_install",
+      "label": "نص التركيب",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 60,
+      "placeholder": "تركيب متاح في الرياض وجدة"
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "product_trust_warranty",
+      "label": "نص الضمان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 60,
+      "placeholder": "ضمان سنتين"
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "st_l5",
+      "value": null
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "st_t_footer",
+      "value": "الفوتر",
+      "variable": null
+    },
+    {
+      "type": "items",
+      "format": "dropdown-list",
+      "id": "footer_variant",
+      "label": "شكل الفوتر",
+      "icon": "sicon-keyboard_arrow_down",
+      "selected": [
+        {
+          "label": "كامل",
+          "value": "full",
+          "key": "d2ba91c6-1e1f-51be-bf53-5be8b9087373"
+        }
+      ],
+      "options": [
+        {
+          "label": "كامل",
+          "value": "full",
+          "key": "d2ba91c6-1e1f-51be-bf53-5be8b9087373"
+        },
+        {
+          "label": "مختصر",
+          "value": "minimal",
+          "key": "0478c800-dd19-53f2-8966-525959d9961a"
+        }
+      ],
+      "source": "Manual",
+      "multichoice": false,
+      "searchable": false,
+      "required": false
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "footer_cta",
+      "label": "إظهار قسم الدعوة الختامي",
+      "icon": "sicon-toggle-off",
+      "value": true,
+      "selected": true,
+      "required": false
+    },
+    {
+      "type": "string",
+      "format": "textarea",
+      "id": "footer_cta_title",
+      "label": "عنوان القسم الختامي",
+      "icon": "sicon-typography",
+      "multilanguage": true,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 120,
+      "placeholder": "تحكم كامل. تصميم متكامل. منزل أذكى."
+    },
+    {
+      "type": "string",
+      "format": "textarea",
+      "id": "footer_cta_text",
+      "label": "نص القسم الختامي",
+      "icon": "sicon-typography",
+      "multilanguage": true,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 240
+    },
+    {
+      "type": "string",
+      "format": "image",
+      "id": "footer_cta_image",
+      "label": "صورة خلفية القسم الختامي",
+      "icon": "sicon-image",
+      "value": null,
+      "required": false,
+      "settings": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "type": "string",
+      "format": "textarea",
+      "id": "footer_tagline",
+      "label": "سطر الهوية تحت الشعار",
+      "icon": "sicon-typography",
+      "multilanguage": true,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 160
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "footer_knx_card",
+      "label": "إظهار بطاقة «لديك مشروع KNX؟»",
+      "icon": "sicon-toggle-off",
+      "value": true,
+      "selected": true,
+      "required": false
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "footer_cr",
+      "label": "رقم السجل التجاري",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 30
+    },
+    {
+      "type": "string",
+      "format": "text",
+      "id": "footer_vat",
+      "label": "الرقم الضريبي",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": false,
+      "value": null,
+      "required": false,
+      "minLength": 0,
+      "maxLength": 30
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "footer_roof",
+      "label": "إظهار توقيع السقف في الفوتر",
+      "icon": "sicon-toggle-off",
+      "value": true,
+      "selected": true,
+      "required": false
+    },
+    {
+      "type": "string",
+      "format": "hidden",
+      "id": "placeholder",
+      "value": "images/placeholder.webp"
+    }
+  ],
+  "components": [
+    {
+      "key": "f974fee2-0bc5-50b8-9140-9e83bc5de2e2",
+      "title": {
+        "ar": "SMARTTRUST · الواجهة السينمائية",
+        "en": "SMARTTRUST · Cinematic hero"
+      },
+      "icon": "sicon-play",
+      "path": "home.hero-cinematic",
+      "fields": [
+        {
+          "type": "static",
+          "format": "description",
+          "id": "d",
+          "value": "فيديو بلا صوت يعمل في الخلفية بعد ظهور الصورة الثابتة. على الموبايل تُستخدم صورة الموبايل ويتوقف الفيديو عند توفير البيانات."
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "video_url",
+          "label": "رابط فيديو MP4 (ديسكتوب)",
+          "icon": "sicon-link",
+          "multilanguage": false,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 500,
+          "placeholder": "https://"
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "video_url_mobile",
+          "label": "رابط فيديو MP4 عمودي (موبايل، اختياري)",
+          "icon": "sicon-link",
+          "multilanguage": false,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 500,
+          "placeholder": "https://"
+        },
+        {
+          "type": "string",
+          "format": "image",
+          "id": "poster",
+          "label": "الصورة الثابتة (Poster) — ديسكتوب",
+          "icon": "sicon-image",
+          "value": null,
+          "required": false,
+          "settings": {
+            "width": 1920,
+            "height": 1080
+          }
+        },
+        {
+          "type": "string",
+          "format": "image",
+          "id": "poster_mobile",
+          "label": "الصورة الثابتة — موبايل",
+          "icon": "sicon-image",
+          "value": null,
+          "required": false,
+          "settings": {
+            "width": 900,
+            "height": 1600
+          }
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "eyebrow",
+          "label": "السطر العلوي",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60,
+          "placeholder": "KNX · ZIGBEE · CONTROL4"
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "title",
+          "label": "العنوان (سطر جديد لكل سطر)",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 80,
+          "placeholder": "منزلك\nيفهمك."
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "subtitle",
+          "label": "الوصف",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 200
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "cta_text",
+          "label": "نص الزر الأساسي",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 40
+        },
+        {
+          "type": "items",
+          "format": "variable-list",
+          "id": "cta_url",
+          "label": "رابط الزر الأساسي",
+          "icon": "sicon-link",
+          "required": false,
+          "searchable": true,
+          "source": "custom",
+          "selected": [],
+          "value": null,
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "صفحة",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "ماركة",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "مقالة",
+              "key": "blog_articles",
+              "value": "blog_articles"
+            },
+            {
+              "label": "تصنيف مدونة",
+              "key": "blog_categories",
+              "value": "blog_categories"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "المدونة",
+              "key": "blog_link",
+              "value": "blog_link"
+            },
+            {
+              "label": "رابط مخصص",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "cta2_text",
+          "label": "نص الزر الثانوي",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 40
+        },
+        {
+          "type": "items",
+          "format": "variable-list",
+          "id": "cta2_url",
+          "label": "رابط الزر الثانوي",
+          "icon": "sicon-link",
+          "required": false,
+          "searchable": true,
+          "source": "custom",
+          "selected": [],
+          "value": null,
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "صفحة",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "ماركة",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "مقالة",
+              "key": "blog_articles",
+              "value": "blog_articles"
+            },
+            {
+              "label": "تصنيف مدونة",
+              "key": "blog_categories",
+              "value": "blog_categories"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "المدونة",
+              "key": "blog_link",
+              "value": "blog_link"
+            },
+            {
+              "label": "رابط مخصص",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "type": "number",
+          "format": "integer",
+          "id": "overlay",
+          "label": "قوة التظليل (%)",
+          "icon": "sicon-hashtag",
+          "value": 55,
+          "required": false,
+          "minimum": 0,
+          "maximum": 90
+        },
+        {
+          "type": "boolean",
+          "format": "switch",
+          "id": "show_scroll",
+          "label": "إظهار مؤشر التمرير",
+          "icon": "sicon-toggle-off",
+          "value": true,
+          "selected": true,
+          "required": false
+        }
+      ]
+    },
+    {
+      "key": "b802be46-c33b-5b2d-96d2-1bec3179216f",
+      "title": {
+        "ar": "SMARTTRUST · إلهامنا ومن نحن",
+        "en": "SMARTTRUST · Inspiration & about"
+      },
+      "icon": "sicon-quote-open",
+      "path": "home.statement",
+      "fields": [
+        {
+          "type": "string",
+          "format": "text",
+          "id": "label",
+          "label": "التسمية",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60,
+          "placeholder": "إلهامنا"
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "title",
+          "label": "العنوان",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 120
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "text",
+          "label": "النص",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 500
+        },
+        {
+          "type": "string",
+          "format": "image",
+          "id": "image",
+          "label": "صورة عريضة (اختياري)",
+          "icon": "sicon-image",
+          "value": null,
+          "required": false,
+          "settings": {
+            "width": 1920,
+            "height": 820
+          }
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "about_label",
+          "label": "عنوان خانة «من نحن»",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 40,
+          "placeholder": "من نحن"
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "about_text",
+          "label": "النص التعريفي لسمارترست",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 600
+        },
+        {
+          "type": "items",
+          "format": "variable-list",
+          "id": "about_url",
+          "label": "رابط «اعرف المزيد» (اختياري)",
+          "icon": "sicon-link",
+          "required": false,
+          "searchable": true,
+          "source": "custom",
+          "selected": [],
+          "value": null,
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "صفحة",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "ماركة",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "مقالة",
+              "key": "blog_articles",
+              "value": "blog_articles"
+            },
+            {
+              "label": "تصنيف مدونة",
+              "key": "blog_categories",
+              "value": "blog_categories"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "المدونة",
+              "key": "blog_link",
+              "value": "blog_link"
+            },
+            {
+              "label": "رابط مخصص",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "type": "collection",
+          "format": "collection",
+          "id": "pillars",
+          "label": "الخدمات",
+          "item_label": "خدمة",
+          "icon": "sicon-list",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 4,
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "format": "text",
+              "id": "pillars.title",
+              "label": "العنوان",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 60
+            },
+            {
+              "type": "string",
+              "format": "textarea",
+              "id": "pillars.text",
+              "label": "الوصف",
+              "icon": "sicon-typography",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 200
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "82d69f01-8283-5f26-b923-b14348c11b78",
+      "title": {
+        "ar": "SMARTTRUST · قصة المنتج العائم",
+        "en": "SMARTTRUST · Floating product story"
+      },
+      "icon": "sicon-layers",
+      "path": "home.floating-story",
+      "fields": [
+        {
+          "type": "static",
+          "format": "description",
+          "id": "d",
+          "value": "قسم تمرير مثبّت: المنتج يطفو في المنتصف وتتبدل النصوص مع التمرير. استخدم صور منتجات مفرغة الخلفية (PNG/WebP شفاف)."
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "label",
+          "label": "التسمية",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60,
+          "placeholder": "CONTROL EVERY DETAIL"
+        },
+        {
+          "type": "string",
+          "format": "image",
+          "id": "background",
+          "label": "صورة الخلفية",
+          "icon": "sicon-image",
+          "value": null,
+          "required": false,
+          "settings": {
+            "width": 1920,
+            "height": 1080
+          }
+        },
+        {
+          "type": "collection",
+          "format": "collection",
+          "id": "steps",
+          "label": "المراحل",
+          "item_label": "مرحلة",
+          "icon": "sicon-list",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 5,
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "format": "text",
+              "id": "steps.tag",
+              "label": "رمز صغير",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 40,
+              "placeholder": "3-GANG · KNX"
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "steps.title",
+              "label": "العنوان",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 80
+            },
+            {
+              "type": "string",
+              "format": "textarea",
+              "id": "steps.text",
+              "label": "النص",
+              "icon": "sicon-typography",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 240
+            },
+            {
+              "type": "string",
+              "format": "image",
+              "id": "steps.image",
+              "label": "صورة المنتج (مفرغة)",
+              "icon": "sicon-image",
+              "value": null,
+              "required": false,
+              "settings": {
+                "width": 900,
+                "height": 900
+              }
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "steps.cta",
+              "label": "نص الرابط",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 40
+            },
+            {
+              "type": "items",
+              "format": "variable-list",
+              "id": "steps.url",
+              "label": "الرابط",
+              "icon": "sicon-link",
+              "required": false,
+              "searchable": true,
+              "source": "custom",
+              "selected": [],
+              "value": null,
+              "sources": [
+                {
+                  "label": "منتج",
+                  "key": "products",
+                  "value": "products"
+                },
+                {
+                  "label": "تصنيف",
+                  "key": "categories",
+                  "value": "categories"
+                },
+                {
+                  "label": "صفحة",
+                  "key": "pages",
+                  "value": "pages"
+                },
+                {
+                  "label": "ماركة",
+                  "key": "brands",
+                  "value": "brands"
+                },
+                {
+                  "label": "مقالة",
+                  "key": "blog_articles",
+                  "value": "blog_articles"
+                },
+                {
+                  "label": "تصنيف مدونة",
+                  "key": "blog_categories",
+                  "value": "blog_categories"
+                },
+                {
+                  "label": "التخفيضات",
+                  "key": "offers_link",
+                  "value": "offers_link"
+                },
+                {
+                  "label": "المدونة",
+                  "key": "blog_link",
+                  "value": "blog_link"
+                },
+                {
+                  "label": "رابط مخصص",
+                  "key": "custom",
+                  "value": "custom"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "47b14d41-25bc-52a0-b345-7fb8ba84d087",
+      "title": {
+        "ar": "SMARTTRUST · منتجات مختارة",
+        "en": "SMARTTRUST · Featured products"
+      },
+      "icon": "sicon-box-bankers",
+      "path": "home.featured-products",
+      "fields": [
+        {
+          "type": "string",
+          "format": "text",
+          "id": "label",
+          "label": "التسمية",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "title",
+          "label": "العنوان",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 80
+        },
+        {
+          "type": "items",
+          "format": "dropdown-list",
+          "id": "source",
+          "label": "مصدر المنتجات",
+          "icon": "sicon-keyboard_arrow_down",
+          "selected": [
+            {
+              "label": "أحدث المنتجات",
+              "value": "latest",
+              "key": "a9f430a0-16b0-542a-a27c-33167e7664b8"
+            }
+          ],
+          "options": [
+            {
+              "label": "أحدث المنتجات",
+              "value": "latest",
+              "key": "a9f430a0-16b0-542a-a27c-33167e7664b8"
+            },
+            {
+              "label": "تصنيف",
+              "value": "categories",
+              "key": "1a071feb-7e5b-5cec-b960-f38d90b17ce6"
+            },
+            {
+              "label": "منتجات محددة",
+              "value": "selected",
+              "key": "e3818771-2f5d-5346-9abe-80a77a3d6733"
+            },
+            {
+              "label": "التخفيضات",
+              "value": "offers",
+              "key": "e85776d1-59fd-57fd-a85b-309b707c9cb0"
+            }
+          ],
+          "source": "Manual",
+          "multichoice": false,
+          "searchable": false,
+          "required": false
+        },
+        {
+          "type": "items",
+          "format": "dropdown-list",
+          "id": "category",
+          "label": "التصنيف",
+          "icon": "sicon-list",
+          "selected": [],
+          "options": [],
+          "source": "categories",
+          "multichoice": false,
+          "searchable": true,
+          "required": false,
+          "conditions": [
+            {
+              "id": "source",
+              "operation": "=",
+              "value": "categories"
+            }
+          ]
+        },
+        {
+          "type": "items",
+          "format": "dropdown-list",
+          "id": "products",
+          "label": "المنتجات",
+          "icon": "sicon-box",
+          "selected": [],
+          "options": [],
+          "source": "products",
+          "multichoice": true,
+          "searchable": true,
+          "required": false,
+          "maxLength": 12,
+          "conditions": [
+            {
+              "id": "source",
+              "operation": "=",
+              "value": "selected"
+            }
+          ]
+        },
+        {
+          "type": "number",
+          "format": "integer",
+          "id": "limit",
+          "label": "عدد المنتجات",
+          "icon": "sicon-hashtag",
+          "value": 8,
+          "required": false,
+          "minimum": 2,
+          "maximum": 16
+        },
+        {
+          "type": "items",
+          "format": "dropdown-list",
+          "id": "layout",
+          "label": "طريقة العرض",
+          "icon": "sicon-keyboard_arrow_down",
+          "selected": [
+            {
+              "label": "شبكة",
+              "value": "grid",
+              "key": "3994b3de-aa38-5783-88cf-8d45e59e1a91"
+            }
+          ],
+          "options": [
+            {
+              "label": "شبكة",
+              "value": "grid",
+              "key": "3994b3de-aa38-5783-88cf-8d45e59e1a91"
+            },
+            {
+              "label": "شريط أفقي",
+              "value": "slider",
+              "key": "79b3008d-81c7-5cb0-824e-e184d029a6b5"
+            }
+          ],
+          "source": "Manual",
+          "multichoice": false,
+          "searchable": false,
+          "required": false
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "more_text",
+          "label": "نص «عرض الكل»",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 40
+        },
+        {
+          "type": "items",
+          "format": "variable-list",
+          "id": "more_url",
+          "label": "رابط «عرض الكل»",
+          "icon": "sicon-link",
+          "required": false,
+          "searchable": true,
+          "source": "custom",
+          "selected": [],
+          "value": null,
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "صفحة",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "ماركة",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "مقالة",
+              "key": "blog_articles",
+              "value": "blog_articles"
+            },
+            {
+              "label": "تصنيف مدونة",
+              "key": "blog_categories",
+              "value": "blog_categories"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "المدونة",
+              "key": "blog_link",
+              "value": "blog_link"
+            },
+            {
+              "label": "رابط مخصص",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "cc8550e4-c7b2-52d1-b090-86e96879f883",
+      "title": {
+        "ar": "SMARTTRUST · الأنظمة",
+        "en": "SMARTTRUST · Systems"
+      },
+      "icon": "sicon-grid",
+      "path": "home.systems-showcase",
+      "fields": [
+        {
+          "type": "string",
+          "format": "text",
+          "id": "label",
+          "label": "التسمية",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "title",
+          "label": "العنوان",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "text",
+          "label": "النص",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 300
+        },
+        {
+          "type": "collection",
+          "format": "collection",
+          "id": "systems",
+          "label": "الأنظمة",
+          "item_label": "نظام",
+          "icon": "sicon-list",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 4,
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "format": "text",
+              "id": "systems.name",
+              "label": "اسم النظام",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 30,
+              "placeholder": "KNX"
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "systems.tagline",
+              "label": "الوصف القصير",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 80
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "systems.meta",
+              "label": "سطر تقني",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 100
+            },
+            {
+              "type": "string",
+              "format": "image",
+              "id": "systems.image",
+              "label": "الصورة",
+              "icon": "sicon-image",
+              "value": null,
+              "required": false,
+              "settings": {
+                "width": 1200,
+                "height": 1500
+              }
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "systems.cta",
+              "label": "نص الرابط",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 40
+            },
+            {
+              "type": "items",
+              "format": "variable-list",
+              "id": "systems.url",
+              "label": "الرابط",
+              "icon": "sicon-link",
+              "required": false,
+              "searchable": true,
+              "source": "custom",
+              "selected": [],
+              "value": null,
+              "sources": [
+                {
+                  "label": "منتج",
+                  "key": "products",
+                  "value": "products"
+                },
+                {
+                  "label": "تصنيف",
+                  "key": "categories",
+                  "value": "categories"
+                },
+                {
+                  "label": "صفحة",
+                  "key": "pages",
+                  "value": "pages"
+                },
+                {
+                  "label": "ماركة",
+                  "key": "brands",
+                  "value": "brands"
+                },
+                {
+                  "label": "مقالة",
+                  "key": "blog_articles",
+                  "value": "blog_articles"
+                },
+                {
+                  "label": "تصنيف مدونة",
+                  "key": "blog_categories",
+                  "value": "blog_categories"
+                },
+                {
+                  "label": "التخفيضات",
+                  "key": "offers_link",
+                  "value": "offers_link"
+                },
+                {
+                  "label": "المدونة",
+                  "key": "blog_link",
+                  "value": "blog_link"
+                },
+                {
+                  "label": "رابط مخصص",
+                  "key": "custom",
+                  "value": "custom"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "9412e2a5-2132-5156-9693-92872133ac03",
+      "title": {
+        "ar": "SMARTTRUST · المشاهد الذكية",
+        "en": "SMARTTRUST · Smart scenes"
+      },
+      "icon": "sicon-magic-wand",
+      "path": "home.smart-scenes",
+      "fields": [
+        {
+          "type": "string",
+          "format": "text",
+          "id": "label",
+          "label": "التسمية",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "title",
+          "label": "العنوان",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "collection",
+          "format": "collection",
+          "id": "scenes",
+          "label": "المشاهد",
+          "item_label": "مشهد",
+          "icon": "sicon-list",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 6,
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "format": "text",
+              "id": "scenes.name",
+              "label": "اسم المشهد",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 40
+            },
+            {
+              "type": "string",
+              "format": "image",
+              "id": "scenes.image",
+              "label": "صورة المشهد",
+              "icon": "sicon-image",
+              "value": null,
+              "required": false,
+              "settings": {
+                "width": 1920,
+                "height": 1080
+              }
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "scenes.lighting",
+              "label": "الإضاءة",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 30
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "scenes.curtains",
+              "label": "الستائر",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 30
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "scenes.climate",
+              "label": "التكييف",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 30
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "scenes.media",
+              "label": "الوسائط",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 30
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "scenes.security",
+              "label": "الأمان",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 30
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "b29eb438-9474-58b4-a99d-3647ebc2e025",
+      "title": {
+        "ar": "SMARTTRUST · مسيرة سمارترست",
+        "en": "SMARTTRUST · Journey & projects map"
+      },
+      "icon": "sicon-building",
+      "path": "home.projects-showcase",
+      "fields": [
+        {
+          "type": "string",
+          "format": "text",
+          "id": "label",
+          "label": "التسمية",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "title",
+          "label": "العنوان",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 100,
+          "placeholder": "مسيرة سمارترست"
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "text",
+          "label": "النص",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 240
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "more_text",
+          "label": "نص «كل المشاريع»",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 40
+        },
+        {
+          "type": "items",
+          "format": "variable-list",
+          "id": "more_url",
+          "label": "رابط «كل المشاريع»",
+          "icon": "sicon-link",
+          "required": false,
+          "searchable": true,
+          "source": "custom",
+          "selected": [],
+          "value": null,
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "صفحة",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "ماركة",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "مقالة",
+              "key": "blog_articles",
+              "value": "blog_articles"
+            },
+            {
+              "label": "تصنيف مدونة",
+              "key": "blog_categories",
+              "value": "blog_categories"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "المدونة",
+              "key": "blog_link",
+              "value": "blog_link"
+            },
+            {
+              "label": "رابط مخصص",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "type": "static",
+          "format": "description",
+          "id": "d_map",
+          "value": "أضف كل مشروع كعنصر مستقل واكتب اسم المدينة بالعربية (مثل: الخبر، القطيف، الرياض). إحداثيات المدن السعودية الرئيسية مدمجة في الثيم؛ خط العرض والطول مطلوبان فقط لمدينة غير مدرجة."
+        },
+        {
+          "type": "collection",
+          "format": "collection",
+          "id": "locations",
+          "label": "مشاريع على الخريطة",
+          "item_label": "مشروع",
+          "icon": "sicon-list",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60,
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "format": "text",
+              "id": "locations.city",
+              "label": "المدينة",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": false,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 40
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "locations.title",
+              "label": "اسم المشروع",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 80
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "locations.system",
+              "label": "النظام",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": false,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 40
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "locations.lat",
+              "label": "خط العرض (اختياري)",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": false,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 12
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "locations.lng",
+              "label": "خط الطول (اختياري)",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": false,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 12
+            },
+            {
+              "type": "items",
+              "format": "variable-list",
+              "id": "locations.url",
+              "label": "رابط المشروع",
+              "icon": "sicon-link",
+              "required": false,
+              "searchable": true,
+              "source": "custom",
+              "selected": [],
+              "value": null,
+              "sources": [
+                {
+                  "label": "منتج",
+                  "key": "products",
+                  "value": "products"
+                },
+                {
+                  "label": "تصنيف",
+                  "key": "categories",
+                  "value": "categories"
+                },
+                {
+                  "label": "صفحة",
+                  "key": "pages",
+                  "value": "pages"
+                },
+                {
+                  "label": "ماركة",
+                  "key": "brands",
+                  "value": "brands"
+                },
+                {
+                  "label": "مقالة",
+                  "key": "blog_articles",
+                  "value": "blog_articles"
+                },
+                {
+                  "label": "تصنيف مدونة",
+                  "key": "blog_categories",
+                  "value": "blog_categories"
+                },
+                {
+                  "label": "التخفيضات",
+                  "key": "offers_link",
+                  "value": "offers_link"
+                },
+                {
+                  "label": "المدونة",
+                  "key": "blog_link",
+                  "value": "blog_link"
+                },
+                {
+                  "label": "رابط مخصص",
+                  "key": "custom",
+                  "value": "custom"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "collection",
+          "format": "collection",
+          "id": "projects",
+          "label": "بطاقات الصور (أول بطاقتين)",
+          "item_label": "بطاقة",
+          "icon": "sicon-list",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 2,
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "format": "image",
+              "id": "projects.image",
+              "label": "الصورة",
+              "icon": "sicon-image",
+              "value": null,
+              "required": false,
+              "settings": {
+                "width": 1200,
+                "height": 1500
+              }
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "projects.title",
+              "label": "العنوان",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 80
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "projects.system",
+              "label": "وسم صغير",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 60
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "projects.scope",
+              "label": "وصف قصير",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 120
+            },
+            {
+              "type": "items",
+              "format": "variable-list",
+              "id": "projects.url",
+              "label": "الرابط",
+              "icon": "sicon-link",
+              "required": false,
+              "searchable": true,
+              "source": "custom",
+              "selected": [],
+              "value": null,
+              "sources": [
+                {
+                  "label": "منتج",
+                  "key": "products",
+                  "value": "products"
+                },
+                {
+                  "label": "تصنيف",
+                  "key": "categories",
+                  "value": "categories"
+                },
+                {
+                  "label": "صفحة",
+                  "key": "pages",
+                  "value": "pages"
+                },
+                {
+                  "label": "ماركة",
+                  "key": "brands",
+                  "value": "brands"
+                },
+                {
+                  "label": "مقالة",
+                  "key": "blog_articles",
+                  "value": "blog_articles"
+                },
+                {
+                  "label": "تصنيف مدونة",
+                  "key": "blog_categories",
+                  "value": "blog_categories"
+                },
+                {
+                  "label": "التخفيضات",
+                  "key": "offers_link",
+                  "value": "offers_link"
+                },
+                {
+                  "label": "المدونة",
+                  "key": "blog_link",
+                  "value": "blog_link"
+                },
+                {
+                  "label": "رابط مخصص",
+                  "key": "custom",
+                  "value": "custom"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "format": "switch",
+          "id": "show_dimmer",
+          "label": "إظهار بطاقة الديمر التفاعلي",
+          "icon": "sicon-toggle-off",
+          "value": true,
+          "selected": true,
+          "required": false
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "dimmer_title",
+          "label": "عنوان بطاقة الديمر",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60
+        },
+        {
+          "type": "string",
+          "format": "image",
+          "id": "dimmer_room",
+          "label": "صورة الغرفة للديمر",
+          "icon": "sicon-image",
+          "value": null,
+          "required": false,
+          "settings": {
+            "width": 1200,
+            "height": 1500
+          }
+        },
+        {
+          "type": "string",
+          "format": "image",
+          "id": "dimmer_image",
+          "label": "صورة الديمر المفرغة",
+          "icon": "sicon-image",
+          "value": null,
+          "required": false,
+          "settings": {
+            "width": 900,
+            "height": 900
+          }
+        }
+      ]
+    },
+    {
+      "key": "e0d5bd4a-3339-584e-9302-e9df634e459a",
+      "title": {
+        "ar": "SMARTTRUST · طلب نظام KNX",
+        "en": "SMARTTRUST · KNX request"
+      },
+      "icon": "sicon-send",
+      "path": "home.knx-request",
+      "fields": [
+        {
+          "type": "static",
+          "format": "description",
+          "id": "d",
+          "value": "يعرض مربع واتساب مختصرًا أو النموذج الكامل حسب إعداد «قسم طلب نظام KNX» العام."
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "label",
+          "label": "التسمية",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "title",
+          "label": "العنوان",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 120,
+          "placeholder": "مخطط بيتك جاهز؟"
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "subtitle",
+          "label": "النص تحت العنوان",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 160,
+          "placeholder": "خلنا نبدأ رحلة التحول"
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "box_title",
+          "label": "عنوان المربع",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 120,
+          "placeholder": "التقنية تبدأ من التخطيط"
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "box_text",
+          "label": "نص المربع",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 240
+        },
+        {
+          "type": "collection",
+          "format": "collection",
+          "id": "steps",
+          "label": "خطوات الشرح",
+          "item_label": "خطوة",
+          "icon": "sicon-list",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 3,
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "format": "text",
+              "id": "steps.title",
+              "label": "العنوان",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 60
+            },
+            {
+              "type": "string",
+              "format": "textarea",
+              "id": "steps.text",
+              "label": "النص",
+              "icon": "sicon-typography",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 160
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "9e1559c6-3c7a-5eea-83e3-859c0b843821",
+      "title": {
+        "ar": "SMARTTRUST · لماذا نحن",
+        "en": "SMARTTRUST · Why us"
+      },
+      "icon": "sicon-shield-check",
+      "path": "home.trust",
+      "fields": [
+        {
+          "type": "collection",
+          "format": "collection",
+          "id": "items",
+          "label": "النقاط",
+          "item_label": "نقطة",
+          "icon": "sicon-list",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 4,
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "format": "text",
+              "id": "items.title",
+              "label": "العنوان",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 60
+            },
+            {
+              "type": "string",
+              "format": "textarea",
+              "id": "items.text",
+              "label": "النص",
+              "icon": "sicon-typography",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 200
+            }
+          ]
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "logos_label",
+          "label": "عنوان الشعارات",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60
+        },
+        {
+          "type": "collection",
+          "format": "collection",
+          "id": "logos",
+          "label": "شعارات متوافقة",
+          "item_label": "شعار",
+          "icon": "sicon-list",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 8,
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "format": "image",
+              "id": "logos.image",
+              "label": "الشعار",
+              "icon": "sicon-image",
+              "value": null,
+              "required": false,
+              "settings": {
+                "width": 320,
+                "height": 120
+              }
+            },
+            {
+              "type": "string",
+              "format": "text",
+              "id": "logos.name",
+              "label": "الاسم",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": false,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 40
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "c420b7e8-2822-5482-950a-6b1f7dfcf9b5",
+      "title": {
+        "ar": "SMARTTRUST · الأسئلة الشائعة",
+        "en": "SMARTTRUST · FAQ"
+      },
+      "icon": "sicon-help",
+      "path": "home.faq",
+      "fields": [
+        {
+          "type": "string",
+          "format": "text",
+          "id": "label",
+          "label": "التسمية",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 60
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "title",
+          "label": "العنوان",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 80
+        },
+        {
+          "type": "collection",
+          "format": "collection",
+          "id": "items",
+          "label": "الأسئلة",
+          "item_label": "سؤال",
+          "icon": "sicon-list",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 12,
+          "value": [],
+          "fields": [
+            {
+              "type": "string",
+              "format": "text",
+              "id": "items.question",
+              "label": "السؤال",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 160
+            },
+            {
+              "type": "string",
+              "format": "textarea",
+              "id": "items.answer",
+              "label": "الإجابة",
+              "icon": "sicon-typography",
+              "multilanguage": true,
+              "value": null,
+              "required": false,
+              "minLength": 0,
+              "maxLength": 800
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "98441f47-b48c-5afe-ad3c-3b0caf18a8e4",
+      "title": {
+        "ar": "SMARTTRUST · شريط دعوة",
+        "en": "SMARTTRUST · CTA band"
+      },
+      "icon": "sicon-megaphone",
+      "path": "home.cta-band",
+      "fields": [
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "title",
+          "label": "العنوان",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "text",
+          "label": "النص",
+          "icon": "sicon-typography",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 200
+        },
+        {
+          "type": "string",
+          "format": "image",
+          "id": "image",
+          "label": "صورة الخلفية",
+          "icon": "sicon-image",
+          "value": null,
+          "required": false,
+          "settings": {
+            "width": 1920,
+            "height": 1080
+          }
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "cta_text",
+          "label": "نص الزر",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 40
+        },
+        {
+          "type": "items",
+          "format": "variable-list",
+          "id": "cta_url",
+          "label": "رابط الزر",
+          "icon": "sicon-link",
+          "required": false,
+          "searchable": true,
+          "source": "custom",
+          "selected": [],
+          "value": null,
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "صفحة",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "ماركة",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "مقالة",
+              "key": "blog_articles",
+              "value": "blog_articles"
+            },
+            {
+              "label": "تصنيف مدونة",
+              "key": "blog_categories",
+              "value": "blog_categories"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "المدونة",
+              "key": "blog_link",
+              "value": "blog_link"
+            },
+            {
+              "label": "رابط مخصص",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "cta2_text",
+          "label": "نص الزر الثانوي",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "value": null,
+          "required": false,
+          "minLength": 0,
+          "maxLength": 40
+        },
+        {
+          "type": "items",
+          "format": "variable-list",
+          "id": "cta2_url",
+          "label": "رابط الزر الثانوي",
+          "icon": "sicon-link",
+          "required": false,
+          "searchable": true,
+          "source": "custom",
+          "selected": [],
+          "value": null,
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "صفحة",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "ماركة",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "مقالة",
+              "key": "blog_articles",
+              "value": "blog_articles"
+            },
+            {
+              "label": "تصنيف مدونة",
+              "key": "blog_categories",
+              "value": "blog_categories"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "المدونة",
+              "key": "blog_link",
+              "value": "blog_link"
+            },
+            {
+              "label": "رابط مخصص",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

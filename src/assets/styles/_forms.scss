@@ -1,0 +1,50 @@
+/*------------------------------------------------------------------------
+ *  FORMS — underline fields, 50px
+ *------------------------------------------------------------------------*/
+.st-field { display: flex; flex-direction: column; gap: 10px; }
+.st-field > label, .st-field__label { font-size: 13px; color: var(--st-text-3); }
+.st-input, .st-field input:not([type='checkbox']):not([type='radio']):not([type='file']), .st-field select, .st-field textarea {
+  width: 100%; height: 50px; padding: 0; box-sizing: border-box;
+  border: 0; border-bottom: 1px solid #A39D94; border-radius: 0; background: transparent;
+  font: inherit; font-size: 16px; color: var(--st-text); box-shadow: none;
+  transition: border-color var(--st-dur-fast) var(--st-ease);
+  &:focus { outline: none; box-shadow: none; border-bottom: 2px solid var(--st-text); }
+  &::placeholder { color: var(--st-text-3); }
+}
+.st-field textarea { height: 110px; resize: vertical; padding-top: 10px; }
+.st-field select { background-position: left 0 center; padding-inline-end: 24px; }
+.st-field.is-invalid { label { color: var(--st-error); } input, select, textarea { border-bottom-color: var(--st-error); } }
+.st-field__error { font-size: 12.5px; color: var(--st-error); }
+
+.st-segment { display: flex; flex-wrap: wrap; gap: 0; }
+.st-segment input { position: absolute; opacity: 0; pointer-events: none; }
+.st-segment label {
+  height: 44px; padding: 0 16px; display: flex; align-items: center; font-size: 14px; cursor: pointer;
+  border: 1px solid var(--st-line-2); margin-inline-end: -1px; transition: all var(--st-dur-fast) var(--st-ease);
+}
+.st-segment input:checked + label { background: var(--st-text); color: var(--st-ivory); border-color: var(--st-text); position: relative; z-index: 1; }
+.st-segment input:focus-visible + label { outline: 2px solid var(--st-focus); outline-offset: 2px; }
+
+.st-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 767px) { .st-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.st-tile { position: relative; }
+.st-tile input { position: absolute; opacity: 0; pointer-events: none; }
+.st-tile label {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 18px; height: 84px; padding: 12px 14px; box-sizing: border-box;
+  border: 1px solid var(--st-line-2); cursor: pointer; font-size: 15px; transition: all var(--st-dur-fast) var(--st-ease);
+  .st-mono { font-size: 9.5px; color: var(--st-text-3); letter-spacing: .14em; }
+}
+.st-tile label:hover { border-color: var(--st-text); }
+.st-tile input:checked + label { background: var(--st-text); color: var(--st-ivory); border-color: var(--st-text); .st-mono { color: var(--st-stone-500); } }
+.st-tile input:focus-visible + label { outline: 2px solid var(--st-focus); outline-offset: 2px; }
+
+.st-check { display: inline-flex; align-items: center; gap: 12px; cursor: pointer; font-size: 15px; }
+.st-check input { width: 18px; height: 18px; border-radius: var(--st-radius-1); border-color: #A39D94; color: var(--st-text); }
+
+.st-upload {
+  display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 84px; padding: 12px 16px;
+  border: 1px dashed #A39D94; cursor: pointer; font-size: 14px; text-align: center; transition: border-color var(--st-dur-fast) var(--st-ease);
+  &:hover, &.is-drag { border-color: var(--st-text); }
+  &.has-file { border-style: solid; border-color: var(--st-text); justify-content: space-between; }
+  input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+}

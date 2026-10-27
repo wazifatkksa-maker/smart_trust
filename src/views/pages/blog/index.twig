@@ -1,0 +1,43 @@
+{#
+| articles           | Article[] (paginated: articles.next_page) |
+| categories[]       | {is_current, name, url}                   |
+| Used for the blog and for "Projects" (a blog category named Projects) |
+#}
+{% extends "layouts.master" %}
+{% block content %}
+    <section class="st-page-hero st-page-hero--plain">
+        <div class="st-container st-page-hero__inner">
+            <salla-breadcrumb></salla-breadcrumb>
+            <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>Journal · Projects</span>
+            <h1 class="st-display">{{ page.title }}</h1>
+        </div>
+    </section>
+    <div class="st-container" style="padding-bottom:var(--st-section)">
+        {% if categories is defined and categories|length %}
+            <nav class="st-subcats" style="margin:0 0 48px" aria-label="{{ trans('blocks.blog.categories') }}">
+                {% for cat in categories %}<a class="st-chip {{ cat.is_current ? 'is-active' : '' }}" href="{{ cat.url }}" {{ cat.is_current ? 'aria-current="page"' : '' }}>{{ cat.name }}</a>{% endfor %}
+            </nav>
+        {% endif %}
+        {% hook 'blog:index.items.start' %}
+        {% if articles|length %}
+            <div class="st-posts">
+                {% for a in articles %}
+                    <a class="st-post {{ loop.first ? 'st-post--lead' : '' }}" href="{{ a.url }}" data-reveal style="--i:{{ loop.index0 % 3 }}">
+                        <div class="st-media">{% if a.image and a.image.url %}<img class="st-cover" src="{{ a.image.url }}" alt="{{ a.image.alt|default('') }}" loading="{{ loop.first ? 'eager' : 'lazy' }}" width="800" height="600">{% endif %}</div>
+                        <div class="st-post__body" style="display:flex;flex-direction:column;gap:10px">
+                            <span class="st-post__m">{{ a.created_at|date('Y · m · d') }}</span>
+                            <h2 class="st-post__t">{{ a.title }}</h2>
+                            {% if loop.first and a.summary is defined and a.summary %}<p class="st-lead">{{ a.summary }}</p>{% endif %}
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            {% if articles.next_page %}
+                <div style="display:flex;justify-content:center;margin-top:64px"><a class="st-btn st-btn--outline" href="{{ articles.next_page }}">{{ trans('blocks.blog.more') }}</a></div>
+            {% endif %}
+        {% else %}
+            <div class="st-empty"><p class="st-lead">{{ trans('blocks.blog.empty') }}</p></div>
+        {% endif %}
+        {% hook 'blog:index.items.end' %}
+    </div>
+{% endblock %}

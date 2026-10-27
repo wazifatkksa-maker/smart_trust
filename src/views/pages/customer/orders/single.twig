@@ -1,0 +1,45 @@
+{#
+| order | Order | id, reference_id, created_at, status{name,color}, items[]{name,image,price,quantity,total,options[]},
+|       |       | sub_total, total, shipping{name,cost}, tax{amount}, discounts[], links[]{url,label} |
+#}
+{% extends "layouts.customer" %}
+{% block inner_title %}{{ trans('blocks.account.order') }} <span class="st-mono">#{{ order.reference_id ?? order.id }}</span>{% endblock %}
+{% block inner_content %}
+    <div class="st-panel" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+        <span class="st-status" style="--c: {{ order.status.color|default('#161616') }}"><i aria-hidden="true"></i>{{ order.status.name }}</span>
+        <span class="st-mono st-muted" style="font-size:12px">{{ order.created_at|date('Y-m-d') }}</span>
+    </div>
+    {% hook 'customer:orders.single.details.start' %}
+    <div class="st-order-items">
+        {% for item in order.items|default([]) %}
+            <div class="st-order-item">
+                <div class="st-plate"><img src="{{ item.image }}" alt="" loading="lazy" width="88" height="88"></div>
+                <div style="display:flex;flex-direction:column;gap:4px">
+                    <span style="font-weight:500">{{ item.name }}</span>
+                    <span class="st-small st-muted">{{ item.price|money }} × {{ item.quantity }}</span>
+                    {% for op in item.options|default([]) %}<span class="st-small st-muted">{{ op.name }}: {{ op.value }}</span>{% endfor %}
+                </div>
+                <span>{{ item.total|money }}</span>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="st-summary">
+        <dl class="st-summary__rows">
+            <div><dt>{{ trans('blocks.cart.subtotal') }}</dt><dd>{{ order.sub_total|money }}</dd></div>
+            {% for d in order.discounts|default([]) %}<div class="is-discount"><dt>{{ d.name }}</dt><dd>− {{ d.discount|money }}</dd></div>{% endfor %}
+            {% if order.shipping and order.shipping.cost %}<div><dt>{{ order.shipping.name|default(trans('blocks.cart.shipping')) }}</dt><dd>{{ order.shipping.cost|money }}</dd></div>{% endif %}
+            {% if order.cod_cost %}<div><dt>{{ trans('blocks.cart.cod') }}</dt><dd>{{ order.cod_cost|money }}</dd></div>{% endif %}
+            {% if order.tax and order.tax.amount %}<div><dt>{{ trans('blocks.cart.tax') }}</dt><dd>{{ order.tax.amount|money }}</dd></div>{% endif %}
+        </dl>
+        <div class="st-summary__total"><span>{{ trans('blocks.cart.total') }}</span><b>{{ order.total|money }}</b></div>
+        {% if order.links|default([])|length %}
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+                {% for l in order.links %}<a class="st-btn st-btn--outline st-btn--sm" href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }}</a>{% endfor %}
+            </div>
+        {% endif %}
+        {% if order.is_pending_payment and order.payment_url %}
+            <a class="st-btn" href="{{ order.payment_url }}">{{ trans('blocks.account.pay_now') }}</a>
+        {% endif %}
+    </div>
+    {% hook 'customer:orders.single.details.end' %}
+{% endblock %}

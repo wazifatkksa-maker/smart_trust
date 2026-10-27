@@ -1,0 +1,64 @@
+/*------------------------------------------------------------------------
+ *  TOKENS — every value in the design system is one CSS variable (--st-*)
+ *------------------------------------------------------------------------*/
+:root {
+  --st-ink: #111214;
+  --st-night: #0B0C0D;
+  --st-graphite: #1C1D20;
+  --st-line-dark: #26272A;
+  --st-stone-500: #8C877F;
+
+  --st-ivory: #F4F1EB;
+  --st-paper: #FAF8F4;
+  --st-sand: #EDE8E0;
+  --st-travertine: #DDD3C3;
+  --st-line: #DDD6CA;
+  --st-line-2: #CFC7BA;
+
+  --st-text: #161616;
+  --st-text-2: #4E4A44;
+  --st-text-3: #77716A;
+  --st-on-dark: #F1EDE6;
+  --st-on-dark-2: #C9C3B9;
+  --st-signal: #E3D24A;        /* on dark only, ≤ 2% of any screen */
+  --st-signal-ink: #6F6417;    /* gold text on light — 5.1:1 */
+  --st-focus: #8A7A1E;
+  --st-error: #A5482A;
+  --st-success: #3F6B4E;
+
+  --st-font: 'IBM Plex Sans Arabic', var(--font-main, Tahoma), Tahoma, sans-serif;
+  --st-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --st-radius-0: 0;
+  --st-radius-1: 2px;
+  --st-radius-sheet: 14px;
+
+  --st-container: 1312px;
+  --st-gutter: 24px;
+  --st-margin: 64px;
+  --st-header-h: 88px;
+
+  --st-space-1: 4px;  --st-space-2: 8px;  --st-space-3: 12px; --st-space-4: 16px;
+  --st-space-5: 24px; --st-space-6: 32px; --st-space-7: 48px; --st-space-8: 64px;
+  --st-space-9: 96px; --st-space-10: 140px;
+  --st-section: 128px;
+
+  --st-shadow-float: drop-shadow(0 34px 30px rgba(40, 30, 18, .3)) drop-shadow(0 3px 4px rgba(40, 30, 18, .16));
+  --st-plate: radial-gradient(ellipse 60% 55% at 50% 42%, #F9F7F2 0%, #EAE4DB 75%);
+  --st-plate-dark: radial-gradient(ellipse 60% 55% at 50% 42%, #2E2F32 0%, #16171A 78%);
+
+  --st-ease: cubic-bezier(.2, .7, .2, 1);
+  --st-dur-fast: 200ms;
+  --st-dur-base: 350ms;
+  --st-dur-slow: 700ms;
+}
+
+@media (max-width: 1279px) { :root { --st-margin: 48px; } }
+@media (max-width: 1023px) { :root { --st-margin: 40px; --st-section: 96px; } }
+@media (max-width: 767px)  { :root { --st-margin: 20px; --st-gutter: 12px; --st-header-h: 64px; --st-section: 64px; } }
+
+body.st-store-font { --st-font: var(--font-main), Tahoma, sans-serif; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --st-dur-base: 0ms; --st-dur-slow: 0ms; }
+}

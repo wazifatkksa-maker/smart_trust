@@ -1,0 +1,9 @@
+{% extends "layouts.customer" %}
+{% block inner_title %}{{ trans('blocks.account.wishlist') }}{% endblock %}
+{% block inner_content %}
+    {% hook 'customer:wishlist.items.start' %}
+    <div class="st-products st-products--3">
+        <salla-products-list source="wishlist"></salla-products-list>
+    </div>
+    {% hook 'customer:wishlist.items.end' %}
+{% endblock %}

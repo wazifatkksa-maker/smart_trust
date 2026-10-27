@@ -1,0 +1,175 @@
+{#
+| component.label / title / text   | ?string |
+| component.more_text / more_url   | ?string / variable-list |
+| component.locations[]            | city, title, system, lat, lng, url — pins on the Saudi map |
+| component.projects[]             | image, title, system, scope, url — first two image cards  |
+| component.show_dimmer            | bool    | interactive dimmer card                          |
+| component.dimmer_title / dimmer_room / dimmer_image |                                     |
+#}
+{% set c = component %}
+{# built-in coordinates of Saudi cities — the merchant only types the city name #}
+{% set geo = {
+    'الرياض': [24.7136, 46.6753], 'الخرج': [24.1556, 47.3120], 'الدرعية': [24.7340, 46.5750], 'المجمعة': [25.9040, 45.3450],
+    'الدمام': [26.4207, 50.0888], 'الخبر': [26.2172, 50.1971], 'الظهران': [26.2361, 50.0393], 'القطيف': [26.5196, 50.0115],
+    'سيهات': [26.4834, 50.0430], 'صفوى': [26.6500, 49.9500], 'رأس تنورة': [26.6430, 50.1590], 'الجبيل': [27.0046, 49.6460],
+    'الأحساء': [25.3833, 49.5865], 'الهفوف': [25.3833, 49.5865], 'المبرز': [25.4077, 49.5903], 'بقيق': [25.9340, 49.6680],
+    'حفر الباطن': [28.4342, 45.9636], 'الخفجي': [28.4390, 48.4910],
+    'جدة': [21.5433, 39.1728], 'مكة المكرمة': [21.3891, 39.8579], 'مكة': [21.3891, 39.8579], 'الطائف': [21.2703, 40.4158],
+    'المدينة المنورة': [24.5247, 39.5692], 'المدينة': [24.5247, 39.5692], 'ينبع': [24.0890, 38.0618], 'العلا': [26.6085, 37.9232],
+    'تبوك': [28.3838, 36.5550], 'نيوم': [28.0000, 35.2000], 'حائل': [27.5114, 41.7208], 'بريدة': [26.3260, 43.9750], 'عنيزة': [26.0840, 43.9940],
+    'أبها': [18.2164, 42.5053], 'خميس مشيط': [18.3000, 42.7333], 'جازان': [16.8892, 42.5511], 'نجران': [17.4924, 44.1277],
+    'الباحة': [20.0129, 41.4677], 'عرعر': [30.9753, 41.0381], 'سكاكا': [29.9697, 40.2064]
+} %}
+{% set default_locations = [
+    {city: 'الرياض', title: '[اسم المشروع] · فيلا سكنية', system: 'KNX', url: ''},
+    {city: 'الرياض', title: '[اسم المشروع] · شقة', system: 'Zigbee', url: ''},
+    {city: 'الرياض', title: '[اسم المشروع] · مكتب', system: 'Control4', url: ''},
+    {city: 'الخرج', title: '[اسم المشروع] · منزل', system: 'Zigbee', url: ''},
+    {city: 'الأحساء', title: '[اسم المشروع] · فيلا', system: 'KNX', url: ''},
+    {city: 'الأحساء', title: '[اسم المشروع] · استراحة', system: 'Zigbee', url: ''},
+    {city: 'الخبر', title: '[اسم المشروع] · فيلا', system: 'KNX', url: ''},
+    {city: 'الخبر', title: '[اسم المشروع] · شقة', system: 'Zigbee', url: ''},
+    {city: 'القطيف', title: '[اسم المشروع] · فيلا', system: 'KNX', url: ''},
+    {city: 'القطيف', title: '[اسم المشروع] · منزل قائم', system: 'Zigbee', url: ''},
+    {city: 'سيهات', title: '[اسم المشروع] · شقة', system: 'Zigbee', url: ''},
+    {city: 'الجبيل', title: '[اسم المشروع] · فيلا', system: 'KNX', url: ''}
+] %}
+{# editor-added sections come with one blank item: keep only items that carry content #}
+{% set st_locs = [] %}{% for it in c.locations|default([]) %}{% if it.city %}{% set st_locs = st_locs|merge([it]) %}{% endif %}{% endfor %}
+{% set locations = st_locs|length ? st_locs : default_locations %}
+{% set default_cards = [
+    {image: 'images/products/panel-screen.webp'|asset, plate: true, title: trans('blocks.projects.panel_title'), system: 'SMART PANEL', scope: trans('blocks.projects.panel_scope'), url: ''},
+    {image: 'images/scenes/sc-morning.webp'|asset, plate: false, title: trans('blocks.projects.morning_title'), system: 'SCENE 01', scope: trans('blocks.projects.morning_scope'), url: ''}
+] %}
+{# editor-added sections come with one blank item: keep only items that carry content #}
+{% set st_cards = [] %}{% for it in c.projects|default([]) %}{% if it.title or it.image %}{% set st_cards = st_cards|merge([it]) %}{% endif %}{% endfor %}
+{% set cards = st_cards|length ? st_cards : default_cards %}
+{% set more_url = c.more_url is iterable ? (c.more_url.url ?? '') : c.more_url %}
+{% set show_dimmer = c.show_dimmer is not defined or c.show_dimmer is null or c.show_dimmer %}
+{% set cities = [] %}{% set systems = [] %}
+{% for l in locations %}
+    {% if l.city and l.city not in cities %}{% set cities = cities|merge([l.city]) %}{% endif %}
+    {% if l.system and l.system not in systems %}{% set systems = systems|merge([l.system]) %}{% endif %}
+{% endfor %}
+
+<section class="st-section st-bg-paper st-journey" aria-labelledby="st-projects-{{ position }}">
+    <div class="st-container">
+        <div class="st-head">
+            <div class="st-head__text" data-reveal>
+                <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ c.label|default(trans('blocks.projects.label')) }}</span>
+                <h2 id="st-projects-{{ position }}" class="st-h2">{{ c.title|default(trans('blocks.projects.title')) }}</h2>
+                <p class="st-lead">{{ c.text|default(trans('blocks.projects.text')) }}</p>
+            </div>
+            {% if more_url %}<a href="{{ more_url }}" class="st-head__more">{{ c.more_text|default(trans('blocks.projects.more')) }} <span class="st-arrow" aria-hidden="true">←</span></a>{% endif %}
+        </div>
+
+        {# ---------- map: one pin per city · clusters zoom in · a city opens its projects ---------- #}
+        <div class="st-map" data-st-map>
+            <div class="st-map__stage" data-reveal="fade">
+                <div class="st-map__viewport" data-st-map-viewport>
+                    {% include 'components.partials.ksa-map' %}
+                    <div class="st-map__pins" role="list" aria-label="{{ trans('blocks.projects.map_label') }}">
+                        {% for city in cities %}
+                            {% set lat = null %}{% set lng = null %}{% set n = 0 %}{% set sys = [] %}
+                            {% for l in locations %}
+                                {% if l.city == city %}
+                                    {% set n = n + 1 %}
+                                    {% if l.lat and l.lng and lat is null %}{% set lat = l.lat %}{% set lng = l.lng %}{% endif %}
+                                    {% if l.system and l.system not in sys %}{% set sys = sys|merge([l.system]) %}{% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if lat is null and geo[city] is defined %}{% set lat = geo[city][0] %}{% set lng = geo[city][1] %}{% endif %}
+                            {% if lat is not null %}
+                                <button type="button" class="st-pin" role="listitem" data-city="{{ city }}" data-count="{{ n }}"
+                                        style="--x: {{ ((lng - 34.4) / 21.4 * 100)|round(3) }}; --y: {{ ((32.3 - lat) / 16.1 * 100)|round(3) }}; --d: {{ loop.index0 * 140 }}ms"
+                                        aria-label="{{ city }} — {{ n }} {{ trans('blocks.projects.count') }}">
+                                    <span class="st-pin__dot" aria-hidden="true"></span>
+                                    <span class="st-pin__city" aria-hidden="true">{{ city }}</span>
+                                    <span class="st-pin__tip" aria-hidden="true"><b>{{ city }}</b><small class="st-mono">{{ n }} · {{ sys|join(' · ')|upper }}</small></span>
+                                </button>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="st-map__controls">
+                    <span class="st-map__hint st-small" data-st-map-hint>{{ trans('blocks.projects.hint') }}</span>
+                    <button type="button" class="st-chip st-map__out" data-st-map-out hidden>{{ trans('blocks.projects.zoom_out') }}</button>
+                </div>
+            </div>
+
+            <aside class="st-map__side">
+                <dl class="st-map__stats">
+                    <div><dt>{{ trans('blocks.projects.cities') }}</dt><dd>{{ cities|length < 10 ? '0' ~ cities|length : cities|length }}</dd></div>
+                    <div><dt>{{ trans('blocks.projects.count') }}</dt><dd>{{ locations|length < 10 ? '0' ~ locations|length : locations|length }}</dd></div>
+                    <div><dt>{{ trans('blocks.projects.systems') }}</dt><dd>{{ systems|length < 10 ? '0' ~ systems|length : systems|length }}</dd></div>
+                </dl>
+                <div class="st-map__panel" aria-live="polite">
+                    <div class="st-map__panel-h">
+                        <span class="st-map__panel-t" data-st-map-title data-all="{{ trans('blocks.projects.all_cities') }}" data-tpl="{{ trans('blocks.projects.city_projects') }}">{{ trans('blocks.projects.all_cities') }}</span>
+                        <button type="button" class="st-link st-map__reset" data-st-map-reset hidden>{{ trans('blocks.projects.back') }} <span class="st-arrow" aria-hidden="true">←</span></button>
+                    </div>
+                    <ol class="st-map__list" data-st-map-cities>
+                        {% for city in cities %}
+                            {% set n = 0 %}{% set sys = [] %}
+                            {% for l in locations %}{% if l.city == city %}{% set n = n + 1 %}{% if l.system and l.system not in sys %}{% set sys = sys|merge([l.system]) %}{% endif %}{% endif %}{% endfor %}
+                            <li><button type="button" class="st-map__row" data-city="{{ city }}">
+                                <span class="st-map__city">{{ city }}</span>
+                                <span class="st-map__proj">{{ n }} {{ trans('blocks.projects.count') }}</span>
+                                <span class="st-mono st-map__sys">{{ sys|join(' · ')|upper }}</span>
+                            </button></li>
+                        {% endfor %}
+                    </ol>
+                    <ol class="st-map__projects" data-st-map-projects hidden>
+                        {% for l in locations %}
+                            {% set u = l.url is iterable ? (l.url.url ?? '') : l.url %}
+                            <li data-city="{{ l.city }}" hidden>
+                                {% if u %}<a class="st-map__prow" href="{{ u }}">{% else %}<div class="st-map__prow">{% endif %}
+                                    <span class="st-map__pn">{{ loop.index < 10 ? '0' ~ loop.index : loop.index }}</span>
+                                    <span class="st-map__city">{{ l.title }}</span>
+                                    <span class="st-mono st-map__sys">{{ l.system|upper }}</span>
+                                {% if u %}</a>{% else %}</div>{% endif %}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </aside>
+        </div>
+
+        {# ---------- three cards: dimmer · panel · morning ---------- #}
+        <div class="st-journey__cards">
+            {% if show_dimmer %}
+                <article class="st-dimmer" data-st-dimmer style="--lvl: .3" data-reveal>
+                    <div class="st-dimmer__room">
+                        <img class="st-cover" src="{{ c.dimmer_room|default('images/scenes/sc-evening.webp'|asset) }}" alt="" loading="lazy" decoding="async" width="800" height="1000">
+                        <span class="st-dimmer__shade" aria-hidden="true"></span>
+                        <span class="st-dimmer__glow" aria-hidden="true"></span>
+                        <span class="st-dimmer__value st-mono" aria-hidden="true"><b data-st-dimmer-out>30</b>%</span>
+                        <div class="st-dimmer__knob" data-st-dimmer-knob aria-hidden="true">
+                            <img src="{{ c.dimmer_image|default('images/products/dimmer.webp'|asset) }}" alt="" width="400" height="400" loading="lazy" draggable="false">
+                        </div>
+                    </div>
+                    <div class="st-dimmer__body">
+                        <h3 class="st-projects__card-t"><span>{{ c.dimmer_title|default(trans('blocks.projects.dimmer_title')) }}</span><span class="st-mono st-muted" style="font-size:10.5px">DIMMER · KNX</span></h3>
+                        <label class="st-dimmer__ctl">
+                            <span class="st-small st-muted">{{ trans('blocks.projects.dimmer_hint') }}</span>
+                            <input type="range" min="30" max="100" step="1" value="30" data-st-dimmer-range aria-label="{{ trans('blocks.projects.dimmer_level') }}">
+                        </label>
+                    </div>
+                </article>
+            {% endif %}
+            {% for p in cards|slice(0, 2) %}
+                {% set u = p.url is iterable ? (p.url.url ?? '') : p.url %}
+                {% set tag = u ? 'a' : 'div' %}
+                <{{ tag }} class="st-projects__card" {% if u %}href="{{ u }}"{% endif %} data-reveal style="--i:{{ loop.index }}">
+                    {% if p.plate is defined and p.plate %}
+                        <div class="st-media st-plate st-plate--dark st-projects__plate">{% if p.image %}<img src="{{ p.image }}" alt="" loading="lazy" decoding="async" width="800" height="800">{% endif %}<span class="st-projects__num" aria-hidden="true">{{ '0' ~ loop.index }}</span></div>
+                    {% else %}
+                        <div class="st-media">{% if p.image %}<img class="st-cover" src="{{ p.image }}" alt="" loading="lazy" decoding="async" width="800" height="1000">{% endif %}<span class="st-projects__num" aria-hidden="true">{{ '0' ~ loop.index }}</span></div>
+                    {% endif %}
+                    <span class="st-projects__card-t"><span>{{ p.title }}</span><span class="st-mono st-muted" style="font-size:10.5px">{{ p.system }}</span></span>
+                    {% if p.scope %}<span class="st-small st-muted">{{ p.scope }}</span>{% endif %}
+                </{{ tag }}>
+            {% endfor %}
+        </div>
+    </div>
+</section>

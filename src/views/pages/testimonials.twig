@@ -1,0 +1,31 @@
+{#
+| page.title | string | |
+    Store testimonials — rendered by Salla's <salla-comments testimonials>.
+    Sort labels use Salla's built-in translations (pages.testimonials.*).
+#}
+{% extends "layouts.master" %}
+{% block content %}
+    <div class="st-container">
+        <div class="st-plp-hero" style="padding-bottom:32px">
+            <salla-breadcrumb></salla-breadcrumb>
+            <div class="st-plp-hero__row">
+                <h1 class="st-h2" style="margin-top:24px">{{ page.title }}</h1>
+                <label class="st-small" style="display:flex;align-items:center;gap:8px">
+                    <span class="st-muted">{{ trans('pages.categories.sorting') }}</span>
+                    <select id="st-testimonials-sort" data-st-testimonials-sort>
+                        <option value="latest">{{ trans('pages.testimonials.sort_by_date_desc') }}</option>
+                        <option value="oldest">{{ trans('pages.testimonials.sort_by_date_asc') }}</option>
+                        <option value="top_rating">{{ trans('pages.testimonials.sort_by_rating_desc') }}</option>
+                        <option value="bottom_rating">{{ trans('pages.testimonials.sort_by_rating_asc') }}</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="st-pdp-story__body" style="padding-bottom:var(--st-section)">
+            <salla-comments testimonials></salla-comments>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script defer src="{{ 'pages.js'|asset }}"></script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{#
+| component.video_url        | ?string | MP4 (desktop)                        |
+| component.video_url_mobile | ?string | MP4 vertical (mobile)                |
+| component.poster           | ?string | poster image desktop                 |
+| component.poster_mobile    | ?string | poster image mobile                  |
+| component.eyebrow / title / subtitle / cta_text / cta2_text | ?string |    |
+| component.cta_url / cta2_url | variable-list                      |      |
+| component.overlay          | ?int    | overlay strength %                   |
+| component.show_scroll      | bool    |                                      |
+| position                   | int     | component order                      |
+#}
+{% set c = component %}
+{% set poster = c.poster|default('images/scenes/hero-poster.webp'|asset) %}
+{% set poster_m = c.poster_mobile|default(c.poster ? c.poster : 'images/scenes/hero-poster-m.webp'|asset) %}
+{% set title = c.title|default(trans('blocks.hero.title')) %}
+{% set cta_url = c.cta_url is iterable ? (c.cta_url.url ?? '') : c.cta_url %}
+{% set cta2_url = c.cta2_url is iterable ? (c.cta2_url.url ?? '') : c.cta2_url %}
+{% set cta_url_raw = cta_url %}
+{% set cta2_url_raw = cta2_url %}
+{% set overlay = (c.overlay is defined and c.overlay is not null and c.overlay ~ '' != '') ? (c.overlay / 100) : 0.55 %}
+
+<section id="st-hero-{{ position }}" class="st-hero" style="--o: {{ overlay }}" aria-labelledby="st-hero-title-{{ position }}">
+    <div class="st-hero__media" aria-hidden="true">
+        <picture>
+            <source media="(max-width: 767px)" srcset="{{ poster_m }}">
+            <img src="{{ poster }}" alt="" width="1920" height="1080" fetchpriority="high" decoding="async">
+        </picture>
+        {% if c.video_url or c.video_url_mobile %}
+            <video muted loop playsinline preload="none" poster="{{ poster }}"
+                   data-src="{{ c.video_url|default(c.video_url_mobile) }}"
+                   data-src-mobile="{{ c.video_url_mobile|default('') }}"></video>
+        {% endif %}
+    </div>
+    <div class="st-hero__shade" aria-hidden="true"></div>
+
+    <div class="st-hero__content">
+        <div class="st-container">
+            <div class="st-hero__text">
+                <span class="st-label" data-reveal><span class="st-dot" aria-hidden="true"></span>{{ c.eyebrow|default('KNX · ZIGBEE · CONTROL4') }}</span>
+                <h1 id="st-hero-title-{{ position }}" class="st-display-xl st-hero__title" data-reveal style="--i:1">{{ title }}</h1>
+                <p class="st-hero__sub st-hero__sub--brand" data-reveal style="--i:2">
+                    <span class="st-pulse" aria-hidden="true"><svg viewBox="0 0 120 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M0 12h44l5-8 8 16 6-14 5 6h52"/></svg></span>
+                    <span>{{ c.subtitle|default(trans('blocks.hero.subtitle')) }}</span>
+                </p>
+                {% if (c.cta_text and cta_url_raw) or (c.cta2_text and cta2_url_raw) %}
+                    <div class="st-hero__actions" data-reveal style="--i:3">
+                        {% if c.cta_text and cta_url_raw %}<a href="{{ cta_url_raw }}" class="st-btn st-btn--light">{{ c.cta_text }} <span class="st-arrow" aria-hidden="true">←</span></a>{% endif %}
+                        {% if c.cta2_text and cta2_url_raw %}<a href="{{ cta2_url_raw }}" class="st-btn st-btn--glass"><span class="st-dot" aria-hidden="true"></span>{{ c.cta2_text }}</a>{% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="st-hero__bar">
+        <div class="st-container">
+            {% if c.show_scroll is not defined or c.show_scroll %}
+                <span class="st-hero__scroll" aria-hidden="true">SCROLL<i></i></span>
+            {% endif %}
+            {% if c.video_url or c.video_url_mobile %}
+                <button type="button" class="st-hero__toggle" aria-pressed="false" aria-label="{{ trans('blocks.hero.pause') }}" data-pause="{{ trans('blocks.hero.pause') }}" data-play="{{ trans('blocks.hero.play') }}">
+                    <span data-i="pause">{% include 'components.partials.icon' with {name: 'pause'} %}</span>
+                    <span data-i="play" style="display:none">{% include 'components.partials.icon' with {name: 'play'} %}</span>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</section>

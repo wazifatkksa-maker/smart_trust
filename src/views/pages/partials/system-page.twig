@@ -1,0 +1,140 @@
+{#  System page layout (KNX / Zigbee / Control4). Included by page-single.twig with {system: 'knx'|'zigbee'|'control4'}  #}
+{% set s = system %}
+{% set names = {knx: 'KNX', zigbee: 'Zigbee', control4: 'Control4'} %}
+{% set name = names[s] %}
+{% set defaults = {knx: 'images/scenes/cu-corridor.webp', zigbee: 'images/scenes/sc-home.webp', control4: 'images/scenes/sc-cinema.webp'} %}
+{% set img = theme.settings.get('page_' ~ s ~ '_image', '')|default(defaults[s]|asset) %}
+{% set k = 'blocks.system.' ~ s ~ '_' %}
+{% set knx_url = theme.settings.get('st_knx_url', store.url) %}
+{% set wa = theme.settings.get('st_whatsapp', '') %}
+
+<section class="st-page-hero">
+    <img src="{{ img }}" alt="" width="1920" height="1080" fetchpriority="high">
+    <span class="st-ghost st-page-hero__ghost" aria-hidden="true">{{ name }}</span>
+    <div class="st-container">
+        <div class="st-page-hero__inner">
+            <salla-breadcrumb></salla-breadcrumb>
+            <span class="st-label"><span class="st-dot" aria-hidden="true"></span>{{ trans(k ~ 'label') }}</span>
+            <h1 class="st-display">{{ page.title }}</h1>
+            <p class="st-lead">{{ trans(k ~ 'lead') }}</p>
+            <div class="st-hero__actions">
+                {% if s == 'knx' %}
+                    <a href="#knx-request" class="st-btn st-btn--light">{{ trans('blocks.system.knx_cta') }} <span class="st-arrow" aria-hidden="true">←</span></a>
+                {% else %}
+                    <a href="#st-system-products" class="st-btn st-btn--light">{{ trans('blocks.system.products_cta') }} <span class="st-arrow" aria-hidden="true">←</span></a>
+                {% endif %}
+                {% if wa %}<a href="https://wa.me/{{ wa }}" class="st-btn st-btn--glass" target="_blank" rel="noopener" data-st-wa>{% include 'components.partials.icon' with {name: 'whatsapp'} %}{{ trans('blocks.footer.talk_expert') }}</a>{% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="st-section st-bg-ivory">
+    <div class="st-container">
+        <div class="st-grid" style="margin-bottom:72px">
+            <div class="st-col-5" data-reveal>
+                <span class="st-label" style="margin-bottom:18px">What is {{ name }}</span>
+                <h2 class="st-h2">{{ trans(k ~ 'what_title') }}</h2>
+            </div>
+            <div class="st-col-6 st-col-from-7" data-reveal>
+                {% if page.content %}<div class="st-prose">{{ page.content|raw }}</div>{% else %}<p class="st-lead">{{ trans(k ~ 'what_text') }}</p>{% endif %}
+            </div>
+        </div>
+        <div class="st-facts" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+            {% for i in 1..3 %}
+                <div class="st-fact" data-reveal style="--i:{{ loop.index0 }}"><span class="st-fact__n" aria-hidden="true">{{ '0' ~ i }}</span><h3 class="st-fact__t">{{ trans(k ~ 'f' ~ i ~ '_t') }}</h3><p class="st-fact__d">{{ trans(k ~ 'f' ~ i ~ '_d') }}</p></div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="st-system-products" class="st-section st-bg-sand">
+    <div class="st-container">
+        <div class="st-head">
+            <div class="st-head__text"><span class="st-label">SMARTTRUST for {{ name }}</span><h2 class="st-h2">{{ trans('blocks.system.products_title')|replace({':system': name}) }}</h2></div>
+        </div>
+        <div class="st-products st-products--rail">
+            <salla-products-list source="search" source-value="{{ name }}" limit="8"></salla-products-list>
+        </div>
+    </div>
+</section>
+
+{% if s == 'knx' %}
+    <section id="knx-wiring" class="st-section st-bg-ivory st-wiring">
+        <div class="st-container st-grid">
+            <div class="st-col-5" data-reveal>
+                <span class="st-label" style="margin-bottom:18px">KNX · Wiring</span>
+                <h2 class="st-h2" style="white-space:pre-line">{{ trans('blocks.system.wiring_title') }}</h2>
+                <p class="st-lead" style="margin-top:20px">{{ trans('blocks.system.wiring_text') }}</p>
+            </div>
+            <div class="st-col-7">
+                <svg class="st-wiring__svg" viewBox="0 0 640 300" fill="none" aria-hidden="true" focusable="false">
+                    <path class="st-wiring__bus" d="M20 150H620"/>
+                    {% for x in [80, 190, 300, 410, 520] %}
+                        <path class="st-wiring__drop" d="M{{ x }} 150V{{ loop.index is odd ? 70 : 230 }}"/>
+                        <rect class="st-wiring__dev" x="{{ x - 26 }}" y="{{ loop.index is odd ? 18 : 230 }}" width="52" height="52"/>
+                        <circle class="st-wiring__led" cx="{{ x }}" cy="{{ loop.index is odd ? 44 : 256 }}" r="3"/>
+                    {% endfor %}
+                    <text x="620" y="138" text-anchor="end" direction="ltr" class="st-wiring__label">KNX BUS · 29V</text>
+                </svg>
+                <div class="st-facts" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-top:32px">
+                    {% for i in 1..3 %}<div class="st-fact"><span class="st-fact__n" aria-hidden="true">{{ '0' ~ i }}</span><h3 class="st-fact__t" style="font-size:18px">{{ trans('blocks.system.w' ~ i ~ '_t') }}</h3><p class="st-fact__d">{{ trans('blocks.system.w' ~ i ~ '_d') }}</p></div>{% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="st-section st-dark st-cursor-light">
+        <div class="st-container">
+            <div class="st-head"><div class="st-head__text"><span class="st-label">Engineering Process</span><h2 class="st-h2" style="white-space:pre-line">{{ trans('blocks.system.process_title') }}</h2></div></div>
+            <ol class="st-process">
+                {% for i in 1..5 %}<li data-reveal style="--i:{{ loop.index0 }}"><b>{{ trans('blocks.system.p' ~ i ~ '_t') }}</b><span>{{ trans('blocks.system.p' ~ i ~ '_d') }}</span></li>{% endfor %}
+            </ol>
+        </div>
+    </section>
+{% endif %}
+
+<section class="st-section st-bg-ivory">
+    <div class="st-container">
+        <div class="st-head"><div class="st-head__text"><span class="st-label">Compare</span><h2 class="st-h2">{{ trans('blocks.system.compare_title') }}</h2></div></div>
+        <div class="st-compare-wrap">
+            <table class="st-compare">
+                <thead><tr><th scope="col"><span class="st-sr">{{ trans('blocks.system.criteria') }}</span></th><th scope="col" data-col="knx">KNX</th><th scope="col" data-col="zigbee">Zigbee</th><th scope="col" data-col="control4">Control4</th></tr></thead>
+                <tbody>
+                    {% for r in ['link', 'stage', 'wiring', 'best', 'scale'] %}
+                        <tr>
+                            <th scope="row">{{ trans('blocks.compare.' ~ r) }}</th>
+                            <td data-col="knx">{{ trans('blocks.compare.' ~ r ~ '_knx') }}</td>
+                            <td data-col="zigbee">{{ trans('blocks.compare.' ~ r ~ '_zigbee') }}</td>
+                            <td data-col="control4">{{ trans('blocks.compare.' ~ r ~ '_c4') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+{% if s == 'knx' %}
+    <section id="knx-request" class="st-section st-bg-sand">
+        <div class="st-container st-knx">
+            <div class="st-knx__intro">
+                <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ trans('blocks.knx.label') }}</span>
+                <div class="st-knx__heading">
+                    <h2 class="st-h2" style="white-space:pre-line">{{ trans('blocks.knx.title') }}</h2>
+                    <p class="st-knx__sub">{{ trans('blocks.knx.subtitle') }}</p>
+                </div>
+                <ol class="st-knx__steps">{% for i in 1..3 %}<li><b>{{ trans('blocks.knx.h' ~ i ~ '_title') }}</b><span>{{ trans('blocks.knx.h' ~ i ~ '_text') }}</span></li>{% endfor %}</ol>
+            </div>
+            <div class="st-knx__form">{% include 'components.partials.knx-box' with {uid: 'page'} %}</div>
+        </div>
+    </section>
+{% else %}
+    <section class="st-fcta st-dark">
+        <img class="st-fcta__img" src="{{ 'images/scenes/sh02-villa-on.webp'|asset }}" alt="" loading="lazy" width="1600" height="900">
+        <div class="st-container st-fcta__inner">
+            <h2 class="st-fcta__title">{{ trans('blocks.cta.title') }}</h2>
+            <p class="st-fcta__text">{{ trans('blocks.cta.text') }}</p>
+            <div class="st-fcta__actions"><a href="{{ knx_url }}" class="st-btn st-btn--light">{{ trans('blocks.header.knx_cta') }} <span class="st-arrow" aria-hidden="true">←</span></a></div>
+        </div>
+    </section>
+{% endif %}

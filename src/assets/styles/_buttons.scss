@@ -1,0 +1,66 @@
+/*------------------------------------------------------------------------
+ *  BUTTONS — 56 / 48 / 44 · radius 2 · arrow moves 6px on hover
+ *------------------------------------------------------------------------*/
+.st-btn {
+  --bg: var(--st-text); --fg: var(--st-ivory); --bd: transparent;
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  height: 56px; padding: 0 28px; box-sizing: border-box;
+  font-family: inherit; font-size: 15px; font-weight: 500; line-height: 1; white-space: nowrap;
+  color: var(--fg); background: var(--bg); border: 1px solid var(--bd); border-radius: var(--st-radius-1);
+  cursor: pointer; text-decoration: none;
+  transition: background var(--st-dur-base) var(--st-ease), color var(--st-dur-base) var(--st-ease),
+              box-shadow var(--st-dur-base) var(--st-ease), transform var(--st-dur-fast) var(--st-ease);
+  .st-arrow { display: inline-block; transition: transform var(--st-dur-base) var(--st-ease); }
+  &:hover { --bg: #000; box-shadow: 0 0 0 1px rgba(227, 210, 74, .45); }
+  &:hover .st-arrow { transform: translateX(-6px); }
+  &:active { transform: scale(.98); }
+  &[disabled], &.is-disabled { --bg: var(--st-line-2); --fg: var(--st-text-3); cursor: not-allowed; box-shadow: none; }
+  .st-dot { background: var(--st-focus); box-shadow: none; }
+}
+[dir='ltr'] .st-arrow { transform: scaleX(-1); }
+[dir='ltr'] .st-btn:hover .st-arrow { transform: scaleX(-1) translateX(-6px); }
+
+.st-btn--outline { --bg: transparent; --fg: var(--st-text); --bd: var(--st-text); font-weight: 400;
+  &:hover { --bg: var(--st-text); --fg: var(--st-ivory); box-shadow: none; } }
+.st-btn--light { --bg: var(--st-on-dark); --fg: var(--st-ink);
+  &:hover { --bg: #fff; } }
+.st-btn--glass { --bg: rgba(18, 19, 21, .4); --fg: var(--st-on-dark); --bd: rgba(255, 255, 255, .16); font-weight: 400;
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  .st-dot { background: var(--st-signal); box-shadow: 0 0 10px rgba(227, 210, 74, .7); }
+  &:hover { --bg: rgba(18, 19, 21, .6); } }
+.st-btn--ghost-dark { --bg: transparent; --fg: var(--st-on-dark); --bd: rgba(241, 237, 230, .38); font-weight: 400;
+  &:hover { --bg: rgba(241, 237, 230, .08); box-shadow: none; } }
+.st-btn--sm { height: 44px; padding: 0 20px; font-size: 14px; font-weight: 400; }
+.st-btn--md { height: 48px; padding: 0 24px; }
+.st-btn--wide { width: 100%; }
+
+.st-link { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; border-bottom: 1px solid transparent; padding-bottom: 2px;
+  transition: border-color var(--st-dur-fast) var(--st-ease);
+  &:hover { border-bottom-color: currentColor; }
+  &:hover .st-arrow { transform: translateX(-4px); }
+  .st-arrow { transition: transform var(--st-dur-base) var(--st-ease); }
+}
+
+.st-icon-btn {
+  position: relative; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: 0; padding: 0; color: inherit; cursor: pointer; border-radius: var(--st-radius-1);
+  transition: background var(--st-dur-fast) var(--st-ease);
+  &:hover { background: rgba(22, 22, 22, .06); }
+  svg { width: 20px; height: 20px; }
+}
+.st-dark .st-icon-btn:hover, .st-header--over .st-icon-btn:hover { background: rgba(241, 237, 230, .1); }
+
+.st-chip {
+  display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px;
+  border: 1px solid var(--st-line-2); border-radius: 20px; font-size: 14px; background: transparent; color: inherit; cursor: pointer;
+  transition: all var(--st-dur-fast) var(--st-ease);
+  &:hover { border-color: var(--st-text); }
+  &.is-active, &[aria-pressed='true'], &[aria-selected='true'] { background: var(--st-text); color: var(--st-ivory); border-color: var(--st-text); }
+}
+.st-tech {
+  display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px;
+  border: 1px solid var(--st-line-2); border-radius: 15px; font-family: var(--st-mono); font-size: 11px; letter-spacing: .08em;
+  .st-dot { width: 5px; height: 5px; }
+}
+.st-dark .st-tech { border-color: rgba(241, 237, 230, .25); }
+.st-btn svg { width: 18px; height: 18px; flex: none; }

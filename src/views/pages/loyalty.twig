@@ -1,0 +1,13 @@
+{#  loyalty program — rendered by Salla  #}
+{% extends "layouts.master" %}
+{% block content %}
+    <section class="st-page-hero st-page-hero--plain">
+        <div class="st-container st-page-hero__inner">
+            <salla-breadcrumb></salla-breadcrumb>
+            <h1 class="st-display">{{ page.title }}</h1>
+        </div>
+    </section>
+    <div class="st-container" style="padding-bottom:var(--st-section)">
+        <salla-loyalty-program></salla-loyalty-program>
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+/*------------------------------------------------------------------------
+ *  PRODUCT CARD — custom-salla-product-card
+ *  No borders, no box shadows: only the product carries depth.
+ *------------------------------------------------------------------------*/
+custom-salla-product-card { display: block; min-width: 0; }
+.st-card { position: relative; display: flex; flex-direction: column; gap: 14px; height: 100%; color: var(--st-text); }
+.st-card__media { position: relative; display: block; aspect-ratio: 1 / 1; }
+.st-card__media .st-plate { position: absolute; inset: 0; }
+.st-card__media img { transition: transform var(--st-dur-slow) var(--st-ease), filter var(--st-dur-slow) var(--st-ease); }
+.st-card:hover .st-card__media .st-plate:not(.st-plate--none) img { transform: translateY(-10px); filter: drop-shadow(0 34px 26px rgba(40, 32, 22, .28)) drop-shadow(0 3px 4px rgba(40, 32, 22, .16)); }
+.st-card:hover .st-card__media .st-plate--none img { transform: scale(1.03); }
+.st-card__tag { position: absolute; top: 16px; inset-inline-end: 16px; z-index: 2; font-family: var(--st-mono); font-size: 10px; letter-spacing: .14em; color: var(--st-text-3); }
+.st-plate--dark + .st-card__tag, .st-card--dark .st-card__tag { color: #A8A29A; }
+.st-card__badge { position: absolute; top: 12px; inset-inline-start: 12px; z-index: 2; height: 26px; padding: 0 10px; display: inline-flex; align-items: center;
+  background: var(--st-text); color: var(--st-ivory); font-size: 12px; }
+.st-card__badge--out { background: var(--st-ivory); color: var(--st-text-3); border: 1px solid var(--st-line-2); }
+.st-card__wish { position: absolute; bottom: 12px; inset-inline-start: 12px; z-index: 3; width: 40px; height: 40px; border: 0; border-radius: 50%;
+  background: rgba(244, 241, 235, .9); color: var(--st-text); display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+  opacity: 0; transition: opacity var(--st-dur-base) var(--st-ease), background var(--st-dur-fast) var(--st-ease);
+  svg { width: 18px; height: 18px; }
+  &.is-added svg { fill: currentColor; }
+}
+.st-card:hover .st-card__wish, .st-card__wish:focus-visible, .st-card__wish.is-added { opacity: 1; }
+@media (hover: none) { .st-card__wish { opacity: 1; } }
+.st-card__add { position: absolute; inset-inline: 12px; bottom: 12px; z-index: 2; opacity: 0; transform: translateY(8px);
+  transition: opacity var(--st-dur-base) var(--st-ease), transform var(--st-dur-base) var(--st-ease); }
+.st-card:hover .st-card__add, .st-card__add:focus-within { opacity: 1; transform: none; }
+.st-card__add .st-btn, .st-card__add salla-add-product-button, .st-card__add .s-button-btn { width: 100%; }
+.st-card__add .s-button-btn, .st-card__add .st-btn { height: 44px !important; font-size: 13.5px; border-radius: var(--st-radius-1) !important; background: var(--st-text) !important; color: var(--st-ivory) !important; }
+@media (hover: none) { .st-card__add { display: none; } }
+.st-card--has-wish .st-card__add { inset-inline-start: 60px; }
+
+.st-card__body { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.st-card__name { font-size: 17px; font-weight: 500; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.st-card__name a::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+.st-card__price { font-size: 15px; white-space: nowrap; text-align: end; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.5; }
+.st-card__price del { font-size: 12.5px; color: var(--st-text-3); }
+.st-card__price.is-sale ins { text-decoration: none; color: var(--st-signal-ink); }
+.st-card__quote { color: var(--st-signal-ink); }
+.st-card__sub { font-size: 13px; line-height: 1.6; color: var(--st-text-3); margin-top: -8px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.st-card.is-out .st-plate img { opacity: .55; }
+@media (max-width: 767px) {
+  .st-card__name { font-size: 14.5px; } .st-card__price { font-size: 13.5px; }
+  .st-card__body { flex-direction: column; gap: 4px; } .st-card__price { align-items: flex-start; text-align: start; }
+}
+
+/* product grids produced by salla-products-list */
+.st-products .s-products-list-wrapper,
+.st-products .s-products-list-vertical-cards,
+.st-products .s-products-list-filters-results {
+  display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--st-gutter); row-gap: 56px;
+}
+.st-products--3 .s-products-list-wrapper, .st-products--3 .s-products-list-filters-results { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1023px) { .st-products .s-products-list-wrapper, .st-products .s-products-list-filters-results { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .st-products .s-products-list-wrapper, .st-products .s-products-list-filters-results { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 36px; column-gap: 12px; } }
+
+.st-products--rail .s-products-list-wrapper {
+  display: grid !important; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: calc((100% - var(--st-gutter) * 3) / 4);
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 8px;
+  > * { scroll-snap-align: start; }
+  &::-webkit-scrollbar { display: none; }
+}
+@media (max-width: 1023px) { .st-products--rail .s-products-list-wrapper { grid-auto-columns: 42%; } }
+@media (max-width: 767px) { .st-products--rail .s-products-list-wrapper { grid-auto-columns: 72%; } }
+.st-products .s-infinite-scroll-btn { height: 56px; padding: 0 32px; background: transparent; color: var(--st-text); border: 1px solid var(--st-text); border-radius: var(--st-radius-1); margin: 56px auto 0; display: flex; }
+.st-products .s-products-list-placeholder { padding: 80px 0; color: var(--st-text-3); }
+
+/* skeleton while loading */
+.st-skel { background: linear-gradient(90deg, var(--st-sand) 0%, #F1EDE6 50%, var(--st-sand) 100%); background-size: 200% 100%; animation: st-skel 1.4s linear infinite; }
+@keyframes st-skel { to { background-position: -200% 0; } }

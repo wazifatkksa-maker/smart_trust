@@ -1,0 +1,8 @@
+{
+  "files.associations": { "*.twig": "twig" },
+  "emmet.includeLanguages": { "twig": "html" },
+  "editor.tabSize": 4,
+  "files.exclude": { "**/node_modules": true },
+  "search.exclude": { "public/**": true, "site/**": true, "pnpm-lock.yaml": true },
+  "tailwindCSS.includeLanguages": { "twig": "html" }
+}

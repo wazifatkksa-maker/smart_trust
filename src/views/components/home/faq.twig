@@ -1,0 +1,26 @@
+{#
+| component.label / title | ?string |
+| component.items[]       | question, answer |
+#}
+{% set c = component %}
+{# editor-added sections come with one blank item: keep only items that carry content #}
+{% set items = [] %}{% for it in c.items|default([]) %}{% if it.question %}{% set items = items|merge([it]) %}{% endif %}{% endfor %}
+<section class="st-section st-bg-ivory" aria-labelledby="st-faq-{{ position }}">
+    <div class="st-container st-grid">
+        <div class="st-faq__intro" data-reveal>
+            <span class="st-label">{{ c.label|default('FAQ') }}</span>
+            <h2 id="st-faq-{{ position }}" class="st-h2">{{ c.title|default(trans('blocks.faq.title')) }}</h2>
+        </div>
+        <div class="st-faq__list" data-reveal style="--i:1">
+            {% if items|length %}
+                {% for q in items %}
+                    <details class="st-acc" {{ loop.first ? 'open' : '' }}><summary>{{ q.question }}</summary><div class="st-acc__body">{{ q.answer }}</div></details>
+                {% endfor %}
+            {% else %}
+                {% for i in 1..4 %}
+                    <details class="st-acc" {{ loop.first ? 'open' : '' }}><summary>{{ trans('blocks.faq.q' ~ i) }}</summary><div class="st-acc__body">{{ trans('blocks.faq.a' ~ i) }}</div></details>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>

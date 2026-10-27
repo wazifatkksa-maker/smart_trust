@@ -1,0 +1,55 @@
+/*------------------------------------------------------------------------
+ *  PRODUCT LISTING (category · offers · search · tags)
+ *------------------------------------------------------------------------*/
+.st-plp-hero { padding-top: 48px; padding-bottom: 56px; border-bottom: 1px solid var(--st-line); }
+.st-plp-hero__row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--st-gutter); row-gap: 24px; align-items: end; margin-top: 28px; }
+.st-plp-hero__title { grid-column: span 7; }
+.st-plp-hero__aside { grid-column: 9 / span 4; display: flex; flex-direction: column; gap: 18px; }
+@media (max-width: 1023px) { .st-plp-hero__title, .st-plp-hero__aside { grid-column: 1 / -1; } }
+.st-subcats { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 32px; }
+
+.st-plp-bar { position: sticky; top: 0; z-index: 20; background: var(--st-ivory); border-bottom: 1px solid var(--st-line); }
+.st-header--sticky ~ main .st-plp-bar { top: var(--st-header-h); }
+.st-plp-bar__inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 64px; }
+.st-plp-bar__left { display: flex; gap: 16px; align-items: center; }
+.st-plp-bar select { border: 0; background-color: transparent; font: inherit; font-size: 14px; padding-inline-end: 28px; cursor: pointer; }
+.st-plp-bar select:focus { box-shadow: none; outline: 2px solid var(--st-focus); }
+.st-plp-count { font-family: var(--st-mono); font-size: 11px; letter-spacing: .14em; color: var(--st-text-3); }
+
+.st-plp { display: grid; grid-template-columns: 280px 1fr; gap: 48px; padding-top: 48px; padding-bottom: var(--st-section); align-items: start; }
+.st-plp--nofilters { grid-template-columns: 1fr; }
+.st-plp__filters { position: sticky; top: calc(var(--st-header-h) + 88px); max-height: calc(100vh - var(--st-header-h) - 120px); overflow-y: auto; scrollbar-width: thin; }
+.st-plp__main { min-width: 0; }
+.st-filter-toggle { display: none; }
+@media (max-width: 1023px) {
+  .st-plp { grid-template-columns: 1fr; padding-top: 28px; }
+  .st-filter-toggle { display: inline-flex; }
+  .st-plp__filters { position: fixed; z-index: 95; inset-inline: 0; bottom: 0; top: auto; max-height: 86vh; background: var(--st-ivory); border-radius: var(--st-radius-sheet) var(--st-radius-sheet) 0 0;
+    padding: 12px 20px 24px; transform: translateY(105%); transition: transform var(--st-dur-slow) var(--st-ease); }
+  .st-plp__filters.is-open { transform: none; }
+  .st-plp__filters::before { content: ''; display: block; width: 36px; height: 3px; background: var(--st-line-2); margin: 0 auto 12px; }
+}
+.st-sheet-scrim { position: fixed; inset: 0; z-index: 94; background: rgba(11, 12, 13, .45); opacity: 0; visibility: hidden; transition: opacity var(--st-dur-base) var(--st-ease), visibility 0s linear var(--st-dur-base); }
+.st-sheet-scrim.is-open { opacity: 1; visibility: visible; transition-delay: 0s; }
+.st-filters-head { display: none; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+@media (max-width: 1023px) { .st-filters-head { display: flex; } }
+
+/* salla-filters skin */
+.st-plp salla-filters { display: block; font-size: 15px; }
+.st-plp .s-filters-widget, .st-plp .s-filters-widget-container { border: 0; border-top: 1px solid var(--st-line-2); border-radius: 0; background: transparent; padding: 0; margin: 0; box-shadow: none; }
+.st-plp .s-filters-widget-title, .st-plp .s-filters-widget-title-container { font-size: 15px; font-weight: 500; padding: 18px 0; }
+.st-plp .s-filters-widget-content { padding-bottom: 18px; }
+.st-plp salla-filters input[type='checkbox'], .st-plp salla-filters input[type='radio'] { color: var(--st-text); border-color: #A39D94; border-radius: var(--st-radius-1); }
+.st-plp salla-filters .s-button-btn { border-radius: var(--st-radius-1); }
+
+.st-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; padding: 96px 0; }
+.st-empty svg { width: 48px; height: 48px; color: var(--st-text-3); }
+@media (max-width: 480px) {
+  .st-plp-bar__inner { flex-wrap: wrap; gap: 8px 12px; padding-block: 10px; }
+  .st-plp-bar select { max-width: 150px; font-size: 13.5px; }
+  .st-plp-bar label .st-muted { display: none; }
+}
+
+/* listing grid renders client-side: hold roughly one row of cards so the footer doesn't jump (CLS) */
+.st-plp__main .st-products { min-height: 480px; }
+@media (max-width: 767px) { .st-plp__main .st-products { min-height: 360px; } }

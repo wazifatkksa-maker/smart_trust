@@ -1,0 +1,129 @@
+{#
+| Variable | Type   | Description                                              |
+|----------|--------|----------------------------------------------------------|
+| store    | Store  | store.name, store.url                                    |
+| cart     | Cart   | cart.items_count                                         |
+| theme    | Theme  | header_*, logo_light/logo_dark, menu_* and contact settings |
+#}
+{% set is_home = is_page('index') %}
+{% set over = is_home and theme.settings.get('header_transparent_home', true) %}
+{% set sticky = theme.settings.get('header_sticky', true) %}
+{% set cta_on = theme.settings.get('header_cta', false) %}
+{% set cta_text = theme.settings.get('header_cta_text', '')|default(trans('blocks.header.knx_cta')) %}
+{% set knx_url = theme.settings.get('st_knx_url', store.url) %}
+{% set logo_light = theme.settings.get('logo_light', '')|default('images/brand/logo-light.svg'|asset) %}
+{% set logo_dark = theme.settings.get('logo_dark', '')|default('images/brand/logo-dark.svg'|asset) %}
+{% set search = (store.url ~ '/search?q=')|replace({'//search': '/search'}) %}
+{% set wa = theme.settings.get('st_whatsapp', '') %}
+{% set wa_name = theme.settings.get('whatsapp_name', '')|default('') %}
+{% set mt = theme.settings.get('maintenance_number', '')|default('')|replace({'+': '', ' ': ''}) %}
+{% set mt_name = theme.settings.get('maintenance_name', '')|default('') %}
+{% set m_zigbee = theme.settings.get('menu_zigbee_products', '')|default(search ~ 'Zigbee') %}
+{% set m_knx_about = theme.settings.get('menu_knx_about', '')|default('') %}
+{% set m_knx_wiring = theme.settings.get('menu_knx_wiring', '')|default('') %}
+{% set m_knx_products = theme.settings.get('menu_knx_products', '')|default(search ~ 'KNX') %}
+{% set m_c4 = theme.settings.get('menu_c4_products', '')|default(search ~ 'Control4') %}
+{% set m_contact = theme.settings.get('menu_contact', '')|default(wa ? 'https://wa.me/' ~ wa : '') %}
+
+<header id="st-header" class="st-header {{ over ? 'st-header--over' : '' }} {{ sticky ? 'st-header--sticky' : '' }}">
+    <div class="st-container st-header__inner">
+        <a href="{{ store.url }}" class="st-header__logo" aria-label="{{ store.name }} — {{ trans('blocks.header.home') }}">
+            <img class="st-logo st-logo--light" src="{{ logo_light }}" alt="{{ store.name }}" width="190" height="54">
+            <img class="st-logo st-logo--dark" src="{{ logo_dark }}" alt="" aria-hidden="true" width="190" height="54">
+        </a>
+
+        {# desktop main menu — filled from the store's own Salla menu (header.js · salla.api.component.getMenus) #}
+        <nav class="st-nav" data-st-menu aria-label="{{ trans('blocks.header.main_nav') }}" aria-busy="true"></nav>
+
+        <div class="st-header__tools">
+            {% if cta_on %}
+                <a href="{{ knx_url }}" class="st-btn st-btn--sm {{ over ? 'st-btn--glass' : '' }} st-header__cta"><span class="st-dot" aria-hidden="true"></span>{{ cta_text }}</a>
+            {% endif %}
+            <button type="button" class="st-icon-btn" data-st-search aria-label="{{ trans('blocks.header.search') }}">
+                {% include 'components.partials.icon' with {name: 'search'} %}
+            </button>
+            <span class="st-hide-mobile"><salla-user-menu show-header avatar-only relative-dropdown></salla-user-menu></span>
+            <a href="{{ link('cart') }}" class="st-icon-btn" aria-label="{{ trans('blocks.header.cart') }}">
+                {% include 'components.partials.icon' with {name: 'bag'} %}
+                <span class="st-cart-count" data-st-cart-count data-count="{{ cart.items_count|default(0) }}">{{ cart.items_count|default(0) }}</span>
+            </a>
+            <button type="button" class="st-burger" data-st-drawer-open aria-controls="st-drawer" aria-expanded="false" aria-label="{{ trans('blocks.header.menu') }}">
+                <span class="st-burger__label">{{ trans('blocks.header.menu') }}</span>
+                <span class="st-burger__lines" aria-hidden="true"><i></i><i></i><i></i></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+{# ---------- full-screen menu ---------- #}
+<div id="st-drawer" class="st-drawer" aria-hidden="true">
+    <div class="st-drawer__panel" role="dialog" aria-modal="true" aria-label="{{ trans('blocks.header.menu') }}">
+        <div class="st-container st-drawer__top">
+            <a href="{{ store.url }}" class="st-header__logo" aria-label="{{ store.name }}">
+                <img class="st-logo" src="{{ logo_light }}" alt="{{ store.name }}" width="190" height="54">
+            </a>
+            <button type="button" class="st-burger is-x" data-st-drawer-close aria-label="{{ trans('blocks.header.close') }}">
+                <span class="st-burger__label">{{ trans('blocks.header.close') }}</span>
+                <span class="st-burger__lines" aria-hidden="true"><i></i><i></i><i></i></span>
+            </button>
+        </div>
+
+        <div class="st-container st-drawer__body">
+            <nav class="st-drawer__systems" aria-label="{{ trans('blocks.menu.systems') }}">
+                <span class="st-label"><span class="st-dot" aria-hidden="true"></span>{{ trans('blocks.menu.systems') }}</span>
+
+                <details class="st-sys" data-preview="{{ 'images/products/sw-white-2.webp'|asset }}" style="--i:0">
+                    <summary><span class="st-sys__n">01</span><span class="st-sys__t">Zigbee</span><span class="st-plus" aria-hidden="true">+</span></summary>
+                    <div class="st-sys__links">
+                        <a href="{{ m_zigbee }}">{{ trans('blocks.menu.products_of') }} Zigbee <span class="st-arrow" aria-hidden="true">←</span></a>
+                    </div>
+                </details>
+
+                <details class="st-sys" data-preview="{{ 'images/products/sw-black-3.webp'|asset }}" style="--i:1">
+                    <summary><span class="st-sys__n">02</span><span class="st-sys__t">KNX</span><span class="st-plus" aria-hidden="true">+</span></summary>
+                    <div class="st-sys__links">
+                        {% if m_knx_about %}<a href="{{ m_knx_about }}">{{ trans('blocks.menu.knx_about') }} <span class="st-arrow" aria-hidden="true">←</span></a>{% endif %}
+                        {% if m_knx_wiring %}<a href="{{ m_knx_wiring }}">{{ trans('blocks.menu.knx_wiring') }} <span class="st-arrow" aria-hidden="true">←</span></a>{% endif %}
+                        <a href="{{ m_knx_products }}">{{ trans('blocks.menu.products_of') }} KNX <span class="st-arrow" aria-hidden="true">←</span></a>
+                        {% if m_contact %}<a href="{{ m_contact }}">{{ trans('blocks.menu.contact') }} <span class="st-arrow" aria-hidden="true">←</span></a>{% endif %}
+                    </div>
+                </details>
+
+                <details class="st-sys" data-preview="{{ 'images/products/panel-screen.webp'|asset }}" style="--i:2">
+                    <summary><span class="st-sys__n">03</span><span class="st-sys__t">Control4</span><span class="st-plus" aria-hidden="true">+</span></summary>
+                    <div class="st-sys__links">
+                        <a href="{{ m_c4 }}">{{ trans('blocks.menu.products_of') }} Control4 <span class="st-arrow" aria-hidden="true">←</span></a>
+                    </div>
+                </details>
+            </nav>
+
+            <div class="st-drawer__side">
+                <div class="st-drawer__preview" aria-hidden="true">
+                    <img src="{{ 'images/products/sw-black-3.webp'|asset }}" alt="" width="500" height="500" loading="lazy">
+                </div>
+                <div class="st-drawer__store">
+                    <span class="st-label">{{ trans('blocks.menu.store') }}</span>
+                    <nav class="st-drawer__nav" data-st-menu-mobile aria-label="{{ trans('blocks.header.main_nav') }}"></nav>
+                </div>
+                {% if wa or mt %}
+                    <div class="st-drawer__reach">
+                        <span class="st-label">{{ trans('blocks.menu.reach') }}</span>
+                        {% if wa %}
+                            <a class="st-reach" href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" data-st-wa>
+                                {% include 'components.partials.icon' with {name: 'whatsapp'} %}
+                                <span><small>{{ trans('blocks.menu.sales') }}{{ wa_name ? ' · ' ~ wa_name : '' }}</small><b dir="ltr">+{{ wa }}</b></span>
+                            </a>
+                        {% endif %}
+                        {% if mt %}
+                            <a class="st-reach" href="https://wa.me/{{ mt }}" target="_blank" rel="noopener">
+                                {% include 'components.partials.icon' with {name: 'tool'} %}
+                                <span><small>{{ trans('blocks.menu.maintenance') }}{{ mt_name ? ' · ' ~ mt_name : '' }}</small><b dir="ltr">+{{ mt }}</b></span>
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                <div class="st-drawer__account"><salla-user-menu show-header relative-dropdown></salla-user-menu></div>
+            </div>
+        </div>
+    </div>
+</div>

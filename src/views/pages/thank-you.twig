@@ -1,0 +1,42 @@
+{#
+| order         | Order  | id, reference_id, items[], total … |
+| thank_you     | ?string | merchant thank-you message        |
+#}
+{% extends "layouts.master" %}
+{% block content %}
+    <div class="st-container">
+        <div class="st-thanks">
+            {% hook 'thank-you:start' %}
+            <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>ORDER CONFIRMED</span>
+            <h1 class="st-h1">{{ trans('blocks.thanks.title') }}</h1>
+            {% if thank_you is defined and thank_you %}<p class="st-lead">{{ thank_you }}</p>{% endif %}
+            {% if order is defined and order %}
+                <p style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+                    <span class="st-muted">{{ trans('blocks.thanks.ref') }}</span>
+                    <span class="st-thanks__ref">#{{ order.reference_id ?? order.id }}</span>
+                    <button type="button" class="st-link" data-st-copy="{{ order.reference_id ?? order.id }}" data-done="{{ trans('blocks.thanks.copied') }}" style="background:none;border:0;cursor:pointer;font:inherit">{{ trans('blocks.thanks.copy') }}</button>
+                </p>
+                <div class="st-thanks__items">
+                    {% hook 'thank-you:items.start' %}
+                    <div class="st-order-items">
+                        {% for item in order.items|default([]) %}
+                            <div class="st-order-item">
+                                <div class="st-plate"><img src="{{ item.image }}" alt="" loading="lazy" width="88" height="88"></div>
+                                <span>{{ item.name }} <span class="st-mono st-muted">× {{ item.quantity }}</span></span>
+                                <span>{{ item.total|money }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% hook 'thank-you:items.end' %}
+                </div>
+            {% endif %}
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+                <a href="{{ link('/') }}" class="st-btn">{{ trans('blocks.cart.continue') }} <span class="st-arrow" aria-hidden="true">←</span></a>
+            </div>
+            {% hook 'thank-you:end' %}
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script defer src="{{ 'checkout.js'|asset }}"></script>
+{% endblock %}

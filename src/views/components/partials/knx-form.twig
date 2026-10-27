@@ -1,0 +1,139 @@
+{#
+    KNX project request form (3 steps). Include with:
+    {% include 'components.partials.knx-form' with {uid: 'home-3'} %}
+    Delivery: theme setting knx_form_endpoint (POST multipart, https) → otherwise WhatsApp (theme setting whatsapp_number).
+    "Received" is shown only after the endpoint confirms; the WhatsApp path shows a "not sent yet" panel.
+#}
+{% set uid = uid|default('knx') %}
+{% set endpoint = theme.settings.get('knx_form_endpoint', '')|default('') %}
+{% set wa = theme.settings.get('st_whatsapp', '') %}
+{% set k = 'blocks.knx.' %}
+<form class="st-kform" data-st-knx-form novalidate
+      data-endpoint="{{ endpoint }}" data-whatsapp="{{ wa }}"
+      data-wa-intro="{{ trans(k ~ 'wa_intro') }}" data-file-note="{{ trans(k ~ 'wa_file') }}"
+      data-file-too-big="{{ trans(k ~ 'file_big') }}" data-no-channel="{{ trans(k ~ 'no_channel') }}" data-error="{{ trans(k ~ 'error') }}"
+      data-sending="{{ trans(k ~ 'sending') }}" data-timeout="{{ trans(k ~ 'error_timeout') }}"
+      aria-label="{{ trans(k ~ 'form_label') }}">
+
+    <div class="st-kform__steps" aria-hidden="false">
+        {% for s in ['step1', 'step2', 'step3'] %}
+            <button type="button" class="st-kform__stepbtn {{ loop.first ? 'is-active' : '' }}" aria-current="{{ loop.first ? 'step' : 'false' }}"><span class="st-mono">{{ '0' ~ loop.index }}</span>{{ trans(k ~ s) }}</button>
+        {% endfor %}
+    </div>
+
+    <fieldset class="st-kform__pane" style="border:0;padding:0;margin:0">
+        <legend class="st-h4" style="margin-bottom:4px">{{ trans(k ~ 'step1_title') }}</legend>
+        <div class="st-field" data-required data-label="{{ trans(k ~ 'type') }}">
+            <span class="st-field__label">{{ trans(k ~ 'type') }}</span>
+            <div class="st-tiles" role="radiogroup" aria-label="{{ trans(k ~ 'type') }}">
+                {% for t in [['villa', 'VILLA'], ['apartment', 'APARTMENT'], ['office', 'OFFICE'], ['commercial', 'COMMERCIAL'], ['hotel', 'HOTEL'], ['other', 'OTHER']] %}
+                    <div class="st-tile">
+                        <input type="radio" name="project_type" id="kt-{{ uid }}-{{ t[0] }}" value="{{ t[0] }}" data-text="{{ trans(k ~ 't_' ~ t[0]) }}">
+                        <label for="kt-{{ uid }}-{{ t[0] }}"><span class="st-mono">{{ t[1] }}</span>{{ trans(k ~ 't_' ~ t[0]) }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            <span class="st-field__error" hidden>{{ trans(k ~ 'required') }}</span>
+        </div>
+        <div class="st-kform__row">
+            <div class="st-field" data-label="{{ trans(k ~ 'area') }}">
+                <label for="ka-{{ uid }}">{{ trans(k ~ 'area') }}</label>
+                <input id="ka-{{ uid }}" name="area" type="number" inputmode="numeric" min="10" max="100000" placeholder="450">
+            </div>
+            <div class="st-field" data-required data-label="{{ trans(k ~ 'city') }}">
+                <label for="kc-{{ uid }}">{{ trans(k ~ 'city') }}</label>
+                <input id="kc-{{ uid }}" name="city" type="text" autocomplete="address-level2" required>
+                <span class="st-field__error" hidden>{{ trans(k ~ 'required') }}</span>
+            </div>
+        </div>
+        <div class="st-field" data-required data-label="{{ trans(k ~ 'stage') }}">
+            <span class="st-field__label">{{ trans(k ~ 'stage') }}</span>
+            <div class="st-segment" role="radiogroup" aria-label="{{ trans(k ~ 'stage') }}">
+                {% for s in ['design', 'shell', 'finishing', 'existing'] %}
+                    <input type="radio" name="stage" id="ks-{{ uid }}-{{ s }}" value="{{ s }}" data-text="{{ trans(k ~ 's_' ~ s) }}"><label for="ks-{{ uid }}-{{ s }}">{{ trans(k ~ 's_' ~ s) }}</label>
+                {% endfor %}
+            </div>
+            <span class="st-field__error" hidden>{{ trans(k ~ 'required') }}</span>
+        </div>
+        <div class="st-kform__nav">
+            {% if wa %}<a class="st-kform__wa" href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" data-st-wa>{% include 'components.partials.icon' with {name: 'whatsapp'} %}{{ trans(k ~ 'or_whatsapp') }}</a>{% else %}<span></span>{% endif %}
+            <button type="button" class="st-btn" data-next>{{ trans(k ~ 'next_services') }} <span class="st-arrow" aria-hidden="true">←</span></button>
+        </div>
+    </fieldset>
+
+    <fieldset class="st-kform__pane" hidden style="border:0;padding:0;margin:0">
+        <legend class="st-h4" style="margin-bottom:4px">{{ trans(k ~ 'step2_title') }}</legend>
+        <div class="st-field" data-required data-label="{{ trans(k ~ 'services') }}">
+            <span class="st-field__label">{{ trans(k ~ 'services') }}</span>
+            <div class="st-kform__services">
+                {% for s in ['lighting', 'curtains', 'hvac', 'scenes', 'security', 'media'] %}
+                    <label class="st-check"><input type="checkbox" name="services[]" value="{{ s }}" data-text="{{ trans(k ~ 'sv_' ~ s) }}">{{ trans(k ~ 'sv_' ~ s) }}</label>
+                {% endfor %}
+            </div>
+            <span class="st-field__error" hidden>{{ trans(k ~ 'required_one') }}</span>
+        </div>
+        {% if endpoint %}
+            <label class="st-upload" for="kf-{{ uid }}">
+                <input id="kf-{{ uid }}" type="file" name="plan" accept=".pdf,.dwg,.dxf,.jpg,.jpeg,.png" data-max="20">
+                {% include 'components.partials.icon' with {name: 'upload'} %}
+                <span data-upload-label>{{ trans(k ~ 'upload') }} <span class="st-mono st-muted" style="font-size:11px">PDF · DWG · JPG</span></span>
+            </label>
+        {% endif %}
+        <div class="st-field" data-label="{{ trans(k ~ 'notes') }}">
+            <label for="kn-{{ uid }}">{{ trans(k ~ 'notes') }}</label>
+            <textarea id="kn-{{ uid }}" name="notes" maxlength="1000"></textarea>
+        </div>
+        <div class="st-kform__nav">
+            <button type="button" class="st-link" data-prev style="background:none;border:0;cursor:pointer;font:inherit">{{ trans(k ~ 'back') }}</button>
+            <button type="button" class="st-btn" data-next>{{ trans(k ~ 'next_contact') }} <span class="st-arrow" aria-hidden="true">←</span></button>
+        </div>
+    </fieldset>
+
+    <fieldset class="st-kform__pane" hidden style="border:0;padding:0;margin:0">
+        <legend class="st-h4" style="margin-bottom:4px">{{ trans(k ~ 'step3_title') }}</legend>
+        <div class="st-kform__row">
+            <div class="st-field" data-required data-label="{{ trans(k ~ 'name') }}">
+                <label for="kname-{{ uid }}">{{ trans(k ~ 'name') }}</label>
+                <input id="kname-{{ uid }}" name="name" type="text" autocomplete="name" required>
+                <span class="st-field__error" hidden>{{ trans(k ~ 'required') }}</span>
+            </div>
+            <div class="st-field" data-required data-label="{{ trans(k ~ 'phone') }}">
+                <label for="kphone-{{ uid }}">{{ trans(k ~ 'phone') }}</label>
+                <input id="kphone-{{ uid }}" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" pattern="[0-9+ ]{8,16}" required>
+                <span class="st-field__error" hidden>{{ trans(k ~ 'phone_invalid') }}</span>
+            </div>
+        </div>
+        <div class="st-field" data-label="{{ trans(k ~ 'email') }}">
+            <label for="kmail-{{ uid }}">{{ trans(k ~ 'email') }}</label>
+            <input id="kmail-{{ uid }}" name="email" type="email" autocomplete="email" dir="ltr">
+        </div>
+        <p class="st-kform__status" role="status" aria-live="polite"></p>
+        {% if endpoint and wa %}
+            <button type="button" class="st-kform__wa" data-wa-alt hidden style="background:none;border:0;cursor:pointer;font:inherit">{% include 'components.partials.icon' with {name: 'whatsapp'} %}{{ trans(k ~ 'wa_instead') }}</button>
+        {% endif %}
+        <div class="st-kform__nav">
+            <button type="button" class="st-link" data-prev style="background:none;border:0;cursor:pointer;font:inherit">{{ trans(k ~ 'back') }}</button>
+            <button type="submit" class="st-btn"><span class="st-dot" aria-hidden="true"></span>{{ endpoint ? trans(k ~ 'submit') : trans(k ~ 'submit_wa') }} <span class="st-arrow" aria-hidden="true">←</span></button>
+        </div>
+    </fieldset>
+
+    <div class="st-kform__done" hidden role="status">
+        <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>KNX</span>
+        <p class="st-h3">{{ trans(k ~ 'done_title') }}</p>
+        <p class="st-lead">{{ trans(k ~ 'done_text') }}</p>
+    </div>
+
+    {% if wa %}
+        {# WhatsApp only prepares the message — nothing reaches us until the visitor presses Send in WhatsApp #}
+        <div class="st-kform__done st-kform__pending" data-wa-pending hidden role="status">
+            <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>WhatsApp</span>
+            <p class="st-h3">{{ trans(k ~ 'wa_pending_title') }}</p>
+            <p class="st-lead">{{ trans(k ~ 'wa_pending_text') }}</p>
+            <p class="st-small st-muted" data-wa-file-note hidden>{{ trans(k ~ 'done_wa') }}</p>
+            <div class="st-kform__nav">
+                <button type="button" class="st-link" data-wa-edit style="background:none;border:0;cursor:pointer;font:inherit">{{ trans(k ~ 'wa_edit') }}</button>
+                <a class="st-btn" data-wa-open href="https://wa.me/{{ wa }}" target="_blank" rel="noopener">{% include 'components.partials.icon' with {name: 'whatsapp'} %}{{ trans(k ~ 'wa_open') }}</a>
+            </div>
+        </div>
+    {% endif %}
+</form>

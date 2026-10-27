@@ -1,0 +1,82 @@
+/*------------------------------------------------------------------------
+ *  CONTENT PAGES · SYSTEM PAGES · BLOG / PROJECTS · BRANDS · 404
+ *------------------------------------------------------------------------*/
+.st-page-hero { position: relative; min-height: min(92vh, 860px); display: flex; align-items: flex-end; overflow: hidden; background: var(--st-night); color: var(--st-on-dark); isolation: isolate; }
+.st-page-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.st-page-hero::before { content: ''; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(270deg, rgba(8, 8, 9, .9) 0%, rgba(8, 8, 9, .55) 42%, rgba(8, 8, 9, .08) 78%), linear-gradient(0deg, rgba(8, 8, 9, .9), rgba(8, 8, 9, 0) 30%); }
+[dir='ltr'] .st-page-hero::before { background: linear-gradient(90deg, rgba(8, 8, 9, .9) 0%, rgba(8, 8, 9, .55) 42%, rgba(8, 8, 9, .08) 78%), linear-gradient(0deg, rgba(8, 8, 9, .9), rgba(8, 8, 9, 0) 30%); }
+.st-page-hero__ghost { position: absolute; inset-inline-end: 40px; bottom: -24px; font-size: clamp(160px, 26vw, 420px); z-index: -1; }
+.st-page-hero__inner { display: flex; flex-direction: column; gap: 26px; max-width: 680px; padding-top: calc(var(--st-header-h) + 80px); padding-bottom: clamp(64px, 12vh, 140px); }
+.st-page-hero--plain { min-height: 0; background: var(--st-ivory); color: var(--st-text); }
+.st-page-hero--plain::before { display: none; }
+.st-page-hero--plain .st-page-hero__inner { padding-top: 56px; padding-bottom: 64px; max-width: 900px; }
+
+.st-page-body { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--st-gutter); padding-block: var(--st-section); }
+.st-page-body__aside { grid-column: span 4; display: flex; flex-direction: column; gap: 14px; }
+.st-page-body__content { grid-column: 6 / span 7; }
+@media (max-width: 1023px) { .st-page-body__aside, .st-page-body__content { grid-column: 1 / -1; } .st-page-body__aside { margin-bottom: 32px; } }
+
+.st-compare { width: 100%; border-collapse: collapse; font-size: 15px; }
+.st-compare th, .st-compare td { text-align: start; padding: 18px 16px 18px 0; border-top: 1px solid var(--st-line); vertical-align: top; }
+.st-compare thead th { font-family: var(--st-mono); font-size: 13px; letter-spacing: .08em; font-weight: 500; border-top: 1px solid var(--st-text); }
+.st-compare tbody th { color: var(--st-text-3); font-weight: 400; width: 22%; }
+.st-compare .is-hl { background: rgba(227, 210, 74, .09); }
+.st-compare-wrap { overflow-x: auto; }
+.st-compare-wrap table { min-width: 640px; }
+
+.st-process { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--st-gutter); counter-reset: p; list-style: none; margin: 0; padding: 0; }
+.st-process li { display: flex; flex-direction: column; gap: 12px; border-top: 1px solid currentColor; padding-top: 22px; }
+.st-process li::before { counter-increment: p; content: '0' counter(p); font-family: var(--st-mono); font-size: 12px; opacity: .6; }
+.st-process b { font-size: 20px; font-weight: 500; }
+.st-process span { font-size: 14.5px; line-height: 1.8; color: var(--st-text-2); }
+.st-dark .st-process span { color: var(--st-on-dark-2); }
+@media (max-width: 1023px) { .st-process { grid-template-columns: 1fr 1fr; row-gap: 32px; } }
+@media (max-width: 480px) { .st-process { grid-template-columns: 1fr; } }
+
+.st-contact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--st-gutter); }
+.st-contact-card { display: flex; flex-direction: column; gap: 14px; padding: 28px 0; border-top: 1px solid var(--st-text); }
+.st-contact-card svg { width: 22px; height: 22px; }
+.st-contact-card__v { font-size: 20px; font-weight: 500; direction: ltr; text-align: start; unicode-bidi: plaintext; }
+@media (max-width: 767px) { .st-contact-grid { grid-template-columns: 1fr; } }
+
+/* blog / projects */
+.st-posts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--st-gutter); row-gap: 64px; }
+.st-post { display: flex; flex-direction: column; gap: 14px; }
+.st-post .st-media { aspect-ratio: 4 / 3; }
+.st-post .st-media img { transition: transform 1.2s var(--st-ease); }
+.st-post:hover .st-media img { transform: scale(1.04); }
+.st-post__t { font-size: 20px; font-weight: 500; line-height: 1.45; }
+.st-post__m { font-family: var(--st-mono); font-size: 11px; letter-spacing: .1em; color: var(--st-text-3); }
+.st-post--lead { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--st-gutter); align-items: end; }
+.st-post--lead .st-media { grid-column: span 8; aspect-ratio: 16 / 10; }
+.st-post--lead .st-post__body { grid-column: span 4; display: flex; flex-direction: column; gap: 16px; }
+@media (max-width: 1023px) { .st-posts { grid-template-columns: 1fr 1fr; } .st-post--lead .st-media, .st-post--lead .st-post__body { grid-column: 1 / -1; } }
+@media (max-width: 600px) { .st-posts { grid-template-columns: 1fr; } }
+.st-article { max-width: 860px; margin-inline: auto; padding-block: 56px var(--st-section); display: flex; flex-direction: column; gap: 28px; }
+.st-article__cover { aspect-ratio: 16 / 9; margin-inline: calc(var(--st-margin) * -1); }
+@media (min-width: 1024px) { .st-article__cover { margin-inline: -120px; } }
+.st-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.st-brands { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--st-gutter); }
+.st-brand { aspect-ratio: 3 / 2; display: flex; align-items: center; justify-content: center; background: var(--st-paper); padding: 24px; }
+.st-brand img { max-height: 56px; width: auto; filter: grayscale(1); opacity: .8; transition: opacity var(--st-dur-base) var(--st-ease); }
+.st-brand:hover img { opacity: 1; }
+@media (max-width: 1023px) { .st-brands { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .st-brands { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.st-alpha { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 40px; }
+.st-alpha a { width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; font-family: var(--st-mono); font-size: 13px; border: 1px solid var(--st-line); }
+
+.st-404 { min-height: 70vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+.st-404__ghost { position: absolute; inset-inline-end: -20px; bottom: -60px; font-size: clamp(200px, 36vw, 520px); color: rgba(22, 22, 22, .05); }
+
+/* KNX wiring diagram */
+.st-wiring__svg { width: 100%; height: auto; display: block; }
+.st-wiring__bus { stroke: var(--st-text); stroke-width: 2; stroke-dasharray: 8 6; animation: st-bus 3s linear infinite; }
+@keyframes st-bus { to { stroke-dashoffset: -56; } }
+.st-wiring__drop { stroke: var(--st-text); stroke-width: 1; }
+.st-wiring__dev { fill: var(--st-ink); }
+.st-wiring__led { fill: var(--st-signal); }
+.st-wiring__label { font-family: var(--st-mono); font-size: 11px; letter-spacing: .16em; fill: var(--st-text-3); }
+@media (prefers-reduced-motion: reduce) { .st-wiring__bus { animation: none; } }
+@media (max-width: 767px) { .st-wiring .st-facts { grid-template-columns: 1fr !important; } }

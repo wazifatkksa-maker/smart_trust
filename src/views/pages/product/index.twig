@@ -1,0 +1,81 @@
+{#
+| page.title / page.slug / page.id | |
+| category          | ?Category {name, url, sub_categories, image} |
+| filters           | bool — filters allowed here                  |
+| sort_options[]    | {id, name, is_selected}                      |
+| search_query      | ?string                                      |
+#}
+{% extends "layouts.master" %}
+{% block content %}
+    {% set is_search = search_query is defined and search_query %}
+    {% set has_filters = filters is defined and filters %}
+    {% set sorts = sort_options is defined ? sort_options : (sort_list is defined ? sort_list : []) %}
+
+    <section class="st-container st-plp-hero">
+        <salla-breadcrumb></salla-breadcrumb>
+        <div class="st-plp-hero__row">
+            <div class="st-plp-hero__title">
+                <span class="st-label" style="margin-bottom:18px"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ is_search ? trans('blocks.plp.search_label') : 'SMARTTRUST · PRODUCTS' }}</span>
+                <h1 class="st-h1">{{ is_search ? search_query : (category.name ?? page.title) }}</h1>
+            </div>
+            <div class="st-plp-hero__aside">
+                <p class="st-lead">{{ is_search ? trans('blocks.plp.search_text') : trans('blocks.plp.intro') }}</p>
+            </div>
+        </div>
+        {% if category is defined and category and category.sub_categories|default([])|length %}
+            <nav class="st-subcats" aria-label="{{ trans('blocks.plp.subcats') }}">
+                {% for sub in category.sub_categories %}
+                    <a class="st-chip" href="{{ sub.url }}">{{ sub.name }}</a>
+                {% endfor %}
+            </nav>
+        {% endif %}
+    </section>
+
+    <div class="st-plp-bar">
+        <div class="st-container st-plp-bar__inner">
+            <div class="st-plp-bar__left">
+                {% if has_filters %}
+                    <button type="button" class="st-chip st-filter-toggle" data-st-filters-open aria-controls="st-filters">
+                        {% include 'components.partials.icon' with {name: 'filter'} %}{{ trans('blocks.plp.filter') }}
+                    </button>
+                {% endif %}
+                <span class="st-plp-count st-num" data-st-count data-tpl="{{ trans('blocks.plp.count') }}" aria-live="polite"></span>
+            </div>
+            {% if sorts|length %}
+                <label class="st-small" style="display:flex;align-items:center;gap:8px">
+                    <span class="st-muted">{{ trans('blocks.plp.sort') }}</span>
+                    <select id="st-sort">
+                        {% for s in sorts %}
+                            <option value="{{ s.id }}" {{ s.is_selected ? 'selected' : '' }}>{{ s.name }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="st-container st-plp {{ has_filters ? '' : 'st-plp--nofilters' }}">
+        {% if has_filters %}
+            <aside class="st-plp__filters" id="st-filters" aria-label="{{ trans('blocks.plp.filter') }}">
+                <div class="st-filters-head">
+                    <span class="st-h4">{{ trans('blocks.plp.filter') }}</span>
+                    <button type="button" class="st-icon-btn" data-st-filters-close aria-label="{{ trans('blocks.header.close') }}">{% include 'components.partials.icon' with {name: 'close'} %}</button>
+                </div>
+                <salla-filters></salla-filters>
+            </aside>
+            <div class="st-sheet-scrim" aria-hidden="true"></div>
+        {% endif %}
+        <div class="st-plp__main">
+            {% hook 'product:index.items.start' %}
+            {% hook 'product.index.before_products_group_with_filter' %}
+            <div class="st-products st-products--3">
+                <salla-products-list source="{{ page.slug }}" source-value="{{ page.id }}" {{ has_filters ? 'filters-results' : '' }}></salla-products-list>
+            </div>
+            {% hook 'product.index.after_products_group_with_filter' %}
+            {% hook 'product:index.items.end' %}
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script defer src="{{ 'products.js'|asset }}"></script>
+{% endblock %}

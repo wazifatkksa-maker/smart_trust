@@ -1,0 +1,7 @@
+{% extends "layouts.customer" %}
+{% block inner_title %}{{ trans('blocks.account.notifications') }}{% endblock %}
+{% block inner_content %}
+    {% hook 'customer:notifications.items.start' %}
+    <salla-notifications></salla-notifications>
+    {% hook 'customer:notifications.items.end' %}
+{% endblock %}

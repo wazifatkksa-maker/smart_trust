@@ -1,0 +1,53 @@
+{#  Contact page layout — store.contacts + WhatsApp + page content + comments  #}
+{% set wa = theme.settings.get('st_whatsapp', '') %}
+<section class="st-page-hero st-page-hero--plain">
+    <div class="st-container st-page-hero__inner">
+        <salla-breadcrumb></salla-breadcrumb>
+        <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>Contact</span>
+        <h1 class="st-display">{{ page.title }}</h1>
+        <p class="st-lead">{{ trans('blocks.contact.lead') }}</p>
+    </div>
+</section>
+<div class="st-container" style="padding-bottom:var(--st-section)">
+    <div class="st-contact-grid">
+        {% set wa_name = theme.settings.get('whatsapp_name', '')|default('') %}
+        {% set mt = theme.settings.get('maintenance_number', '')|default('')|replace({'+': '', ' ': ''}) %}
+        {% set mt_name = theme.settings.get('maintenance_name', '')|default('') %}
+        {% if wa %}
+            <a class="st-contact-card" href="https://wa.me/{{ wa }}" target="_blank" rel="noopener" data-st-wa>
+                {% include 'components.partials.icon' with {name: 'whatsapp'} %}
+                <span class="st-small st-muted">{{ trans('blocks.menu.sales') }}{{ wa_name ? ' · ' ~ wa_name : '' }}</span>
+                <span class="st-contact-card__v">+{{ wa }}</span>
+                <span class="st-link">{{ trans('blocks.contact.chat') }} <span class="st-arrow" aria-hidden="true">←</span></span>
+            </a>
+        {% endif %}
+        {% if mt %}
+            <a class="st-contact-card" href="https://wa.me/{{ mt }}" target="_blank" rel="noopener">
+                {% include 'components.partials.icon' with {name: 'tool'} %}
+                <span class="st-small st-muted">{{ trans('blocks.menu.maintenance') }}{{ mt_name ? ' · ' ~ mt_name : '' }}</span>
+                <span class="st-contact-card__v">+{{ mt }}</span>
+                <span class="st-link">{{ trans('blocks.contact.chat') }} <span class="st-arrow" aria-hidden="true">←</span></span>
+            </a>
+        {% endif %}
+        {% if store.contacts.email %}
+            <a class="st-contact-card" href="mailto:{{ store.contacts.email }}">
+                {% include 'components.partials.icon' with {name: 'mail'} %}
+                <span class="st-small st-muted">{{ trans('blocks.contact.email') }}</span>
+                <span class="st-contact-card__v">{{ store.contacts.email }}</span>
+            </a>
+        {% endif %}
+    </div>
+    {% if page.content %}
+        <div class="st-page-body" style="padding-bottom:0">
+            <div class="st-page-body__aside"><span class="st-label">{{ store.name }}</span></div>
+            <div class="st-page-body__content"><div class="st-prose">{{ page.content|raw }}</div></div>
+        </div>
+    {% endif %}
+    <div class="st-knx" style="margin-top:72px">
+        <div class="st-knx__intro">
+            <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ trans('blocks.knx.label') }}</span>
+            <div class="st-knx__heading"><h2 class="st-h2">{{ trans('blocks.knx.title') }}</h2><p class="st-knx__sub">{{ trans('blocks.knx.subtitle') }}</p></div>
+        </div>
+        <div class="st-knx__form">{% include 'components.partials.knx-box' with {uid: 'contact'} %}</div>
+    </div>
+</div>

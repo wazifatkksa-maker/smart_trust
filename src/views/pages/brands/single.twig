@@ -1,0 +1,20 @@
+{#  brand — id, name, url, logo, banner, description  #}
+{% extends "layouts.master" %}
+{% block content %}
+    <section class="st-page-hero {{ brand.banner ? '' : 'st-page-hero--plain' }}" style="{{ brand.banner ? '' : 'min-height:0' }}">
+        {% if brand.banner %}<img src="{{ brand.banner }}" alt="" width="1920" height="700">{% endif %}
+        <div class="st-container st-page-hero__inner">
+            <salla-breadcrumb></salla-breadcrumb>
+            {% hook 'brands:single.details.start' %}
+            {% if brand.logo %}<img src="{{ brand.logo }}" alt="{{ brand.name }}" style="height:56px;width:auto;background:#fff;padding:8px" loading="lazy">{% endif %}
+            <h1 class="st-h1">{{ brand.name }}</h1>
+            {% if brand.description %}<p class="st-lead">{{ brand.description }}</p>{% endif %}
+            {% hook 'brands:single.details.end' %}
+        </div>
+    </section>
+    <div class="st-container" style="padding-block:56px var(--st-section)">
+        {% hook 'brands:single.items.start' %}
+        <div class="st-products"><salla-products-list source="brands" source-value="{{ brand.id }}"></salla-products-list></div>
+        {% hook 'brands:single.items.end' %}
+    </div>
+{% endblock %}

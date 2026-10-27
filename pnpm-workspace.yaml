@@ -1,0 +1,8 @@
+# pnpm 11 refuses to run scripts while dependency build scripts are unreviewed.
+# None of these are needed by the theme build: native addons are optional
+# fallbacks (sass watcher, ws), and es5-ext's postinstall only prints a notice.
+allowBuilds:
+  '@parcel/watcher': false
+  bufferutil: false
+  es5-ext: false
+  utf-8-validate: false

@@ -1,0 +1,100 @@
+{#
+| cart                     | Cart | items[], sub_total, total, free_shipping_bar{…}, … |
+| store.settings.cart.apply_coupon_enabled | bool |
+#}
+{% extends "layouts.master" %}
+{% block content %}
+    <div class="st-container">
+        <div class="st-plp-hero" style="padding-bottom:32px">
+            <salla-breadcrumb></salla-breadcrumb>
+            <h1 class="st-h2" style="margin-top:24px">{{ trans('blocks.cart.title') }}
+                {% if cart.items|length %}<span class="st-mono st-muted" style="font-size:14px;margin-inline-start:10px">({{ cart.items|length }})</span>{% endif %}
+            </h1>
+        </div>
+
+        {% if cart.items|length %}
+            <div class="st-cart" data-st-cart data-error-update="{{ trans('blocks.cart.update_error') }}" data-error-remove="{{ trans('blocks.cart.remove_error') }}">
+                <div class="st-cart__items">
+                    {% if cart.free_shipping_bar is defined and cart.free_shipping_bar %}
+                        {% set fb = cart.free_shipping_bar %}
+                        <div class="st-freeship" data-st-freeship>
+                            <span data-st-freeship-msg data-done="{{ trans('blocks.cart.free_ship_done') }}" data-tpl="{{ trans('blocks.cart.free_ship_left') }}">
+                                {{ fb.has_free_shipping ? trans('blocks.cart.free_ship_done') : trans('blocks.cart.free_ship_left')|replace({':amount': fb.remaining|money}) }}
+                            </span>
+                            <div class="st-freeship__bar"><i data-st-freeship-fill style="width:{{ fb.percent }}%"></i></div>
+                        </div>
+                    {% endif %}
+
+                    {% hook 'cart:items.start' %}
+                    {% for item in cart.items %}
+                        <form id="item-{{ item.id }}" class="st-citem {{ item.is_available ? '' : 'is-unavailable' }}" data-st-item-form onsubmit="return false">
+                            <input type="hidden" name="id" value="{{ item.id }}">
+                            <a href="{{ item.url }}" class="st-citem__media" tabindex="-1" aria-hidden="true">
+                                <div class="st-plate"><img src="{{ item.product_image }}" alt="" loading="lazy" width="132" height="132"></div>
+                            </a>
+                            <div class="st-citem__body">
+                                <a href="{{ item.url }}" class="st-citem__name">{{ item.product_name }}</a>
+                                <span class="st-citem__meta">{{ trans('blocks.cart.unit_price') }}: {{ item.product_price|money }}</span>
+                                {% if item.offer %}<span class="st-citem__offer">{{ item.offer.names }}</span>{% endif %}
+                                {% include 'pages.partials.product.options' with {product: item} %}
+                                <div class="st-citem__controls">
+                                    {% if not item.is_hidden_quantity %}
+                                        <salla-quantity-input cart-item-id="{{ item.id }}" max="{{ item.max_quantity }}" value="{{ item.quantity }}" name="quantity" aria-label="{{ trans('blocks.product.quantity') }}"></salla-quantity-input>
+                                    {% endif %}
+                                    <button type="button" class="st-citem__remove" data-st-remove="{{ item.id }}">{{ trans('blocks.cart.remove') }}</button>
+                                </div>
+                                <p class="st-citem__status" data-st-item-status role="status" aria-live="polite" hidden></p>
+                                {% if item.can_add_note %}
+                                    <label class="st-sr" for="note-{{ item.id }}">{{ trans('blocks.cart.note') }}</label>
+                                    <textarea id="note-{{ item.id }}" name="notes" placeholder="{{ trans('blocks.cart.note') }}">{{ item.notes }}</textarea>
+                                {% endif %}
+                            </div>
+                            <div class="st-citem__total"><span data-st-item-total>{{ item.total|money }}</span></div>
+                        </form>
+                    {% endfor %}
+                    {# cart-level options (e.g. gift wrapping) — same contract as theme-raed #}
+                    {% if cart.options is defined and cart.options|length %}
+                        <div class="st-cart__options">
+                            {% for product_option in cart.options %}
+                                <form id="item-{{ product_option.id }}" class="st-citem st-citem--option" data-st-item-form onsubmit="return false">
+                                    <input type="hidden" name="id" value="{{ product_option.id }}">
+                                    <input type="hidden" name="quantity" value="{{ product_option.quantity }}">
+                                    {% include 'pages.partials.product.options' with {product: product_option} %}
+                                    <p class="st-citem__status" data-st-item-status role="status" aria-live="polite" hidden></p>
+                                </form>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% hook 'cart:items.end' %}
+                </div>
+
+                <aside class="st-cart__summary" aria-label="{{ trans('blocks.cart.summary') }}">
+                    <div class="st-summary">
+                        {% hook 'cart:summary.start' %}
+                        <span class="st-label">{{ trans('blocks.cart.summary') }}</span>
+                        {% if store.settings.cart.apply_coupon_enabled %}
+                            {% hook 'cart:coupon.start' %}
+                            <salla-cart-coupons></salla-cart-coupons>
+                            {% hook 'cart:coupon.end' %}
+                        {% endif %}
+                        {% hook 'cart:summary-card.start' %}
+                        <salla-cart-summary-card></salla-cart-summary-card>
+                        {% hook 'cart:summary-card.end' %}
+                        <p class="st-summary__secure">{% include 'components.partials.icon' with {name: 'lock'} %}{{ trans('blocks.cart.secure') }}</p>
+                        {% hook 'cart:summary.end' %}
+                    </div>
+                </aside>
+            </div>
+        {% else %}
+            <div class="st-empty">
+                {% include 'components.partials.icon' with {name: 'bag'} %}
+                <h2 class="st-h3">{{ trans('blocks.cart.empty') }}</h2>
+                <p class="st-lead">{{ trans('blocks.cart.empty_text') }}</p>
+                <a href="{{ link('/') }}" class="st-btn">{{ trans('blocks.cart.continue') }} <span class="st-arrow" aria-hidden="true">←</span></a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script defer src="{{ 'checkout.js'|asset }}"></script>
+{% endblock %}

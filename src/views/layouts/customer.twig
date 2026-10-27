@@ -1,0 +1,21 @@
+{% extends "layouts.master" %}
+{#
+    Customer area — account navigation + content.
+    Child pages fill {% block inner_title %} and {% block inner_content %}.
+#}
+{% block content %}
+    <div class="st-container">
+        <div class="st-plp-hero" style="padding-bottom:40px">
+            <salla-breadcrumb></salla-breadcrumb>
+            <h1 class="st-h2" style="margin-top:24px">{% block inner_title %}{{ page.title }}{% endblock %}</h1>
+        </div>
+        <div class="st-account">
+            <nav class="st-account__nav" aria-label="{{ trans('blocks.account.nav') }}">
+                <salla-user-menu inline></salla-user-menu>
+            </nav>
+            <div class="st-account__main">
+                {% block inner_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

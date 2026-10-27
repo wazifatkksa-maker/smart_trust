@@ -1,0 +1,217 @@
+{#
+| product            | Product | see Salla product variables (name, price, images, options, tags, …) |
+| page.slug/page.id  |         |                                                                    |
+| theme settings     | quote_keyword, product_trust*, st_knx_url, st_whatsapp              |
+#}
+{% extends "layouts.master" %}
+{% block body_attrs %}data-st-product="{{ product.id }}"{% endblock %}
+{% block content %}
+    {# ---------- derived state ---------- #}
+    {% set kw = theme.settings.get('quote_keyword', '')|default(trans('blocks.product.quote_keyword'))|lower %}
+    {% set bag = (product.name ~ ' ' ~ product.subtitle|default('') ~ ' ' ~ product.promotion_title|default(''))|lower %}
+    {% set systems = [] %}
+    {% for tg in product.tags|default([]) %}{% set bag = bag ~ ' ' ~ tg.name|lower %}{% endfor %}
+    {% if 'knx' in bag %}{% set systems = systems|merge(['KNX']) %}{% endif %}
+    {% if 'zigbee' in bag %}{% set systems = systems|merge(['Zigbee']) %}{% endif %}
+    {% if 'control4' in bag or 'control 4' in bag %}{% set systems = systems|merge(['Control4']) %}{% endif %}
+    {% set zero_quote = theme.settings.get('quote_zero_price', false) and (product.price == 0 or product.price == '0') and not product.starting_price %}
+    {% set is_quote = (kw and kw in bag) or zero_quote %}
+    {% set knx_url = theme.settings.get('st_knx_url', store.url) %}
+    {% set wa = theme.settings.get('st_whatsapp', '') %}
+    {% set images = product.images|default([]) %}
+    {% if not images|length and product.image %}{% set images = [{url: product.image.url, alt: product.image.alt, type: 'image'}] %}{% endif %}
+    {% set n = images|length %}
+
+    <div class="st-container st-pdp">
+        <salla-breadcrumb></salla-breadcrumb>
+        {% hook 'product.single.before_product_info' %}
+
+        <div class="st-pdp__top">
+            {# ---------- gallery ---------- #}
+            <div class="st-pdp__gallery" data-st-gallery>
+                {% if n > 1 %}
+                    <div class="st-gallery__thumbs" role="group" aria-label="{{ trans('blocks.product.gallery') }}">
+                        {% for im in images %}
+                            <button type="button" class="st-gallery__thumb {{ im.type == 'video' ? 'st-gallery__thumb--video' : '' }}" aria-current="{{ loop.first ? 'true' : 'false' }}" aria-label="{{ trans('blocks.product.image') }} {{ loop.index }}">
+                                <img src="{{ im.url }}" alt="" loading="lazy" width="84" height="84">
+                            </button>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="st-gallery__main" tabindex="0" aria-roledescription="carousel" aria-label="{{ product.name }}">
+                    {% for im in images %}
+                        <div class="st-gallery__slide {{ loop.first ? 'is-active' : '' }}" aria-hidden="{{ loop.first ? 'false' : 'true' }}">
+                            {% if im.type == 'video' and im.video_url %}
+                                {% if '.mp4' in im.video_url %}
+                                    <video src="{{ im.video_url }}" poster="{{ im.url }}" controls playsinline muted preload="none"></video>
+                                {% else %}
+                                    <iframe src="{{ im.video_url }}" title="{{ product.name }}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                                {% endif %}
+                            {% else %}
+                                <div class="st-plate">
+                                    {% if loop.first %}
+                                        <img src="{{ im.url }}" alt="{{ im.alt|default(product.name) }}" width="900" height="900" fetchpriority="high">
+                                    {% else %}
+                                        <img data-src="{{ im.url }}" alt="{{ im.alt|default(product.name) }}" width="900" height="900">
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    {% if systems|length %}<span class="st-card__tag" style="top:20px">{{ systems|join(' · ')|upper }}</span>{% endif %}
+                    {% if n > 1 %}<span class="st-gallery__count" aria-hidden="true"><span class="st-num" data-st-gcount>01 / {{ n < 10 ? '0' ~ n : n }}</span></span>{% endif %}
+                </div>
+            </div>
+
+            {# ---------- info + buy ---------- #}
+            <div class="st-pdp__info">
+                <div class="st-pdp__eyebrow">
+                    <span class="st-label"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ product.category.name ?? store.name }}</span>
+                    {% if product.sku %}<span class="st-mono st-muted" style="font-size:11px">SKU {{ product.sku }}</span>{% endif %}
+                </div>
+                <h1 class="st-pdp__title">{{ product.name }}</h1>
+                {% if systems|length %}
+                    <div class="st-pdp__badges">
+                        {% for s in systems %}<span class="st-tech"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ s|upper }}</span>{% endfor %}
+                    </div>
+                {% endif %}
+                {% if product.subtitle %}<p class="st-pdp__lead">{{ product.subtitle }}</p>{% endif %}
+                {% if product.rating and product.rating.count %}
+                    <salla-rating-stars value="{{ product.rating.stars }}" reviews="{{ product.rating.count }}" size="small"></salla-rating-stars>
+                {% endif %}
+
+                <form class="st-pdp__buy" data-st-product-form enctype="multipart/form-data" method="post" onsubmit="return salla.form.onSubmit('cart.addItem', event)">
+                    <input type="hidden" name="id" value="{{ product.id }}">
+                    {% hook 'product:single.form.start' %}
+                    {% include 'pages.partials.product.options' %}
+
+                    {% if not is_quote %}
+                        <div class="st-pdp__price">
+                            <p class="st-pdp__price-now {{ product.is_on_sale ? 'is-sale' : '' }}" data-st-price-wrap>
+                                {% if product.is_on_sale %}
+                                    <ins data-st-price>{{ product.sale_price|money }}</ins><del data-st-price-old>{{ product.regular_price|money }}</del>
+                                {% else %}
+                                    <span data-st-price>{{ product.starting_price ? product.starting_price|money : product.price|money }}</span><del data-st-price-old hidden></del>
+                                {% endif %}
+                            </p>
+                            {% if product.is_taxable %}<span class="st-pdp__tax">{{ trans('blocks.product.tax_included') }}</span>{% endif %}
+                            <p class="st-pdp__price-status" data-st-price-status data-error="{{ trans('blocks.product.price_error') }}" role="status" aria-live="polite" hidden></p>
+                        </div>
+                        <div class="st-pdp__buy-row" data-st-buy-anchor>
+                            {% if not product.is_hidden_quantity and product.status == 'sale' %}
+                                <salla-quantity-input max="{{ product.max_quantity }}" value="1" name="quantity" aria-label="{{ trans('blocks.product.quantity') }}"></salla-quantity-input>
+                            {% endif %}
+                            <salla-add-product-button {{ product.can_quick_buy ? 'quick-buy' : '' }}
+                                amount="{{ product.base_currency_price }}"
+                                product-status="{{ product.status }}" product-type="{{ product.type }}" product-id="{{ product.id }}"
+                                type="submit" width="wide">{{ product.add_to_cart_label|default(trans('blocks.product.add_to_cart')) }}</salla-add-product-button>
+                        </div>
+                        <a class="st-link st-pdp__quote" href="{{ knx_url }}">{{ trans('blocks.product.project_quote') }} <span class="st-arrow" aria-hidden="true">←</span></a>
+                    {% else %}
+                        <div class="st-pdp__price" data-st-buy-anchor>
+                            <p class="st-pdp__price-now" style="color:var(--st-signal-ink)">{{ trans('blocks.product.request_quote') }}</p>
+                            <span class="st-pdp__tax">{{ trans('blocks.product.quote_note') }}</span>
+                        </div>
+                        <div class="st-pdp__buy-row">
+                            {% if wa %}
+                                <a class="st-btn st-btn--wide" href="https://wa.me/{{ wa }}?text={{ (trans('blocks.product.quote_wa') ~ ' ' ~ product.name)|url_encode }}" target="_blank" rel="noopener" data-st-wa>{% include 'components.partials.icon' with {name: 'whatsapp'} %}{{ trans('blocks.product.request_quote') }}</a>
+                            {% else %}
+                                <a class="st-btn st-btn--wide" href="{{ knx_url }}">{{ trans('blocks.product.request_quote') }} <span class="st-arrow" aria-hidden="true">←</span></a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% hook 'product:single.form.end' %}
+                </form>
+
+                {% if theme.settings.get('product_trust', true) %}
+                    <ul class="st-pdp__trust">
+                        <li>{% include 'components.partials.icon' with {name: 'truck'} %}{{ theme.settings.get('product_trust_delivery', '')|default(trans('blocks.product.trust_delivery')) }}</li>
+                        <li>{% include 'components.partials.icon' with {name: 'tool'} %}{{ theme.settings.get('product_trust_install', '')|default(trans('blocks.product.trust_install')) }}</li>
+                        <li>{% include 'components.partials.icon' with {name: 'shield'} %}{{ theme.settings.get('product_trust_warranty', '')|default(trans('blocks.product.trust_warranty')) }}</li>
+                    </ul>
+                {% endif %}
+                <div class="st-pdp__share">
+                    <span>{{ trans('blocks.product.share') }}</span>
+                    <salla-social-share url-name="{{ product.name }}" url="{{ product.url }}"></salla-social-share>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# ---------- story / description ---------- #}
+    {% if product.description %}
+        <section class="st-pdp-sec">
+            <div class="st-container st-pdp-story">
+                <div class="st-pdp-story__head" data-reveal>
+                    <span class="st-label">Product Story</span>
+                    <h2 class="st-h2">{{ trans('blocks.product.story_title') }}</h2>
+                </div>
+                <div class="st-pdp-story__body" data-reveal style="--i:1">
+                    {% hook 'product:single.description.start' %}
+                    <div class="st-prose">{{ product.description|raw }}</div>
+                    {% hook 'product:single.description' %}
+                    {% hook 'product:single.description.end' %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    {# ---------- compatibility + specs ---------- #}
+    {% if systems|length or product.has_metadata %}
+        <section class="st-pdp-sec">
+            <div class="st-container st-pdp-story">
+                <div class="st-pdp-story__head" data-reveal>
+                    <span class="st-label">Specifications</span>
+                    <h2 class="st-h2">{{ trans('blocks.product.specs') }}</h2>
+                </div>
+                <div class="st-pdp-story__body" style="display:flex;flex-direction:column;gap:32px">
+                    {% if systems|length %}
+                        <div class="st-compat" aria-label="{{ trans('blocks.product.compat') }}">
+                            {% for s in systems %}<span class="st-tech"><span class="st-dot st-dot--ink" aria-hidden="true"></span>{{ s|upper }}</span>{% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if product.has_metadata %}
+                        <salla-metadata entity="product" entity-id="{{ product.id }}"></salla-metadata>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    {% hook 'product.single.before_customer_reviews' %}
+    <section class="st-pdp-sec">
+        <div class="st-container st-pdp-story">
+            <div class="st-pdp-story__head">
+                <span class="st-label">Reviews</span>
+                <h2 class="st-h2">{{ trans('blocks.product.reviews') }}</h2>
+            </div>
+            <div class="st-pdp-story__body">
+                <salla-comments item-id="{{ product.id }}" type="product"></salla-comments>
+            </div>
+        </div>
+    </section>
+
+    {% hook 'product.single.before_product_recommendations' %}
+    <section class="st-pdp-sec st-bg-sand">
+        <div class="st-container">
+            <div class="st-head">
+                <div class="st-head__text"><span class="st-label">Complete the space</span><h2 class="st-h2">{{ trans('blocks.product.related') }}</h2></div>
+            </div>
+            <div class="st-products st-products--rail">
+                <salla-products-list source="related" source-value="{{ product.id }}" limit="8"></salla-products-list>
+            </div>
+        </div>
+    </section>
+    {% hook 'product.single.after_product_recommendations' %}
+
+    {# ---------- mobile sticky buy ---------- #}
+    <div class="st-sticky-buy" aria-hidden="true">
+        <span class="st-sticky-buy__p">
+            {% if is_quote %}{{ trans('blocks.product.request_quote') }}{% else %}<span data-st-price>{{ product.is_on_sale ? product.sale_price|money : (product.starting_price ? product.starting_price|money : product.price|money) }}</span><small>{{ product.name }}</small>{% endif %}
+        </span>
+        <button type="button" class="st-btn st-btn--md" data-st-buy-jump>{{ is_quote ? trans('blocks.product.request_quote') : product.add_to_cart_label|default(trans('blocks.product.add_to_cart')) }}</button>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script defer src="{{ 'product.js'|asset }}"></script>
+{% endblock %}

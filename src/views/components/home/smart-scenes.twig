@@ -1,0 +1,55 @@
+{#
+| component.label / title | ?string |
+| component.scenes[]      | name, image, lighting, curtains, climate, media, security |
+#}
+{% set c = component %}
+{% set d = 'blocks.scenes.' %}
+{% set defaults = [
+    {name: trans(d ~ 'morning'), image: 'images/scenes/sc-morning.webp'|asset, lighting: '70% ' ~ trans(d ~ 'warm'), curtains: trans(d ~ 'open'), climate: '23°', media: trans(d ~ 'news'), security: trans(d ~ 'off')},
+    {name: trans(d ~ 'guests'), image: 'images/scenes/sc-evening.webp'|asset, lighting: '80%', curtains: trans(d ~ 'open'), climate: '22°', media: trans(d ~ 'background'), security: trans(d ~ 'off')},
+    {name: trans(d ~ 'cinema'), image: 'images/scenes/sc-cinema.webp'|asset, lighting: '20%', curtains: trans(d ~ 'closed'), climate: '22°', media: trans(d ~ 'movie'), security: trans(d ~ 'off')},
+    {name: trans(d ~ 'sunset'), image: 'images/scenes/sc-sunset.webp'|asset, lighting: '45% ' ~ trans(d ~ 'warm'), curtains: trans(d ~ 'half_open'), climate: '23°', media: trans(d ~ 'soft_music'), security: trans(d ~ 'off')},
+    {name: trans(d ~ 'sleep'), image: 'images/scenes/sc-sleep.webp'|asset, lighting: '5%', curtains: trans(d ~ 'closed'), climate: '21°', media: trans(d ~ 'off'), security: trans(d ~ 'perimeter')}
+] %}
+{# editor-added sections come with one blank item: keep only items that carry content #}
+{% set st_scenes = [] %}{% for it in c.scenes|default([]) %}{% if it.name or it.image %}{% set st_scenes = st_scenes|merge([it]) %}{% endif %}{% endfor %}
+{% set scenes = st_scenes|length ? st_scenes : defaults %}
+{% set rows = [['lighting', 'light'], ['curtains', 'curtain'], ['climate', 'hvac'], ['media', 'media'], ['security', 'shield']] %}
+
+<section class="st-scenes st-cursor-light" style="--n: {{ scenes|length }}" aria-labelledby="st-scenes-{{ position }}">
+    {% for s in scenes %}
+        {# items added from the theme editor may have no image yet: fall back to the default scene image #}
+        {% set im = s.image ?: (defaults[(loop.index0) % (defaults|length)].image) %}
+        {% if loop.first %}
+            <img class="st-scenes__img is-active" src="{{ im }}" alt="" decoding="async" loading="lazy" width="1600" height="900">
+        {% else %}
+            <img class="st-scenes__img" data-src="{{ im }}" alt="" decoding="async" width="1600" height="900">
+        {% endif %}
+    {% endfor %}
+    <div class="st-container">
+        <div class="st-scenes__head" data-reveal>
+            <span class="st-label"><span class="st-dot" aria-hidden="true"></span>{{ c.label|default('SMART SCENES') }}</span>
+            <h2 id="st-scenes-{{ position }}" class="st-h2" style="white-space:pre-line">{{ c.title|default(trans('blocks.scenes.title')) }}</h2>
+        </div>
+
+        {% for s in scenes %}
+            <div class="st-scenes__panel st-glass" role="tabpanel" id="st-scene-{{ position }}-{{ loop.index }}" aria-labelledby="st-scene-tab-{{ position }}-{{ loop.index }}" {{ loop.first ? '' : 'hidden' }}>
+                <div class="st-scenes__panel-h">{{ s.name }}<span class="st-dot" aria-hidden="true"></span></div>
+                {% for r in rows %}
+                    {% set v = attribute(s, r[0]) %}
+                    {% if v %}
+                        <div class="st-scenes__row">{% include 'components.partials.icon' with {name: r[1]} %}<span>{{ trans('blocks.scenes.' ~ r[0]) }}</span><b>{{ v }}</b></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <div class="st-scenes__tabs" role="tablist" aria-label="{{ trans('blocks.scenes.tabs') }}">
+            {% for s in scenes %}
+                <button type="button" role="tab" class="st-scenes__tab" id="st-scene-tab-{{ position }}-{{ loop.index }}" aria-controls="st-scene-{{ position }}-{{ loop.index }}" aria-selected="{{ loop.first ? 'true' : 'false' }}" tabindex="{{ loop.first ? '0' : '-1' }}">
+                    <span class="st-mono">{{ '0' ~ loop.index }}</span>{{ s.name }}
+                </button>
+            {% endfor %}
+        </div>
+    </div>
+</section>

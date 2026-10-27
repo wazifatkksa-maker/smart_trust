@@ -1,0 +1,9 @@
+{#
+    Customer wallet — rendered by Salla's <salla-wallet>.
+    Salla serves this route; without this template the theme had no wallet page.
+#}
+{% extends "layouts.customer" %}
+{% block inner_title %}{{ trans('blocks.account.wallet') }}{% endblock %}
+{% block inner_content %}
+    <salla-wallet></salla-wallet>
+{% endblock %}

@@ -1,0 +1,4 @@
+{# Product options — rendered by Salla. Works for product pages and cart items (with {product: item}). #}
+{% if product.options is defined and product.options|length %}
+    <salla-product-options data-testid="store-product-options" options="{{ product.options }}" product-id="{{ product.id }}"></salla-product-options>
+{% endif %}

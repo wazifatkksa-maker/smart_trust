@@ -1,0 +1,37 @@
+{#
+| article | title, body(HTML), url, has_image, image{url,alt}, created_at, author{name}, tags[], related |
+#}
+{% extends "layouts.master" %}
+{% block content %}
+    <article class="st-container st-article">
+        <salla-breadcrumb></salla-breadcrumb>
+        <span class="st-post__m">{{ article.created_at|date('Y · m · d') }}{% if article.author and article.author.name %} · {{ article.author.name }}{% endif %}</span>
+        <h1 class="st-h1">{{ article.title }}</h1>
+        {% if article.has_image and article.image %}
+            <div class="st-article__cover st-media"><img class="st-cover" src="{{ article.image.url }}" alt="{{ article.image.alt|default(article.title) }}" width="1600" height="900" fetchpriority="high"></div>
+        {% endif %}
+        {% hook 'blog:single.items.start' %}
+        <div class="st-prose">{{ article.body|raw }}</div>
+        {% hook 'blog:single.items.end' %}
+        {% if article.tags|default([])|length %}
+            <div class="st-tags">{% for t in article.tags %}<a class="st-chip" href="{{ t.url }}">{{ t.name }}</a>{% endfor %}</div>
+        {% endif %}
+        <salla-social-share url-name="{{ article.title }}" url="{{ article.url }}"></salla-social-share>
+        <salla-comments item-id="{{ article.id }}" type="blog"></salla-comments>
+    </article>
+    {% if article.related is defined and article.related|length %}
+        <section class="st-section st-bg-sand">
+            <div class="st-container">
+                <div class="st-head"><div class="st-head__text"><h2 class="st-h2">{{ trans('blocks.blog.related') }}</h2></div></div>
+                <div class="st-posts">
+                    {% for a in article.related|slice(0, 3) %}
+                        <a class="st-post" href="{{ a.url }}">
+                            <div class="st-media">{% if a.image and a.image.url %}<img class="st-cover" src="{{ a.image.url }}" alt="" loading="lazy" width="800" height="600">{% endif %}</div>
+                            <h3 class="st-post__t">{{ a.title }}</h3>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}
